@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import PostTable from "./_parts/PostTable";
 import db from "@/data";
+import { redirect } from "next/navigation";
 
 export default async function Page({
   searchParams,
@@ -12,6 +13,10 @@ export default async function Page({
     search?: string;
   };
 }) {
+  if (!searchParams.post_type) {
+    redirect("/sp-admin/posts?post_type=post");
+  }
+
   const posts = await db.post.getPosts(
     searchParams.post_type,
     searchParams.post_status,
