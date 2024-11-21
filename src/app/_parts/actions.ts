@@ -74,13 +74,13 @@ export async function createAdmin(data: {
                 title: "Home",
                 slug: "home",
                 post_type: "page",
-                status: "published",
+                post_status: "published",
                 author: {
                   connect: {
                     id: user.id,
                   },
                 },
-                usermeta: {
+                postmeta: {
                   create: {
                     key: "content",
                     value: "This is content",
