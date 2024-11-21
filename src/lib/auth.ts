@@ -5,13 +5,25 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
-import type { Users, Sessions } from "@prisma/client";
+import type { sessions as Sessions } from "@prisma/client";
 import prisma from "@/lib/prismadb";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
 type SessionValidationResult =
-  | { session: Sessions; user: Users }
+  | {
+      session: Sessions;
+      user: {
+        id: bigint;
+        username: string;
+        email: string;
+        usermeta: {
+          id: bigint;
+          key: string;
+          value: string;
+        }[];
+      };
+    }
   | { session: null; user: null };
 
 /**
@@ -57,8 +69,27 @@ async function validateSessionToken(
     where: {
       id: sessionId,
     },
-    include: {
-      user: true,
+    select: {
+      id: true,
+      user_id: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          usermeta: {
+            where: {
+              key: "capability",
+            },
+            select: {
+              id: true,
+              key: true,
+              value: true,
+            },
+          },
+        },
+      },
+      expiresAt: true,
     },
   });
   if (result === null) {
@@ -125,23 +156,26 @@ function deleteSessionTokenCookie() {
  * Get the current session and user from the cookie.
  * @returns Session object and user object.
  */
-const getCurrentSession = cache(async (): Promise<SessionValidationResult> => {
-  const cookieStore = cookies();
-  const token = cookieStore.get("sp-session")?.value ?? null;
-  if (token === null) {
-    return { session: null, user: null };
+const getCurrentSessionAndUser = cache(
+  async (): Promise<SessionValidationResult> => {
+    const cookieStore = cookies();
+    const token = cookieStore.get("sp-session")?.value ?? null;
+    if (token === null) {
+      return { session: null, user: null };
+    }
+    const result = await validateSessionToken(token);
+    return result;
   }
-  const result = await validateSessionToken(token);
-  return result;
-});
+);
 
 const getCurrentUser = cache(
   async (): Promise<{
     id: bigint;
     username: string;
     email: string;
+    capability: string;
   } | null> => {
-    const { user } = await getCurrentSession();
+    const { user } = await getCurrentSessionAndUser();
     if (user === null) {
       return null;
     }
@@ -149,6 +183,7 @@ const getCurrentUser = cache(
       id: user.id,
       username: user.username,
       email: user.email,
+      capability: user.usermeta[0].value || "subscriber",
     };
   }
 );
@@ -173,7 +208,7 @@ async function deleteUserSession(sessionId: string) {
 }
 
 const auth = {
-  getCurrentSession,
+  getCurrentSessionAndUser,
   getCurrentUser,
   setNewUserSession,
   deleteUserSession,
