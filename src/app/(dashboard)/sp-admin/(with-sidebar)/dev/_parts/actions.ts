@@ -3,19 +3,17 @@
 import auth from "@/lib/auth";
 import prisma from "@/lib/prismadb";
 import { faker } from "@faker-js/faker";
+import { redirect } from "next/navigation";
 import slug from "slug";
 
 export async function generateFakePosts(
   postType: string = "post",
   postStatus: string = "published"
 ) {
-  const current = await auth.getCurrentUser();
+  const currentUser = await auth.getCurrentUser();
 
-  if (!current) {
-    return {
-      success: false,
-      message: "You must be logged in to generate posts.",
-    };
+  if (!currentUser) {
+    redirect("/");
   }
 
   return await Promise.all(
@@ -29,7 +27,7 @@ export async function generateFakePosts(
           post_status: postStatus,
           author: {
             connect: {
-              id: current.id,
+              id: currentUser.id,
             },
           },
         },
