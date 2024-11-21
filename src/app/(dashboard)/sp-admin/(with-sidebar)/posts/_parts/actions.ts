@@ -1,8 +1,16 @@
 "use server";
 
+import auth from "@/lib/auth";
 import prisma from "@/lib/prismadb";
+import { redirect } from "next/navigation";
 
 export async function movePostToTrash(posts: { id: bigint; status: string }[]) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   return await Promise.all(
     posts.map(async (post) => {
       await prisma.posts.update({
@@ -45,6 +53,12 @@ export async function updateQuickEditInfo(values: {
   status: string;
   date: Date;
 }) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   const post = await prisma.posts.update({
     where: {
       id: values.id,
@@ -73,6 +87,12 @@ export async function updateQuickEditInfo(values: {
 }
 
 export async function updatePostInBulk(postIds: bigint[], postStatus: string) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   const posts = await prisma.posts.updateMany({
     where: {
       id: {
@@ -100,6 +120,12 @@ export async function updatePostInBulk(postIds: bigint[], postStatus: string) {
 }
 
 export async function deletePosts(postIds: bigint[]) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   return await prisma.posts
     .deleteMany({
       where: {
@@ -128,6 +154,12 @@ export async function deletePosts(postIds: bigint[]) {
 export async function restorePosts(
   posts: { id: bigint; statusBeforeTrashing: string }[]
 ) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   return await Promise.all(
     posts.map(async (post) => {
       await prisma.posts.update({
