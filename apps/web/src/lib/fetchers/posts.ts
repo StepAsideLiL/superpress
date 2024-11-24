@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/lib/prismadb";
-import { PostCountByStatus, PostType } from "./types";
+import { PostCountByStatus, PostType } from "@/lib/types";
 
 /**
  * Get posts.

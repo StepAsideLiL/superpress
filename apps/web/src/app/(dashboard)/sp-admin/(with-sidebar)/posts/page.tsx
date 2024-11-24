@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import PostTable from "./_parts/PostTable";
-import db from "@/data";
 import { redirect } from "next/navigation";
+import fetch from "@/lib/fetchers";
 
 export default async function Page({
   searchParams,
@@ -17,13 +17,13 @@ export default async function Page({
     redirect("/sp-admin/posts?post_type=post");
   }
 
-  const posts = await db.post.getPosts(
+  const posts = await fetch.post.getPosts(
     searchParams.post_type,
     searchParams.post_status,
     searchParams.author,
     searchParams.search
   );
-  const postCountByStatus = await db.post.getPostsCountByStatus(
+  const postCountByStatus = await fetch.post.getPostsCountByStatus(
     searchParams.post_type
   );
 

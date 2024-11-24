@@ -3,7 +3,7 @@ import "./globals.css";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { ThemeProvider } from "@/features/dark-mode/theme-provider";
 import SetupAdminForm from "./_parts/SetupAdminForm";
-import db from "@/data";
+import fetch from "@/lib/fetchers";
 
 export const metadata: Metadata = {
   title: "SuperPress",
@@ -21,8 +21,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const dbExist = await db.check.checkDatabaseConnection();
-  const adminExist = await db.check.checkSiteAdmin();
+  const dbExist = await fetch.check.checkDatabaseConnection();
+  const adminExist = await fetch.check.checkSiteAdmin();
 
   return (
     <html lang="en">

@@ -3,7 +3,7 @@ import "server-only";
 import { getPosts, getPostsCountByStatus } from "./posts";
 import { checkDatabaseConnection, checkSiteAdmin } from "./checkDB";
 
-const db = {
+const fetch = {
   check: {
     checkDatabaseConnection,
     checkSiteAdmin,
@@ -14,4 +14,4 @@ const db = {
   },
 };
 
-export default db;
+export default fetch;
