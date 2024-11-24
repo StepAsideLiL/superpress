@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "@/lib/fonts";
 import { ThemeProvider } from "@/features/dark-mode/theme-provider";
-import SetupAdminForm from "./_parts/SetupAdminForm";
 import fetch from "@/lib/fetchers";
+import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "SuperPress",
@@ -22,7 +22,37 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const dbExist = await fetch.check.checkDatabaseConnection();
-  const adminExist = await fetch.check.checkSiteAdmin();
+
+  if (!dbExist) {
+    return (
+      <html lang="en">
+        <body>
+          <main className="container mx-auto flex justify-center py-6">
+            <div className="max-w-xl space-y-2 border p-6">
+              <h1 className="text-2xl text-red-600">
+                Error: Database failer to connect.
+              </h1>
+              <Separator />
+              <p className="text-foreground/60">
+                Provide a valid database connection uri in{" "}
+                {process.env.NODE_ENV === "production" ? (
+                  <>environment variables</>
+                ) : (
+                  <>
+                    <code className="rounded bg-muted px-1 font-mono">
+                      .env
+                    </code>{" "}
+                    file
+                  </>
+                )}{" "}
+                and restart the server.
+              </p>
+            </div>
+          </main>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
@@ -30,28 +60,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {dbExist ? (
-            adminExist ? (
-              <>{children}</>
-            ) : (
-              <main className="container mx-auto py-4">
-                <SetupAdminForm />
-              </main>
-            )
-          ) : (
-            <main className="container mx-auto flex h-screen items-center justify-center p-4">
-              <div className="max-w-xl">
-                <h1 className="text-2xl text-red-600">
-                  Database connection failed.
-                </h1>
-                <p className="text-foreground/60">
-                  Provide a valid database connection url in{" "}
-                  <code className="font-mono">.env</code> file and restart the
-                  server.
-                </p>
-              </div>
-            </main>
-          )}
+          {children}
         </ThemeProvider>
       </body>
     </html>
