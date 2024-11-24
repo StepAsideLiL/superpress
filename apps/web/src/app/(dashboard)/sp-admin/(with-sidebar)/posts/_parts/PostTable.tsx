@@ -46,7 +46,7 @@ import { deletePosts, movePostToTrash, restorePosts } from "./actions";
 import QuickEditForm from "./QuickEditForm";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as df from "date-fns";
-import { PostCountByStatus, PostType } from "@/data/types";
+import { PostCountByStatus, PostType } from "@/lib/types";
 import PostSearchParamLink from "@/components/sp-ui/PostSearchParamLink";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
