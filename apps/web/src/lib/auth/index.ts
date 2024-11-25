@@ -169,6 +169,9 @@ const getCurrentSessionAndUser = cache(
   }
 );
 
+/**
+ * Get the current user data.
+ */
 const getCurrentUser = cache(
   async (): Promise<{
     id: bigint;
@@ -188,6 +191,18 @@ const getCurrentUser = cache(
     };
   }
 );
+
+/**
+ * Check if the user is logged in.
+ */
+const isUserLoggedIn = cache(async () => {
+  const user = await getCurrentUser();
+
+  if (user) {
+    return true;
+  }
+  return false;
+});
 
 /**
  * Set a new session in the cookie and db for the user.
@@ -239,6 +254,7 @@ async function verifyPassword(password: string, hash: string) {
 const auth = {
   getCurrentSessionAndUser,
   getCurrentUser,
+  isUserLoggedIn,
   setNewUserSession,
   deleteUserSession,
   hashPassword,
