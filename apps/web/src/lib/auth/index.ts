@@ -5,6 +5,7 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
+import { hash, verify, Options } from "@node-rs/argon2";
 import type { sessions as Sessions } from "@prisma/client";
 import prisma from "@/lib/prismadb";
 import { cookies } from "next/headers";
@@ -207,11 +208,41 @@ async function deleteUserSession(sessionId: string) {
   deleteSessionTokenCookie();
 }
 
+const options: Options = {
+  algorithm: 2,
+  memoryCost: 19456,
+  timeCost: 2,
+  outputLen: 32,
+  parallelism: 1,
+  version: 1,
+};
+
+/**
+ * Hash a password using Argon2id algorithm.
+ * @param password Password to be hashed.
+ * @returns Hashed password.
+ */
+async function hashPassword(password: string) {
+  return await hash(password.normalize("NFKD"), { ...options });
+}
+
+/**
+ * Verify a password using Argon2id algorithm.
+ * @param password Password to be verified.
+ * @param hash Hash from the database.
+ * @returns True if the password matches the hash, false otherwise.
+ */
+async function verifyPassword(password: string, hash: string) {
+  return await verify(hash, password.normalize("NFKD"), { ...options });
+}
+
 const auth = {
   getCurrentSessionAndUser,
   getCurrentUser,
   setNewUserSession,
   deleteUserSession,
+  hashPassword,
+  verifyPassword,
 };
 
 export default auth;
