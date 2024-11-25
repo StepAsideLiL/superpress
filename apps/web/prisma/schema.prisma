@@ -52,7 +52,7 @@ model posts {
   title       String
   slug        String @unique
   author_id   BigInt
-  author      users  @relation(fields: [author_id], references: [id])
+  author      users  @relation(fields: [author_id], references: [id], onDelete: Cascade)
   post_type   String
   post_status String
 
