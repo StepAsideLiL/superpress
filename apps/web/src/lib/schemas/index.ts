@@ -41,3 +41,10 @@ export const quickEditFormSchema = z.object({
 export const bulkEditFormSchema = z.object({
   status: z.string(),
 });
+
+export const movePostToTrashActionSchema = z.array(
+  z.object({
+    postId: z.string(),
+    status: z.string(),
+  })
+);

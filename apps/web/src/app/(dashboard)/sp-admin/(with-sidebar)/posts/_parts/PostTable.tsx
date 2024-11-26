@@ -42,7 +42,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
 import { useSetAtom, useAtomValue } from "jotai";
-import { deletePosts, movePostToTrash, restorePosts } from "./actions";
+import { deletePosts, restorePosts } from "./actions";
 import QuickEditForm from "./QuickEditForm";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as df from "date-fns";
@@ -52,6 +52,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { quickEditRowId } from "@/store/post-table";
 import BulkEditForm from "./BulkEditForm";
+import { useAction } from "next-safe-action/hooks";
+import movePostToTrash from "@/lib/actions/move-post-to-trash";
 
 const columns: ColumnDef<PostType>[] = [
   {
@@ -181,25 +183,22 @@ function MoveToTrashButton({
   postStatus: string;
 }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const { executeAsync, isExecuting } = useAction(movePostToTrash, {
+    onSuccess: () => {
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to move to trash.");
+    },
+  });
 
   return (
     <ButtonLink
       className="text-red-600"
-      disabled={isLoading}
-      onClick={async () => {
-        setIsLoading(true);
-        await movePostToTrash([{ id: postId, status: postStatus }]).then(
-          (res) => {
-            if (res.success) {
-              router.refresh();
-              setIsLoading(false);
-            } else {
-              setIsLoading(false);
-              toast.error(res.message);
-            }
-          }
-        );
+      disabled={isExecuting}
+      onClick={() => {
+        executeAsync([{ postId: postId, status: postStatus }]);
       }}
     >
       Trash
@@ -335,6 +334,20 @@ export default function PostTable({
     [searchParams]
   );
 
+  const {
+    executeAsync: executeMovePostToTrashAsync,
+    isExecuting: isMovePostToTrashExecuting,
+  } = useAction(movePostToTrash, {
+    onSuccess: () => {
+      setRowSelection({});
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to move to trash.");
+    },
+  });
+
   const selectedRows = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.id);
@@ -347,25 +360,14 @@ export default function PostTable({
     setIsLoading(true);
 
     if (bulkAction === "move-to-trash") {
-      const selectedRows = table.getSelectedRowModel().flatRows.map((row) => {
+      const postsToTrash = table.getSelectedRowModel().flatRows.map((row) => {
         return {
-          id: row.original.id,
+          postId: row.original.id,
           status: row.original.post_status,
         };
       });
 
-      await movePostToTrash(selectedRows)
-        .then((res) => {
-          if (res.success) {
-            toast.success(res.message);
-            setIsLoading(false);
-            setRowSelection({});
-            router.refresh();
-          }
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+      executeMovePostToTrashAsync(postsToTrash);
     }
 
     if (bulkAction === "edit") {
@@ -551,7 +553,7 @@ export default function PostTable({
 
                 <Button
                   variant={"outline"}
-                  disabled={isLoading}
+                  disabled={isMovePostToTrashExecuting}
                   onClick={() => applyBulkAction()}
                 >
                   Apply
