@@ -7,7 +7,7 @@ import prisma from "@/lib/prismadb";
 /**
  * Move posts to trash (set post_status as trash in db).
  */
-const movePostToTrash = authSafeActionClient
+const movePostsToTrash = authSafeActionClient
   .schema(movePostToTrashActionSchema)
   .action(async ({ parsedInput, ctx }) => {
     if (!ctx.user) {
@@ -43,4 +43,4 @@ const movePostToTrash = authSafeActionClient
     }
   });
 
-export default movePostToTrash;
+export default movePostsToTrash;

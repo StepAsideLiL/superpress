@@ -53,7 +53,7 @@ import { cn } from "@/lib/utils";
 import { quickEditRowId } from "@/store/post-table";
 import BulkEditForm from "./BulkEditForm";
 import { useAction } from "next-safe-action/hooks";
-import movePostToTrash from "@/lib/actions/move-post-to-trash";
+import movePostsToTrash from "@/lib/actions/move-posts-to-trash";
 
 const columns: ColumnDef<PostType>[] = [
   {
@@ -183,7 +183,7 @@ function MoveToTrashButton({
   postStatus: string;
 }) {
   const router = useRouter();
-  const { executeAsync, isExecuting } = useAction(movePostToTrash, {
+  const { executeAsync, isExecuting } = useAction(movePostsToTrash, {
     onSuccess: () => {
       router.refresh();
     },
@@ -337,7 +337,7 @@ export default function PostTable({
   const {
     executeAsync: executeMovePostToTrashAsync,
     isExecuting: isMovePostToTrashExecuting,
-  } = useAction(movePostToTrash, {
+  } = useAction(movePostsToTrash, {
     onSuccess: () => {
       setRowSelection({});
       router.refresh();
