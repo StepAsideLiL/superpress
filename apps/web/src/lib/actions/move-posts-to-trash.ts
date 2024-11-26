@@ -5,7 +5,7 @@ import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 
 /**
- * Move posts to trash (set post_status as trash in db).
+ * Move posts to trash (set post_status as trash in db). The capability needed for this action is: admin, editor and post author.
  */
 const movePostsToTrash = authSafeActionClient
   .schema(movePostToTrashActionSchema)
@@ -14,11 +14,39 @@ const movePostsToTrash = authSafeActionClient
       throw new Error("Unauthorized: User not logged in.");
     }
 
-    if (ctx.user.capability !== "admin") {
+    if (
+      ctx.user.capability !== "admin" &&
+      ctx.user.capability !== "editor" &&
+      ctx.user.capability !== "author"
+    ) {
       throw new Error("Unauthorized: User does not have the capability.");
     }
 
     try {
+      if (ctx.user.capability === "author") {
+        return await Promise.all(
+          parsedInput.map(async (post) => {
+            await prisma.posts.update({
+              where: {
+                id: post.postId,
+                author: {
+                  id: ctx.user.id,
+                },
+              },
+              data: {
+                post_status: "trash",
+                postmeta: {
+                  create: {
+                    key: "post_status_before_trashing",
+                    value: post.status,
+                  },
+                },
+              },
+            });
+          })
+        );
+      }
+
       return await Promise.all(
         parsedInput.map(async (post) => {
           await prisma.posts.update({
