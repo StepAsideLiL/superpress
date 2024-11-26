@@ -177,7 +177,7 @@ function MoveToTrashButton({
   postId,
   postStatus,
 }: {
-  postId: bigint;
+  postId: string;
   postStatus: string;
 }) {
   const router = useRouter();
@@ -211,7 +211,7 @@ function RestoreButton({
   postId,
   statusBeforeTrashing,
 }: {
-  postId: bigint;
+  postId: string;
   statusBeforeTrashing: string;
 }) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -240,7 +240,7 @@ function RestoreButton({
   );
 }
 
-function DeleteParmanentlyButton({ postId }: { postId: bigint }) {
+function DeleteParmanentlyButton({ postId }: { postId: string }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
 

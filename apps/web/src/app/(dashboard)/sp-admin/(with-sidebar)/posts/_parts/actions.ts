@@ -4,7 +4,7 @@ import auth from "@/lib/auth";
 import prisma from "@/lib/prismadb";
 import { redirect } from "next/navigation";
 
-export async function movePostToTrash(posts: { id: bigint; status: string }[]) {
+export async function movePostToTrash(posts: { id: string; status: string }[]) {
   const currentUser = await auth.getCurrentUser();
 
   if (!currentUser) {
@@ -47,7 +47,7 @@ export async function movePostToTrash(posts: { id: bigint; status: string }[]) {
 }
 
 export async function updateQuickEditInfo(values: {
-  id: bigint;
+  id: string;
   title: string;
   slug: string;
   status: string;
@@ -86,7 +86,7 @@ export async function updateQuickEditInfo(values: {
   }
 }
 
-export async function updatePostInBulk(postIds: bigint[], postStatus: string) {
+export async function updatePostInBulk(postIds: string[], postStatus: string) {
   const currentUser = await auth.getCurrentUser();
 
   if (!currentUser) {
@@ -119,7 +119,7 @@ export async function updatePostInBulk(postIds: bigint[], postStatus: string) {
   }
 }
 
-export async function deletePosts(postIds: bigint[]) {
+export async function deletePosts(postIds: string[]) {
   const currentUser = await auth.getCurrentUser();
 
   if (!currentUser) {
@@ -152,7 +152,7 @@ export async function deletePosts(postIds: bigint[]) {
 }
 
 export async function restorePosts(
-  posts: { id: bigint; statusBeforeTrashing: string }[]
+  posts: { id: string; statusBeforeTrashing: string }[]
 ) {
   const currentUser = await auth.getCurrentUser();
 

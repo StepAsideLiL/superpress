@@ -1,12 +1,12 @@
 export type PostType = {
-  id: bigint;
+  id: string;
   title: string;
   slug: string;
   post_type: string;
   post_status: string;
   created: Date;
   author: {
-    id: bigint;
+    id: string;
     username: string;
   };
   usermeta?: {

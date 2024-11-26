@@ -33,7 +33,7 @@ export default function BulkEditForm({
   setRowSelection,
   setQuickEditRowId,
 }: {
-  selectedPostIds: bigint[];
+  selectedPostIds: string[];
   setIsBulkEditTableRowOpen: (open: boolean) => void;
   setRowSelection: (selection: object) => void;
   setQuickEditRowId: (rowId: string) => void;

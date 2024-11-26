@@ -39,7 +39,7 @@ export default function QuickEditForm({
   setQuickEditRowId,
 }: {
   pageData: {
-    id: bigint;
+    id: string;
     title: string;
     slug: string;
     post_type: string;

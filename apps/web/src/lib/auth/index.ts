@@ -15,11 +15,11 @@ type SessionValidationResult =
   | {
       session: Sessions;
       user: {
-        id: bigint;
+        id: string;
         username: string;
         email: string;
         usermeta: {
-          id: bigint;
+          id: string;
           key: string;
           value: string;
         }[];
@@ -44,7 +44,7 @@ function generateSessionToken(): string {
  * @param userId Id of the user.
  * @returns Session object.
  */
-async function createSession(token: string, userId: bigint): Promise<Sessions> {
+async function createSession(token: string, userId: string): Promise<Sessions> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Sessions = {
     id: sessionId,
@@ -174,7 +174,7 @@ const getCurrentSessionAndUser = cache(
  */
 const getCurrentUser = cache(
   async (): Promise<{
-    id: bigint;
+    id: string;
     username: string;
     email: string;
     capability: string;
@@ -208,7 +208,7 @@ const isUserLoggedIn = cache(async () => {
  * Set a new session in the cookie and db for the user.
  * @param userId Id of the user.
  */
-async function setNewUserSession(userId: bigint) {
+async function setNewUserSession(userId: string) {
   const token = generateSessionToken();
   const session = await createSession(token, userId);
   setSessionTokenCookie(token, session.expiresAt);
