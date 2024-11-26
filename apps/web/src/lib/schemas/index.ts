@@ -55,3 +55,5 @@ export const restorePostsActionSchema = z.array(
     statusBeforeTrashing: z.string(),
   })
 );
+
+export const deletePostsActionSchema = z.array(z.string());

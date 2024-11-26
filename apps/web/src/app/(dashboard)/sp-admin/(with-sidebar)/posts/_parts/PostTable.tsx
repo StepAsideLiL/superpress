@@ -42,7 +42,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
 import { useSetAtom, useAtomValue } from "jotai";
-import { deletePosts } from "./actions";
 import QuickEditForm from "./QuickEditForm";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as df from "date-fns";
@@ -55,6 +54,7 @@ import BulkEditForm from "./BulkEditForm";
 import { useAction } from "next-safe-action/hooks";
 import movePostsToTrash from "@/lib/actions/move-posts-to-trash";
 import restorePosts from "@/lib/actions/restore-posts";
+import deletePosts from "@/lib/actions/delete-posts";
 
 const columns: ColumnDef<PostType>[] = [
   {
@@ -241,24 +241,25 @@ function RestoreButton({
 }
 
 function DeleteParmanentlyButton({ postId }: { postId: string }) {
-  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+
+  const { executeAsync, isExecuting } = useAction(deletePosts, {
+    onSuccess: () => {
+      toast.success("Deleted permanently.");
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to delete!");
+    },
+  });
 
   return (
     <ButtonLink
-      disabled={isLoading}
+      disabled={isExecuting}
       className="text-red-600"
       onClick={() => {
-        deletePosts([postId])
-          .then(async () => {
-            toast.success("Deleted permanently.");
-            router.refresh();
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            setIsLoading(false);
-          });
+        executeAsync([postId]);
       }}
     >
       Delete Permanently
@@ -285,7 +286,6 @@ export default function PostTable({
   const [bulkAction, setBulkAction] = React.useState("no-action");
   const [bulkActionOnTrashTab, setBulkActionOnTrashTab] =
     React.useState("no-action");
-  const [isLoading, setIsLoading] = React.useState(false);
   const [isBulkEditTableRowOpen, setIsBulkEditTableRowOpen] =
     React.useState(false);
 
@@ -354,7 +354,6 @@ export default function PostTable({
     isExecuting: isRestorePostsExecuting,
   } = useAction(restorePosts, {
     onSuccess: () => {
-      setIsLoading(false);
       setRowSelection({});
       router.refresh();
     },
@@ -364,16 +363,29 @@ export default function PostTable({
     },
   });
 
+  const {
+    executeAsync: executeDeletePostsAsync,
+    isExecuting: isDeletePostsExecuting,
+  } = useAction(deletePosts, {
+    onSuccess: () => {
+      toast.success("Deleted permanently.");
+      setRowSelection({});
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to delete!");
+    },
+  });
+
   const selectedRows = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.id);
 
-  async function applyBulkAction() {
+  function applyBulkAction() {
     if (bulkAction === "no-action") {
       return;
     }
-
-    setIsLoading(true);
 
     if (bulkAction === "move-to-trash") {
       const postsToTrash = table.getSelectedRowModel().flatRows.map((row) => {
@@ -391,22 +403,10 @@ export default function PostTable({
     }
   }
 
-  const somethinkElse = table.getSelectedRowModel().flatRows.map((row) => {
-    return {
-      id: row.original.id,
-      statusBeforeTrash: row.original.postmeta
-        ? row.original.postmeta[0].value
-        : "draft",
-    };
-  });
-  console.log(somethinkElse);
-
-  async function applyBulkActionOnTrashTab() {
+  function applyBulkActionOnTrashTab() {
     if (bulkActionOnTrashTab === "no-action") {
       return;
     }
-
-    setIsLoading(true);
 
     if (bulkActionOnTrashTab === "restore") {
       const selectedRows = table.getSelectedRowModel().flatRows.map((row) => {
@@ -422,18 +422,7 @@ export default function PostTable({
     }
 
     if (bulkActionOnTrashTab === "delete-parmanently") {
-      await deletePosts(selectedRows)
-        .then((res) => {
-          if (res.success) {
-            setRowSelection({});
-            router.refresh();
-            setIsLoading(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsLoading(false);
-        });
+      executeDeletePostsAsync(selectedRows);
     }
   }
 
@@ -586,7 +575,7 @@ export default function PostTable({
 
                 <Button
                   variant={"outline"}
-                  disabled={isRestorePostsExecuting}
+                  disabled={isRestorePostsExecuting || isDeletePostsExecuting}
                   onClick={() => applyBulkActionOnTrashTab()}
                 >
                   Apply
