@@ -9,6 +9,9 @@ import {
 } from "next-safe-action";
 import { registerAndSetupAdminFromSchema } from "@/lib/schemas";
 
+/**
+ * Register and setup admin account.
+ */
 export const registerAndSetupAdmin = adminSafeActionClient
   .schema(registerAndSetupAdminFromSchema, {
     handleValidationErrorsShape: (ve) =>
