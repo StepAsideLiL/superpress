@@ -11,8 +11,6 @@ const schema = bulkEditFormSchema.extend({
 
 /**
  * Update post info from bulk edit form. The capabilities needed for this actions are: admin.
- * @param postIds Ids of the posts.
- * @param status Status of the posts.
  */
 const updatePostInfoByBulkEdit = authSafeActionClient
   .schema(schema)
