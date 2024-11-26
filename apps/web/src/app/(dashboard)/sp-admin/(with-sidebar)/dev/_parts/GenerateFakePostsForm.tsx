@@ -19,32 +19,32 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import { useState } from "react";
 import { toast } from "sonner";
-import { generateFakePosts } from "./actions";
-
-const formSchema = z.object({
-  type: z.enum(["post", "page"]),
-  status: z.enum(["published", "draft", "pending", "trash"]),
-});
+import { generateFakePostsFormSchema } from "@/lib/schemas";
+import { useAction } from "next-safe-action/hooks";
+import generateFakePosts from "@/lib/actions/generate-fake-posts";
+import { useRouter } from "next/navigation";
 
 export default function GenerateFakePostsForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof generateFakePostsFormSchema>>({
+    resolver: zodResolver(generateFakePostsFormSchema),
   });
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setLoading(true);
+  const { executeAsync, isExecuting } = useAction(generateFakePosts, {
+    onSuccess: () => {
+      toast.success("Successfully generated posts");
+      router.refresh();
+    },
+    onError: () => {
+      toast.error("Failed to generate posts");
+    },
+  });
 
-    await generateFakePosts(values.type, values.status).then((res) => {
-      if (res.success) {
-        setLoading(false);
-        toast.success("Successfully generated posts");
-      } else {
-        setLoading(false);
-        toast.error("Failed to generate posts");
-      }
+  async function onSubmit(values: z.infer<typeof generateFakePostsFormSchema>) {
+    await executeAsync({
+      status: values.status,
+      type: values.type,
     });
   }
 
@@ -103,7 +103,7 @@ export default function GenerateFakePostsForm() {
           )}
         />
 
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={isExecuting}>
           Generate 10 Post
         </Button>
       </form>
