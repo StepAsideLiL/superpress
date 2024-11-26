@@ -21,18 +21,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DateTimePicker from "@/components/sp-ui/DateTimePicker";
-import { updateQuickEditInfo } from "./actions";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "Title is required",
-  }),
-  slug: z.string().min(1, { message: "Slug is required" }),
-  status: z.string(),
-  date: z.date(),
-});
+import { quickEditFormSchema } from "@/lib/schemas";
+import { useAction } from "next-safe-action/hooks";
+import { updatePostInfoByQuickEdit } from "@/lib/actions/update-post-info-by-quick-edit";
+import { toast } from "sonner";
 
 export default function QuickEditForm({
   pageData,
@@ -51,8 +44,8 @@ export default function QuickEditForm({
   };
   setQuickEditRowId: (rowId: string) => void;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof quickEditFormSchema>>({
+    resolver: zodResolver(quickEditFormSchema),
     defaultValues: {
       title: pageData.title,
       slug: pageData.slug,
@@ -61,26 +54,26 @@ export default function QuickEditForm({
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
+  const { executeAsync, isExecuting } = useAction(updatePostInfoByQuickEdit, {
+    onSuccess: () => {
+      setQuickEditRowId("");
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to update post.");
+    },
+  });
 
+  function onSubmit(values: z.infer<typeof quickEditFormSchema>) {
     const fromData = {
-      id: pageData.id,
+      postId: pageData.id,
       ...values,
     };
 
-    updateQuickEditInfo(fromData)
-      .then(() => {
-        setQuickEditRowId("");
-        router.refresh();
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+    executeAsync(fromData);
   }
 
   return (
@@ -176,13 +169,13 @@ export default function QuickEditForm({
         />
 
         <div className="flex items-center gap-2">
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isExecuting}>
             Submit
           </Button>
           <Button
             type="button"
             variant={"outline"}
-            disabled={isLoading}
+            disabled={isExecuting}
             onClick={() => setQuickEditRowId("")}
           >
             Cancel

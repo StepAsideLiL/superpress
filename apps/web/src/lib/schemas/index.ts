@@ -28,3 +28,12 @@ export const registerAndSetupAdminFromSchema = z
     path: ["confirmPassword"],
     message: "Passwords do not match.",
   });
+
+export const quickEditFormSchema = z.object({
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
+  slug: z.string().min(1, { message: "Slug is required" }),
+  status: z.string(),
+  date: z.date(),
+});
