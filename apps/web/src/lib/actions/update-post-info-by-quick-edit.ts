@@ -17,7 +17,7 @@ const schema = quickEditFormSchema.extend({
  * @param status Status of the post.
  * @param date Date of the post.
  */
-export const updatePostInfoByQuickEdit = authSafeActionClient
+const updatePostInfoByQuickEdit = authSafeActionClient
   .schema(schema)
   .action(async ({ parsedInput, ctx }) => {
     if (!ctx.user) {
@@ -47,3 +47,5 @@ export const updatePostInfoByQuickEdit = authSafeActionClient
       throw new Error("Failed to update post.");
     }
   });
+
+export default updatePostInfoByQuickEdit;

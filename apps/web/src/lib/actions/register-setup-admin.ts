@@ -12,7 +12,7 @@ import { registerAndSetupAdminFromSchema } from "@/lib/schemas";
 /**
  * Register and setup admin account.
  */
-export const registerAndSetupAdmin = adminSafeActionClient
+const registerAndSetupAdmin = adminSafeActionClient
   .schema(registerAndSetupAdminFromSchema, {
     handleValidationErrorsShape: (ve) =>
       flattenValidationErrors(ve).fieldErrors,
@@ -128,3 +128,5 @@ export const registerAndSetupAdmin = adminSafeActionClient
       throw new Error("Failed to create admin account.");
     }
   });
+
+export default registerAndSetupAdmin;

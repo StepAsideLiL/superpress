@@ -24,7 +24,7 @@ import DateTimePicker from "@/components/sp-ui/DateTimePicker";
 import { useRouter } from "next/navigation";
 import { quickEditFormSchema } from "@/lib/schemas";
 import { useAction } from "next-safe-action/hooks";
-import { updatePostInfoByQuickEdit } from "@/lib/actions/update-post-info-by-quick-edit";
+import updatePostInfoByQuickEdit from "@/lib/actions/update-post-info-by-quick-edit";
 import { toast } from "sonner";
 
 export default function QuickEditForm({

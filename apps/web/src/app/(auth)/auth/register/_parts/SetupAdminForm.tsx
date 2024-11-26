@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
-import { registerAndSetupAdmin } from "@/lib/actions/register-setup-admin";
+import registerAndSetupAdmin from "@/lib/actions/register-setup-admin";
 import { toast } from "sonner";
 import { registerAndSetupAdminFromSchema } from "@/lib/schemas";
 
