@@ -19,13 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { updatePostInBulk } from "./actions";
-
-const formSchema = z.object({
-  status: z.string(),
-});
+import updatePostInfoByBulkEdit from "@/lib/actions/update-post-info-by-bulk-edit";
+import { useAction } from "next-safe-action/hooks";
+import { bulkEditFormSchema } from "@/lib/schemas";
+import { toast } from "sonner";
 
 export default function BulkEditForm({
   selectedPostIds,
@@ -38,31 +36,31 @@ export default function BulkEditForm({
   setRowSelection: (selection: object) => void;
   setQuickEditRowId: (rowId: string) => void;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof bulkEditFormSchema>>({
+    resolver: zodResolver(bulkEditFormSchema),
   });
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    console.log(values);
-    console.log(selectedPostIds);
+  const { executeAsync, isExecuting } = useAction(updatePostInfoByBulkEdit, {
+    onSuccess: () => {
+      setQuickEditRowId("");
+      setIsBulkEditTableRowOpen(false);
+      setRowSelection({});
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to update posts.");
+    },
+  });
 
-    await updatePostInBulk(selectedPostIds, values.status)
-      .then((res) => {
-        if (res.success) {
-          setIsLoading(false);
-          setQuickEditRowId("");
-          setIsBulkEditTableRowOpen(false);
-          setRowSelection({});
-          router.refresh();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+  async function onSubmit(values: z.infer<typeof bulkEditFormSchema>) {
+    const formData = {
+      postIds: selectedPostIds,
+      status: values.status,
+    };
+
+    await executeAsync(formData);
   }
 
   return (
@@ -100,13 +98,13 @@ export default function BulkEditForm({
         />
 
         <div className="flex items-center gap-2">
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isExecuting}>
             Submit
           </Button>
           <Button
             type="button"
             variant={"outline"}
-            disabled={isLoading}
+            disabled={isExecuting}
             onClick={() => setIsBulkEditTableRowOpen(false)}
           >
             Cancel

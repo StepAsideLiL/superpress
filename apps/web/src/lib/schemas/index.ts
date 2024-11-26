@@ -37,3 +37,7 @@ export const quickEditFormSchema = z.object({
   status: z.string(),
   date: z.date(),
 });
+
+export const bulkEditFormSchema = z.object({
+  status: z.string(),
+});
