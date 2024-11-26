@@ -18,12 +18,7 @@ export const authSafeActionClient = safeActionClient.use(async ({ next }) => {
   const currentUser = await auth.getCurrentUser();
 
   if (!currentUser?.id) {
-    // throw new Error("Unauthorized: User not logged in.");
-    return next({
-      ctx: {
-        user: null,
-      },
-    });
+    throw new Error("Unauthorized: User not logged in.");
   }
 
   return next({
