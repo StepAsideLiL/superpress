@@ -9,7 +9,7 @@ export type PostType = {
     id: string;
     username: string;
   };
-  usermeta?: {
+  postmeta?: {
     key: string;
     value: string;
   }[];

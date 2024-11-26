@@ -42,7 +42,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
 import { useSetAtom, useAtomValue } from "jotai";
-import { deletePosts, restorePosts } from "./actions";
+import { deletePosts } from "./actions";
 import QuickEditForm from "./QuickEditForm";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as df from "date-fns";
@@ -54,6 +54,7 @@ import { quickEditRowId } from "@/store/post-table";
 import BulkEditForm from "./BulkEditForm";
 import { useAction } from "next-safe-action/hooks";
 import movePostsToTrash from "@/lib/actions/move-posts-to-trash";
+import restorePosts from "@/lib/actions/restore-posts";
 
 const columns: ColumnDef<PostType>[] = [
   {
@@ -92,7 +93,7 @@ const columns: ColumnDef<PostType>[] = [
               <RestoreButton
                 postId={post.id}
                 statusBeforeTrashing={
-                  post.usermeta ? post.usermeta[0].value : "draft"
+                  post.postmeta ? post.postmeta[0].value : "draft"
                 }
               />
               <Separator
@@ -213,25 +214,25 @@ function RestoreButton({
   postId: string;
   statusBeforeTrashing: string;
 }) {
-  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+
+  const { executeAsync, isExecuting } = useAction(restorePosts, {
+    onSuccess: () => {
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to restore posts.");
+    },
+  });
 
   return (
     <ButtonLink
-      disabled={isLoading}
-      onClick={async () => {
-        await restorePosts([
-          { id: postId, statusBeforeTrashing: statusBeforeTrashing },
-        ])
-          .then(async () => {
-            toast.success("Restored successfully.");
-            router.refresh();
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            setIsLoading(false);
-          });
+      disabled={isExecuting}
+      onClick={() => {
+        executeAsync([
+          { postId: postId, statusBeforeTrashing: statusBeforeTrashing },
+        ]);
       }}
     >
       Restore
@@ -348,6 +349,21 @@ export default function PostTable({
     },
   });
 
+  const {
+    executeAsync: executeRestorePostsAsync,
+    isExecuting: isRestorePostsExecuting,
+  } = useAction(restorePosts, {
+    onSuccess: () => {
+      setIsLoading(false);
+      setRowSelection({});
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Failed to restore posts.");
+    },
+  });
+
   const selectedRows = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.id);
@@ -378,8 +394,8 @@ export default function PostTable({
   const somethinkElse = table.getSelectedRowModel().flatRows.map((row) => {
     return {
       id: row.original.id,
-      statusBeforeTrash: row.original.usermeta
-        ? row.original.usermeta[0].value
+      statusBeforeTrash: row.original.postmeta
+        ? row.original.postmeta[0].value
         : "draft",
     };
   });
@@ -395,23 +411,14 @@ export default function PostTable({
     if (bulkActionOnTrashTab === "restore") {
       const selectedRows = table.getSelectedRowModel().flatRows.map((row) => {
         return {
-          id: row.original.id,
-          statusBeforeTrashing: row.original.usermeta
-            ? row.original.usermeta[0].value
+          postId: row.original.id,
+          statusBeforeTrashing: row.original.postmeta
+            ? row.original.postmeta[0].value
             : "draft",
         };
       });
 
-      await restorePosts(selectedRows)
-        .then((res) => {
-          toast.success(res.message);
-          setIsLoading(false);
-          setRowSelection({});
-          router.refresh();
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
+      executeRestorePostsAsync(selectedRows);
     }
 
     if (bulkActionOnTrashTab === "delete-parmanently") {
@@ -579,7 +586,7 @@ export default function PostTable({
 
                 <Button
                   variant={"outline"}
-                  disabled={isLoading}
+                  disabled={isRestorePostsExecuting}
                   onClick={() => applyBulkActionOnTrashTab()}
                 >
                   Apply

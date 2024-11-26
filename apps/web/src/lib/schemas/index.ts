@@ -48,3 +48,10 @@ export const movePostToTrashActionSchema = z.array(
     status: z.string(),
   })
 );
+
+export const restorePostsActionSchema = z.array(
+  z.object({
+    postId: z.string(),
+    statusBeforeTrashing: z.string(),
+  })
+);
