@@ -4,7 +4,6 @@ import "./styles.css";
 import * as React from "react";
 // import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -16,21 +15,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 // import {
 //   DropdownMenu,
 //   DropdownMenuCheckboxItem,
 //   DropdownMenuContent,
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -39,233 +29,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Separator } from "@/components/ui/separator";
-import ButtonLink from "@/components/sp-ui/ButtonLink";
 import { useSetAtom, useAtomValue } from "jotai";
 import QuickEditForm from "./QuickEditForm";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import * as df from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { PostCountByStatus, PostType } from "@/lib/types";
-import PostSearchParamLink from "@/components/sp-ui/PostSearchParamLink";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { quickEditRowId } from "@/store/post-table";
 import BulkEditForm from "./BulkEditForm";
-import { useAction } from "next-safe-action/hooks";
-import movePostsToTrash from "@/lib/actions/move-posts-to-trash";
-import restorePosts from "@/lib/actions/restore-posts";
-import deletePosts from "@/lib/actions/delete-posts";
-
-const columns: ColumnDef<PostType>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "title",
-    header: "Title",
-    cell: ({ row }) => {
-      const post = row.original;
-
-      return (
-        <div className="space-y-2">
-          <h1 className="font-semibold">{row.getValue("title")}</h1>
-          {post.post_status === "trash" ? (
-            <section className="action-btns flex h-3 items-center gap-2 text-xs">
-              <RestoreButton
-                postId={post.id}
-                statusBeforeTrashing={
-                  post.postmeta ? post.postmeta[0].value : "draft"
-                }
-              />
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <DeleteParmanentlyButton postId={post.id} />
-            </section>
-          ) : (
-            <section className="action-btns flex h-3 items-center gap-2 text-xs">
-              <ButtonLink href={`/sp-admin/pages/edit?page=${post.id}`}>
-                Edit
-              </ButtonLink>
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <QuickEditButton rowId={row.id} />
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <MoveToTrashButton
-                postId={post.id}
-                postStatus={post.post_status}
-              />
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <ButtonLink href={`/data/${post.slug}`}>View</ButtonLink>
-            </section>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "author.username",
-    header: "Author",
-    cell: ({ row }) => {
-      return (
-        <div>
-          <PostSearchParamLink
-            param="author"
-            value={row.original.author.username}
-            className="h-auto text-base"
-          >
-            {row.original.author.username}
-          </PostSearchParamLink>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "created",
-    header: "Date",
-    cell: ({ row }) => {
-      return (
-        <>
-          {df.format(new Date(row.getValue("created")), "d MMM, yyyy")} at{" "}
-          {df.format(new Date(row.getValue("created")), "h:mm a")}
-        </>
-      );
-    },
-  },
-];
-
-function QuickEditButton({ rowId }: { rowId: string }) {
-  const setQuickEditRowId = useSetAtom(quickEditRowId);
-
-  return (
-    <Button
-      variant={"link"}
-      className="p-0 text-xs"
-      onClick={() => setQuickEditRowId(rowId)}
-    >
-      Quick Edit
-    </Button>
-  );
-}
-
-function MoveToTrashButton({
-  postId,
-  postStatus,
-}: {
-  postId: string;
-  postStatus: string;
-}) {
-  const router = useRouter();
-  const { executeAsync, isExecuting } = useAction(movePostsToTrash, {
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to move to trash.");
-    },
-  });
-
-  return (
-    <ButtonLink
-      className="text-red-600"
-      disabled={isExecuting}
-      onClick={() => {
-        executeAsync([{ postId: postId, status: postStatus }]);
-      }}
-    >
-      Trash
-    </ButtonLink>
-  );
-}
-
-function RestoreButton({
-  postId,
-  statusBeforeTrashing,
-}: {
-  postId: string;
-  statusBeforeTrashing: string;
-}) {
-  const router = useRouter();
-
-  const { executeAsync, isExecuting } = useAction(restorePosts, {
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to restore posts.");
-    },
-  });
-
-  return (
-    <ButtonLink
-      disabled={isExecuting}
-      onClick={() => {
-        executeAsync([
-          { postId: postId, statusBeforeTrashing: statusBeforeTrashing },
-        ]);
-      }}
-    >
-      Restore
-    </ButtonLink>
-  );
-}
-
-function DeleteParmanentlyButton({ postId }: { postId: string }) {
-  const router = useRouter();
-
-  const { executeAsync, isExecuting } = useAction(deletePosts, {
-    onSuccess: () => {
-      toast.success("Deleted permanently.");
-      router.refresh();
-    },
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to delete!");
-    },
-  });
-
-  return (
-    <ButtonLink
-      disabled={isExecuting}
-      className="text-red-600"
-      onClick={() => {
-        executeAsync([postId]);
-      }}
-    >
-      Delete Permanently
-    </ButtonLink>
-  );
-}
+import { columns } from "./table-column";
+import PostTabs from "./PostTabs";
+import PostSearchBar from "./PostSearchBar";
+import BulkAction from "./BulkAction";
+import { isBulkEditTableRowOpenAtom, quickEditRowIdAtom } from "@/lib/store";
+import TrashBulkAction from "./TrashBulkAction";
 
 export default function PostTable({
   data,
@@ -283,15 +57,10 @@ export default function PostTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [bulkAction, setBulkAction] = React.useState("no-action");
-  const [bulkActionOnTrashTab, setBulkActionOnTrashTab] =
-    React.useState("no-action");
-  const [isBulkEditTableRowOpen, setIsBulkEditTableRowOpen] =
-    React.useState(false);
 
   const table = useReactTable({
     data,
-    columns,
+    columns: columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -313,306 +82,41 @@ export default function PostTable({
     },
   });
 
-  const quickEditRowIdValue = useAtomValue(quickEditRowId);
-  const setQuickEditRowId = useSetAtom(quickEditRowId);
+  const quickEditRowId = useAtomValue(quickEditRowIdAtom);
+  const setQuickEditRowId = useSetAtom(quickEditRowIdAtom);
+  const isBulkEditTableRowOpen = useAtomValue(isBulkEditTableRowOpenAtom);
+  const setIsBulkEditTableRowOpen = useSetAtom(isBulkEditTableRowOpenAtom);
 
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-
-  const createSearchQueryString = React.useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value === "") {
-        params.delete(name);
-      } else {
-        params.set(name, value);
-      }
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-  const {
-    executeAsync: executeMovePostToTrashAsync,
-    isExecuting: isMovePostToTrashExecuting,
-  } = useAction(movePostsToTrash, {
-    onSuccess: () => {
-      setRowSelection({});
-      router.refresh();
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to move to trash.");
-    },
-  });
-
-  const {
-    executeAsync: executeRestorePostsAsync,
-    isExecuting: isRestorePostsExecuting,
-  } = useAction(restorePosts, {
-    onSuccess: () => {
-      setRowSelection({});
-      router.refresh();
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to restore posts.");
-    },
-  });
-
-  const {
-    executeAsync: executeDeletePostsAsync,
-    isExecuting: isDeletePostsExecuting,
-  } = useAction(deletePosts, {
-    onSuccess: () => {
-      toast.success("Deleted permanently.");
-      setRowSelection({});
-      router.refresh();
-    },
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to delete!");
-    },
-  });
 
   const selectedRows = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.id);
 
-  function applyBulkAction() {
-    if (bulkAction === "no-action") {
-      return;
-    }
-
-    if (bulkAction === "move-to-trash") {
-      const postsToTrash = table.getSelectedRowModel().flatRows.map((row) => {
-        return {
-          postId: row.original.id,
-          status: row.original.post_status,
-        };
-      });
-
-      executeMovePostToTrashAsync(postsToTrash);
-    }
-
-    if (bulkAction === "edit") {
-      setIsBulkEditTableRowOpen(true);
-    }
-  }
-
-  function applyBulkActionOnTrashTab() {
-    if (bulkActionOnTrashTab === "no-action") {
-      return;
-    }
-
-    if (bulkActionOnTrashTab === "restore") {
-      const selectedRows = table.getSelectedRowModel().flatRows.map((row) => {
-        return {
-          postId: row.original.id,
-          statusBeforeTrashing: row.original.postmeta
-            ? row.original.postmeta[0].value
-            : "draft",
-        };
-      });
-
-      executeRestorePostsAsync(selectedRows);
-    }
-
-    if (bulkActionOnTrashTab === "delete-parmanently") {
-      executeDeletePostsAsync(selectedRows);
-    }
-  }
-
   return (
     <div className="w-full space-y-6">
       <section className="flex w-full items-center justify-between">
-        <div className="flex h-4 items-center gap-2">
-          <PostSearchParamLink
-            reset={true}
-            className={cn(
-              "text-sm",
-              params.has("post_status") || "font-semibold"
-            )}
-          >
-            All ({postCountByStatus.all})
-          </PostSearchParamLink>
-          {postCountByStatus.published !== 0 && (
-            <>
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <PostSearchParamLink
-                param="post_status"
-                value="published"
-                className={cn(
-                  "text-sm",
-                  params.get("post_status") === "published" && "font-semibold"
-                )}
-              >
-                Published ({postCountByStatus.published})
-              </PostSearchParamLink>
-            </>
-          )}
-          {postCountByStatus.pending !== 0 && (
-            <>
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <PostSearchParamLink
-                param="post_status"
-                value="pending"
-                className={cn(
-                  "text-sm",
-                  params.get("post_status") === "pending" && "font-semibold"
-                )}
-              >
-                Pending ({postCountByStatus.pending})
-              </PostSearchParamLink>
-            </>
-          )}
-          {postCountByStatus.draft !== 0 && (
-            <>
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <PostSearchParamLink
-                param="post_status"
-                value="draft"
-                className={cn(
-                  "text-sm",
-                  params.get("post_status") === "draft" && "font-semibold"
-                )}
-              >
-                Draft ({postCountByStatus.draft})
-              </PostSearchParamLink>
-            </>
-          )}
-          {postCountByStatus.trash !== 0 && (
-            <>
-              <Separator
-                orientation="vertical"
-                className="bg-muted-foreground"
-              />
-              <PostSearchParamLink
-                param="post_status"
-                value="trash"
-                className={cn(
-                  "text-sm",
-                  params.get("post_status") === "trash" && "font-semibold"
-                )}
-              >
-                Trash ({postCountByStatus.trash})
-              </PostSearchParamLink>
-            </>
-          )}
-        </div>
+        <PostTabs postCountByStatus={postCountByStatus} />
 
-        <Input
-          placeholder={`Search for ${postType}s by title`}
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => {
-            table.getColumn("title")?.setFilterValue(event.target.value);
-            router.push(
-              pathname +
-                "?" +
-                createSearchQueryString("search", event.target.value)
-            );
-          }}
-          className="max-w-sm"
-        />
+        <PostSearchBar table={table} postType={postType} />
       </section>
 
       <div className="space-y-2">
-        {data.length !== 0 && (
-          <div className="flex items-center gap-5">
-            {params.get("post_status") !== "trash" ? (
-              <div className="flex items-center gap-2">
-                <Select
-                  defaultValue={bulkAction}
-                  onValueChange={(value) => setBulkAction(value)}
-                >
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Bulk Actions" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="no-action">Bulk Actions</SelectItem>
-                    <SelectItem value="edit">Edit</SelectItem>
-                    <SelectItem value="move-to-trash">Move to Trash</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Button
-                  variant={"outline"}
-                  disabled={isMovePostToTrashExecuting}
-                  onClick={() => applyBulkAction()}
-                >
-                  Apply
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Select
-                  defaultValue={bulkActionOnTrashTab}
-                  onValueChange={(value) => setBulkActionOnTrashTab(value)}
-                >
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Bulk Actions" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="no-action">Bulk Actions</SelectItem>
-                    <SelectItem value="restore">Restore</SelectItem>
-                    <SelectItem value="delete-parmanently">
-                      Delete Permanently
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Button
-                  variant={"outline"}
-                  disabled={isRestorePostsExecuting || isDeletePostsExecuting}
-                  onClick={() => applyBulkActionOnTrashTab()}
-                >
-                  Apply
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* <div className="flex items-center py-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div> */}
+        <div className="flex justify-between">
+          {data.length !== 0 && (
+            <div className="flex items-center gap-5">
+              {params.get("post_status") !== "trash" ? (
+                <BulkAction table={table} setRowSelection={setRowSelection} />
+              ) : (
+                <TrashBulkAction
+                  table={table}
+                  setRowSelection={setRowSelection}
+                />
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Table */}
         <div className="rounded-md border">
@@ -675,7 +179,7 @@ export default function PostTable({
 
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => {
-                  if (row.id === quickEditRowIdValue) {
+                  if (row.id === quickEditRowId) {
                     return (
                       <TableRow key={row.id} className="hover:bg-background">
                         <TableCell colSpan={100} className="p-4">
