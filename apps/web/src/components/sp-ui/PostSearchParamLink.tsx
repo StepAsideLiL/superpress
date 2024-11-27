@@ -3,8 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { quickEditRowId } from "@/store/post-table";
 import { useSetAtom } from "jotai";
+import { quickEditRowIdAtom } from "@/lib/store";
 
 export default function PostSearchParamLink({
   param,
@@ -25,7 +25,7 @@ export default function PostSearchParamLink({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const setQuickEditRowId = useSetAtom(quickEditRowId);
+  const setQuickEditRowId = useSetAtom(quickEditRowIdAtom);
 
   function handleClick() {
     const params = new URLSearchParams(searchParams.toString());
