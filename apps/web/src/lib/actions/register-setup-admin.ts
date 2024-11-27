@@ -47,9 +47,25 @@ const registerAndSetupAdmin = adminSafeActionClient
             email: email,
             password: await auth.hashPassword(password),
             usermeta: {
-              create: {
-                key: "capability",
-                value: "admin",
+              createMany: {
+                data: [
+                  {
+                    key: "capability",
+                    value: "admin",
+                  },
+                  {
+                    key: "setting.post_type.item_limit_per_page",
+                    value: "20",
+                  },
+                  {
+                    key: "setting.post_type.column_view",
+                    value: JSON.stringify({
+                      title: true,
+                      author: true,
+                      date: true,
+                    }),
+                  },
+                ],
               },
             },
           },
@@ -59,7 +75,7 @@ const registerAndSetupAdmin = adminSafeActionClient
             // Set user session
             await auth.setNewUserSession(user.id).catch(async (error) => {
               await prisma.users.delete({ where: { id: user.id } });
-              console.log(error);
+              console.error(error);
               throw new Error("Failed to set user session.");
             }),
 
