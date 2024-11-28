@@ -54,16 +54,28 @@ const registerAndSetupAdmin = adminSafeActionClient
                     value: "admin",
                   },
                   {
-                    key: "setting.post_type.item_limit_per_page",
+                    key: "setting.post.item_limit_per_page",
                     value: "20",
                   },
                   {
-                    key: "setting.post_type.column_view",
-                    value: JSON.stringify({
-                      title: true,
-                      author: true,
-                      date: true,
-                    }),
+                    key: "setting.post.column_view",
+                    value: JSON.stringify([
+                      {
+                        colId: "title",
+                        title: "Title",
+                        show: true,
+                      },
+                      {
+                        colId: "author_username",
+                        title: "Author",
+                        show: true,
+                      },
+                      {
+                        colId: "created",
+                        title: "Date",
+                        show: true,
+                      },
+                    ]),
                   },
                 ],
               },
