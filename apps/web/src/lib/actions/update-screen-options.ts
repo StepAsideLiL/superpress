@@ -13,15 +13,24 @@ export const updateScreenOptions = authSafeActionClient
 
     await Promise.all([
       parsedInput.map(async (item) => {
-        await prisma.usermetas.update({
+        await prisma.usermetas.upsert({
           where: {
             id: item.id,
             user: {
               id: ctx.user.id,
             },
           },
-          data: {
+          update: {
             value: item.value,
+          },
+          create: {
+            key: item.id,
+            value: item.value,
+            user: {
+              connect: {
+                id: ctx.user.id,
+              },
+            },
           },
         });
       }),
