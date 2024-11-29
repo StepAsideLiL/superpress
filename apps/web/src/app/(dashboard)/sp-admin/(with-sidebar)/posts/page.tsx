@@ -24,6 +24,7 @@ export default async function Page({
     searchParams.author,
     searchParams.search
   );
+
   const postCountByStatus = await fetch.post.getPostsCountByStatus(
     searchParams.post_type
   );
@@ -31,19 +32,65 @@ export default async function Page({
     searchParams.post_type
   );
 
-  const itemPerPageKV = getSettingByName(
-    userPostSettings,
-    "item_limit_per_page"
-  ) || {
-    id: "setting.post.item_limit_per_page",
-    key: `setting.post.item_limit_per_page`,
-    value: "20",
-  };
-  const columnViewKV = getSettingByName(userPostSettings, "column_view") || {
-    id: "setting.post.column_view",
-    key: `setting.post.column_view`,
-    value: "[]",
-  };
+  const itemPerPageKV =
+    getSettingByName(userPostSettings, "item_limit_per_page") ||
+    (searchParams.post_type === "post"
+      ? {
+          id: "setting.post.item_limit_per_page",
+          key: `setting.post.item_limit_per_page`,
+          value: "20",
+        }
+      : {
+          id: "setting.page.item_limit_per_page",
+          key: `setting.page.item_limit_per_page`,
+          value: "20",
+        });
+
+  const columnViewKV =
+    getSettingByName(userPostSettings, "column_view") ||
+    (searchParams.post_type === "post"
+      ? {
+          id: "setting.post.column_view",
+          key: `setting.post.column_view`,
+          value: JSON.stringify([
+            {
+              colId: "title",
+              title: "Title",
+              show: true,
+            },
+            {
+              colId: "author_username",
+              title: "Author",
+              show: true,
+            },
+            {
+              colId: "created",
+              title: "Date",
+              show: true,
+            },
+          ]),
+        }
+      : {
+          id: "setting.page.column_view",
+          key: `setting.page.column_view`,
+          value: JSON.stringify([
+            {
+              colId: "title",
+              title: "Title",
+              show: true,
+            },
+            {
+              colId: "author_username",
+              title: "Author",
+              show: true,
+            },
+            {
+              colId: "created",
+              title: "Date",
+              show: true,
+            },
+          ]),
+        });
 
   if (
     !(searchParams.post_type === "page" || searchParams.post_type === "post")
