@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import PostTable from "./_parts/PostTable";
 import { redirect } from "next/navigation";
 import fetch from "@/lib/fetchers";
+import { getSettingByName } from "@/lib/utils";
 
 export default async function Page({
   searchParams,
@@ -26,6 +27,23 @@ export default async function Page({
   const postCountByStatus = await fetch.post.getPostsCountByStatus(
     searchParams.post_type
   );
+  const userPostSettings = await fetch.user.getUserSettingsKVType(
+    searchParams.post_type
+  );
+
+  const itemPerPageKV = getSettingByName(
+    userPostSettings,
+    "item_limit_per_page"
+  ) || {
+    id: "setting.post.item_limit_per_page",
+    key: `setting.post.item_limit_per_page`,
+    value: "20",
+  };
+  const columnViewKV = getSettingByName(userPostSettings, "column_view") || {
+    id: "setting.post.column_view",
+    key: `setting.post.column_view`,
+    value: "[]",
+  };
 
   if (
     !(searchParams.post_type === "page" || searchParams.post_type === "post")
@@ -52,6 +70,8 @@ export default async function Page({
         data={posts}
         postType={searchParams.post_type}
         postCountByStatus={postCountByStatus}
+        itemPerPageKV={itemPerPageKV}
+        columnViewKV={columnViewKV}
       />
     </div>
   );

@@ -22,3 +22,17 @@ export type PostCountByStatus = {
   draft: number;
   trash: number;
 };
+
+export type UserSettingKVType = {
+  id: string;
+  key: string;
+  value: string;
+};
+
+export type UserSettingsKVType = UserSettingKVType[];
+
+export type ColumnViewType = {
+  colId: string;
+  title: string;
+  show: boolean;
+}[];

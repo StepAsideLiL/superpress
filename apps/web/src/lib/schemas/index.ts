@@ -62,3 +62,10 @@ export const generateFakePostsFormSchema = z.object({
   type: z.enum(["post", "page"]),
   status: z.enum(["published", "draft", "pending", "trash"]),
 });
+
+export const screenOptionFormSchema = z.array(
+  z.object({
+    id: z.string(),
+    value: z.string(),
+  })
+);

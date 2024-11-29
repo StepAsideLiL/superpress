@@ -25,7 +25,12 @@ import {
 import { useSetAtom, useAtomValue } from "jotai";
 import QuickEditForm from "./QuickEditForm";
 import { useSearchParams } from "next/navigation";
-import { PostCountByStatus, PostType } from "@/lib/types";
+import {
+  ColumnViewType,
+  PostCountByStatus,
+  PostType,
+  UserSettingKVType,
+} from "@/lib/types";
 import BulkEditForm from "./BulkEditForm";
 import { columns } from "./table-column";
 import PostTabs from "./PostTabs";
@@ -33,22 +38,37 @@ import PostSearchBar from "./PostSearchBar";
 import BulkAction from "./BulkAction";
 import { isBulkEditTableRowOpenAtom, quickEditRowIdAtom } from "@/lib/store";
 import TrashBulkAction from "./TrashBulkAction";
+import ScreenOptions from "./ScreenOptions";
 
 export default function PostTable({
   data,
   postType,
   postCountByStatus,
+  itemPerPageKV,
+  columnViewKV,
 }: {
   data: PostType[];
   postType: string;
   postCountByStatus: PostCountByStatus;
+  itemPerPageKV: UserSettingKVType;
+  columnViewKV: UserSettingKVType;
 }) {
+  const colViewJson = JSON.parse(columnViewKV.value) as ColumnViewType;
+
+  const colView = colViewJson.reduce(
+    (acc, curr) => {
+      acc[curr.colId] = curr.show;
+      return acc;
+    },
+    {} as { [key: string]: boolean }
+  );
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>(colView);
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -70,7 +90,7 @@ export default function PostTable({
     },
     initialState: {
       pagination: {
-        pageSize: 20,
+        pageSize: Number(itemPerPageKV.value),
       },
     },
   });
@@ -109,6 +129,12 @@ export default function PostTable({
               )}
             </div>
           )}
+
+          <ScreenOptions
+            table={table}
+            itemPerPageKV={itemPerPageKV}
+            columnViewKV={columnViewKV}
+          />
         </div>
 
         {/* Table */}
@@ -224,8 +250,8 @@ export default function PostTable({
 
         <div className="flex items-center justify-end space-x-2">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getSelectedRowModel().rows.length} of {data.length} row(s)
+            selected.
           </div>
           <div className="space-x-2">
             <Button
