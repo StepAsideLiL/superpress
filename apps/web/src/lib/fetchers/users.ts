@@ -88,6 +88,10 @@ export async function getUserDataTableByRole(
   });
 }
 
+/**
+ * Get user count by role.
+ * @returns Object of user count by role.
+ */
 export async function getUserCountByRole(): Promise<UserTableTabCountByRoleType> {
   const currentUser = await auth.getCurrentUser();
 
@@ -111,33 +115,6 @@ export async function getUserCountByRole(): Promise<UserTableTabCountByRoleType>
       },
     },
   });
-
-  // const adminCount = users.filter((user) =>
-  //   user.usermeta.find(
-  //     (item) => item.key === "capability" && item.value === "admin"
-  //   )
-  // ).length;
-  // const editorCount = users.filter((user) =>
-  //   user.usermeta.find(
-  //     (item) => item.key === "capability" && item.value === "editor"
-  //   )
-  // ).length;
-  // const authorCount = users.filter((user) =>
-  //   user.usermeta.find(
-  //     (item) => item.key === "capability" && item.value === "author"
-  //   )
-  // ).length;
-  // const subscriberCount = users.filter((user) =>
-  //   user.usermeta.find(
-  //     (item) => item.key === "capability" && item.value === "subscriber"
-  //   )
-  // ).length;
-  // const userCount = users.filter((user) =>
-  //   user.usermeta.find(
-  //     (item) =>
-  //       (item.key === "capability" && item.value === "user") || !item.key
-  //   )
-  // ).length;
 
   return {
     all: users.length,
