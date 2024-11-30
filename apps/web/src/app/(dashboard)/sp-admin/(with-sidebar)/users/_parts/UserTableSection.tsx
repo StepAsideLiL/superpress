@@ -69,7 +69,7 @@ export default function UserTableSection({
       <section className="flex w-full items-center justify-between">
         <UserTabs countUserByRole={countUserByRole} />
 
-        <UserSearchBar />
+        <UserSearchBar table={table} />
       </section>
 
       <section className="space-y-2">
