@@ -65,7 +65,7 @@ export default function UserTableSection({
   return (
     <section className="w-full space-y-6">
       <section className="flex w-full items-center justify-between">
-        <UserTabs />
+        <UserTabs data={data} />
 
         <UserSearchBar />
       </section>
