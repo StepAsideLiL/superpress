@@ -36,3 +36,10 @@ export type ColumnViewType = {
   title: string;
   show: boolean;
 }[];
+
+export type UserDataTableRowType = {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+};
