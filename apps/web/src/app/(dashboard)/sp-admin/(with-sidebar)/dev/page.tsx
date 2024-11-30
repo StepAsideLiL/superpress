@@ -9,12 +9,16 @@ export default function Page() {
       </section>
 
       <section className="rounded border p-5">
-        <h1 className="text-foreground/80">Generate Fake posts and pages</h1>
+        <h1 className="text-xl font-medium text-foreground/80">
+          Generate Fake Posts
+        </h1>
         <GenerateFakePostsForm />
       </section>
 
       <section className="rounded border p-5">
-        <h1 className="text-foreground/80">Generate Fake Users</h1>
+        <h1 className="text-xl font-medium text-foreground/80">
+          Generate Fake Users
+        </h1>
         <GenerateFakeUserForm />
       </section>
     </div>
