@@ -54,7 +54,7 @@ export async function getUserDataTableByRole(
   const users = await prisma.users.findMany({
     where: {
       usermeta: {
-        every: {
+        some: {
           key: "capability",
           value: role,
         },
