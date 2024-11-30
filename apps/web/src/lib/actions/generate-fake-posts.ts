@@ -17,11 +17,11 @@ const generateFakePosts = authSafeActionClient
       throw new Error("Unauthorized: User does not have the capability.");
     }
 
-    const { status, type } = parsedInput;
+    const { postCount, status, type } = parsedInput;
 
     try {
       return await Promise.all([
-        Array.from({ length: 10 }, async () => {
+        Array.from({ length: Number(postCount) }, async () => {
           const title = faker.lorem.sentence({ min: 3, max: 10 });
           await prisma.posts.create({
             data: {

@@ -24,10 +24,14 @@ import { generateFakePostsFormSchema } from "@/lib/schemas";
 import { useAction } from "next-safe-action/hooks";
 import generateFakePosts from "@/lib/actions/generate-fake-posts";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 export default function GenerateFakePostsForm() {
   const form = useForm<z.infer<typeof generateFakePostsFormSchema>>({
     resolver: zodResolver(generateFakePostsFormSchema),
+    defaultValues: {
+      postCount: "10",
+    },
   });
   const router = useRouter();
 
@@ -43,6 +47,7 @@ export default function GenerateFakePostsForm() {
 
   async function onSubmit(values: z.infer<typeof generateFakePostsFormSchema>) {
     await executeAsync({
+      postCount: values.postCount,
       status: values.status,
       type: values.type,
     });
@@ -51,6 +56,25 @@ export default function GenerateFakePostsForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="postCount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Number of Post</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  min={1}
+                  placeholder="Enter number of posts"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="type"
@@ -104,7 +128,7 @@ export default function GenerateFakePostsForm() {
         />
 
         <Button type="submit" disabled={isExecuting}>
-          Generate 10 Post
+          Generate Post
         </Button>
       </form>
     </Form>

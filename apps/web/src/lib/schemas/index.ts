@@ -59,6 +59,7 @@ export const restorePostsActionSchema = z.array(
 export const deletePostsActionSchema = z.array(z.string());
 
 export const generateFakePostsFormSchema = z.object({
+  postCount: z.string(),
   type: z.enum(["post", "page"]),
   status: z.enum(["published", "draft", "pending", "trash"]),
 });
