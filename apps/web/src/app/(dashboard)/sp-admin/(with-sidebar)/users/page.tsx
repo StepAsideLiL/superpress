@@ -2,9 +2,22 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import UserTableSection from "./_parts/UserTableSection";
 import fetch from "@/lib/fetchers";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
-  const userTableData = await fetch.user.getUserDataTable();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: {
+    role?: string;
+  };
+}) {
+  if (searchParams.role === "") {
+    redirect("/sp-admin/users");
+  }
+
+  const userTableData = await fetch.user.getUserDataTableByRole(
+    searchParams.role
+  );
 
   return (
     <div className="space-y-6">

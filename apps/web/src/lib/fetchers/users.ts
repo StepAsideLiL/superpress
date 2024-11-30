@@ -8,14 +8,54 @@ import { UserDataTableRowType, UserSettingsKVType } from "@/lib/types";
  * Get user data for table.
  * @returns User data for table.
  */
-export async function getUserDataTable(): Promise<UserDataTableRowType[]> {
+export async function getUserDataTableByRole(
+  role?: string
+): Promise<UserDataTableRowType[]> {
   const currentUser = await auth.getCurrentUser();
 
   if (!currentUser) {
     throw new Error("Not logged in.");
   }
 
+  if (role === "" || role === undefined) {
+    const users = await prisma.users.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        usermeta: {
+          where: {
+            key: "capability",
+          },
+          select: {
+            key: true,
+            value: true,
+          },
+        },
+      },
+    });
+
+    return users.map((user) => {
+      return {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role:
+          user.usermeta.find((item) => item.key === "capability")?.value ||
+          "user",
+      };
+    });
+  }
+
   const users = await prisma.users.findMany({
+    where: {
+      usermeta: {
+        every: {
+          key: "capability",
+          value: role,
+        },
+      },
+    },
     select: {
       id: true,
       username: true,

@@ -2,7 +2,7 @@ import "server-only";
 
 import { getPosts, getPostsCountByStatus } from "./posts";
 import { checkDatabaseConnection, checkSiteAdmin } from "./checkDB";
-import { getUserSettingsKVType, getUserDataTable } from "./users";
+import { getUserSettingsKVType, getUserDataTableByRole } from "./users";
 
 const fetch = {
   check: {
@@ -14,7 +14,7 @@ const fetch = {
     getPostsCountByStatus,
   },
   user: {
-    getUserDataTable,
+    getUserDataTableByRole,
     getUserSettingsKVType,
   },
 };
