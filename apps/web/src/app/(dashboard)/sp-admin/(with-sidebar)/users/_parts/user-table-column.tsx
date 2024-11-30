@@ -46,5 +46,8 @@ export const userTableColumns: ColumnDef<UserDataTableRowType>[] = [
   {
     accessorKey: "role",
     header: "Role",
+    cell: ({ row }) => {
+      return <div className="capitalize">{row.getValue("role")}</div>;
+    },
   },
 ];
