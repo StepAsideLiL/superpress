@@ -63,6 +63,11 @@ export const generateFakePostsFormSchema = z.object({
   status: z.enum(["published", "draft", "pending", "trash"]),
 });
 
+export const generateFakeUserFormSchema = z.object({
+  userCount: z.string(),
+  userRole: z.enum(["admin", "editor", "author", "subscriber", "user"]),
+});
+
 export const screenOptionFormSchema = z.array(
   z.object({
     id: z.string(),
