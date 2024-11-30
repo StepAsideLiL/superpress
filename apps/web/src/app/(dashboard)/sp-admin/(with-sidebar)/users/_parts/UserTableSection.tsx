@@ -99,81 +99,23 @@ export default function UserTableSection({
               ))}
             </TableHeader>
             <TableBody>
-              {/* {isBulkEditTableRowOpen && (
-                <TableRow className="hover:bg-background">
-                  <TableCell colSpan={100} className="p-4">
-                    <div className="h-96 space-y-2">
-                      <h1 className="text-xl font-semibold text-foreground/80">
-                        Quick Edit
-                      </h1>
-
-                      <div className="flex w-full">
-                        <div className="w-3/4">
-                          <BulkEditForm
-                            setIsBulkEditTableRowOpen={
-                              setIsBulkEditTableRowOpen
-                            }
-                            setRowSelection={setRowSelection}
-                            selectedPostIds={selectedRows}
-                            setQuickEditRowId={setQuickEditRowId}
-                          />
-                        </div>
-
-                        <div className="h-80 w-1/4 border border-muted p-1">
-                          <ul className="list-inside list-disc space-y-2">
-                            {table.getSelectedRowModel().flatRows.map((row) => {
-                              return (
-                                <li key={row.original.id}>
-                                  {row.original.title}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )} */}
-
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => {
-                  // if (row.id === quickEditRowId) {
-                  //   return (
-                  //     <TableRow key={row.id} className="hover:bg-background">
-                  //       <TableCell colSpan={100} className="p-4">
-                  //         <div className="space-y-2">
-                  //           <h1 className="text-xl font-semibold text-foreground/80">
-                  //             Quick Edit
-                  //           </h1>
-
-                  //           <QuickEditForm
-                  //             pageData={row.original}
-                  //             setQuickEditRowId={setQuickEditRowId}
-                  //           />
-                  //         </div>
-                  //       </TableCell>
-                  //     </TableRow>
-                  //   );
-                  // }
-
-                  return (
-                    <TableRow
-                      key={row.id}
-                      className="table-row"
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id} className="align-top">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    className="table-row"
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="align-top">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
               ) : (
                 <TableRow>
                   <TableCell
