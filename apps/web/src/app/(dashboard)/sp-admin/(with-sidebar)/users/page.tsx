@@ -18,6 +18,7 @@ export default async function Page({
   const userTableData = await fetch.user.getUserDataTableByRole(
     searchParams.role
   );
+  const countUserByRole = await fetch.user.getUserCountByRole();
 
   return (
     <div className="space-y-6">
@@ -26,7 +27,10 @@ export default async function Page({
         <Button variant={"outline"}>Add New User</Button>
       </section>
 
-      <UserTableSection data={userTableData} />
+      <UserTableSection
+        data={userTableData}
+        countUserByRole={countUserByRole}
+      />
     </div>
   );
 }

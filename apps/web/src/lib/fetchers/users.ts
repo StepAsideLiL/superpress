@@ -2,7 +2,11 @@ import "server-only";
 
 import prisma from "@/lib/prismadb";
 import auth from "@/lib/auth";
-import { UserDataTableRowType, UserSettingsKVType } from "@/lib/types";
+import {
+  UserDataTableRowType,
+  UserSettingsKVType,
+  UserTableTabCountByRoleType,
+} from "@/lib/types";
 
 /**
  * Get user data for table.
@@ -82,6 +86,88 @@ export async function getUserDataTableByRole(
         "user",
     };
   });
+}
+
+export async function getUserCountByRole(): Promise<UserTableTabCountByRoleType> {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error("Not logged in.");
+  }
+
+  const users = await prisma.users.findMany({
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      usermeta: {
+        where: {
+          key: "capability",
+        },
+        select: {
+          key: true,
+          value: true,
+        },
+      },
+    },
+  });
+
+  // const adminCount = users.filter((user) =>
+  //   user.usermeta.find(
+  //     (item) => item.key === "capability" && item.value === "admin"
+  //   )
+  // ).length;
+  // const editorCount = users.filter((user) =>
+  //   user.usermeta.find(
+  //     (item) => item.key === "capability" && item.value === "editor"
+  //   )
+  // ).length;
+  // const authorCount = users.filter((user) =>
+  //   user.usermeta.find(
+  //     (item) => item.key === "capability" && item.value === "author"
+  //   )
+  // ).length;
+  // const subscriberCount = users.filter((user) =>
+  //   user.usermeta.find(
+  //     (item) => item.key === "capability" && item.value === "subscriber"
+  //   )
+  // ).length;
+  // const userCount = users.filter((user) =>
+  //   user.usermeta.find(
+  //     (item) =>
+  //       (item.key === "capability" && item.value === "user") || !item.key
+  //   )
+  // ).length;
+
+  return {
+    all: users.length,
+    admin: users.filter((user) =>
+      user.usermeta.find(
+        (item) => item.key === "capability" && item.value === "admin"
+      )
+    ).length,
+    editor: users.filter((user) =>
+      user.usermeta.find(
+        (item) => item.key === "capability" && item.value === "editor"
+      )
+    ).length,
+    author: users.filter((user) =>
+      user.usermeta.find(
+        (item) => item.key === "capability" && item.value === "author"
+      )
+    ).length,
+    subscribe: users.filter((user) =>
+      user.usermeta.find(
+        (item) => item.key === "capability" && item.value === "subscriber"
+      )
+    ).length,
+    user: users.filter((user) =>
+      user.usermeta.find(
+        (item) =>
+          (item.key === "capability" && item.value === "user") || !item.key
+      )
+    ).length,
+  };
 }
 
 /**

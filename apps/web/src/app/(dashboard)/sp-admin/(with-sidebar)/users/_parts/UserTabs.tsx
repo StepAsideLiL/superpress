@@ -2,18 +2,22 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { UserDataTableRowType } from "@/lib/types";
+import { UserTableTabCountByRoleType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
-  const adminCount = data.filter((user) => user.role === "admin").length;
-  const editorCount = data.filter((user) => user.role === "editor").length;
-  const authorCount = data.filter((user) => user.role === "author").length;
-  const subscriberCount = data.filter(
-    (user) => user.role === "subscriber"
-  ).length;
-  const userCount = data.filter((user) => user.role === "user").length;
+export default function UserTabs({
+  countUserByRole,
+}: {
+  countUserByRole: UserTableTabCountByRoleType;
+}) {
+  // const adminCount = data.filter((user) => user.role === "admin").length;
+  // const editorCount = data.filter((user) => user.role === "editor").length;
+  // const authorCount = data.filter((user) => user.role === "author").length;
+  // const subscriberCount = data.filter(
+  //   (user) => user.role === "subscriber"
+  // ).length;
+  // const userCount = data.filter((user) => user.role === "user").length;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -44,10 +48,10 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
         )}
         onClick={() => handleTabClick("all")}
       >
-        All ({data.length})
+        All ({countUserByRole.all})
       </Button>
 
-      {adminCount !== 0 && (
+      {countUserByRole.admin !== 0 && (
         <>
           <Separator orientation="vertical" className="bg-muted-foreground" />
           <Button
@@ -58,12 +62,12 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
             )}
             onClick={() => handleTabClick("admin")}
           >
-            Admin ({adminCount})
+            Admin ({countUserByRole.admin})
           </Button>
         </>
       )}
 
-      {editorCount !== 0 && (
+      {countUserByRole.editor !== 0 && (
         <>
           <Separator orientation="vertical" className="bg-muted-foreground" />
           <Button
@@ -74,12 +78,12 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
             )}
             onClick={() => handleTabClick("editor")}
           >
-            Editor ({editorCount})
+            Editor ({countUserByRole.editor})
           </Button>
         </>
       )}
 
-      {authorCount !== 0 && (
+      {countUserByRole.author !== 0 && (
         <>
           <Separator orientation="vertical" className="bg-muted-foreground" />
           <Button
@@ -90,12 +94,12 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
             )}
             onClick={() => handleTabClick("author")}
           >
-            Author ({authorCount})
+            Author ({countUserByRole.author})
           </Button>
         </>
       )}
 
-      {subscriberCount !== 0 && (
+      {countUserByRole.subscribe !== 0 && (
         <>
           <Separator orientation="vertical" className="bg-muted-foreground" />
           <Button
@@ -106,12 +110,12 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
             )}
             onClick={() => handleTabClick("subscriber")}
           >
-            Subscriber ({subscriberCount})
+            Subscriber ({countUserByRole.subscribe})
           </Button>
         </>
       )}
 
-      {userCount !== 0 && (
+      {countUserByRole.user !== 0 && (
         <>
           <Separator orientation="vertical" className="bg-muted-foreground" />
           <Button
@@ -122,7 +126,7 @@ export default function UserTabs({ data }: { data: UserDataTableRowType[] }) {
             )}
             onClick={() => handleTabClick("user")}
           >
-            userCount ({userCount})
+            userCount ({countUserByRole.user})
           </Button>
         </>
       )}

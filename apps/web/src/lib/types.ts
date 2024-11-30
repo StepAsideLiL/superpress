@@ -43,3 +43,12 @@ export type UserDataTableRowType = {
   email: string;
   role: string;
 };
+
+export type UserTableTabCountByRoleType = {
+  all: number;
+  admin: number;
+  editor: number;
+  author: number;
+  subscribe: number;
+  user: number;
+};

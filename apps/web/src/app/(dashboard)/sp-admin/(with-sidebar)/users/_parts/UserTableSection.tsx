@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserDataTableRowType } from "@/lib/types";
+import { UserDataTableRowType, UserTableTabCountByRoleType } from "@/lib/types";
 import BulkAction from "./BulkAction";
 import ScreenOptions from "./ScreenOptions";
 import UserSearchBar from "./UserSearchBar";
@@ -30,8 +30,10 @@ import { Button } from "@/components/ui/button";
 
 export default function UserTableSection({
   data,
+  countUserByRole,
 }: {
   data: UserDataTableRowType[];
+  countUserByRole: UserTableTabCountByRoleType;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -65,7 +67,7 @@ export default function UserTableSection({
   return (
     <section className="w-full space-y-6">
       <section className="flex w-full items-center justify-between">
-        <UserTabs data={data} />
+        <UserTabs countUserByRole={countUserByRole} />
 
         <UserSearchBar />
       </section>
