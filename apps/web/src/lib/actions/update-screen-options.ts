@@ -4,6 +4,9 @@ import { screenOptionFormSchema } from "@/lib/schemas";
 import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 
+/**
+ * Update screen options.
+ */
 export const updateScreenOptions = authSafeActionClient
   .schema(screenOptionFormSchema)
   .action(async ({ parsedInput, ctx }) => {
