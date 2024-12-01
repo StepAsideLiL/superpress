@@ -4,6 +4,7 @@ import { faker } from "@faker-js/faker";
 import { generateFakeUserFormSchema } from "@/lib/schemas";
 import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
+import auth from "@/lib/auth";
 
 const generateFakeUsers = authSafeActionClient
   .schema(generateFakeUserFormSchema)
@@ -25,7 +26,7 @@ const generateFakeUsers = authSafeActionClient
           const lastName = faker.person.firstName();
           const username = faker.internet.username({ firstName, lastName });
           const email = faker.internet.email({ firstName, lastName });
-          const password = "m";
+          const password = await auth.hashPassword("m");
           await prisma.users.create({
             data: {
               username: username.toLowerCase(),
