@@ -4,7 +4,7 @@ import { getPosts, getPostsCountByStatus } from "./posts";
 import { checkDatabaseConnection, checkSiteAdmin } from "./checkDB";
 import {
   getUserCountByRole,
-  getUserDataTableByRole,
+  getUserDataTable,
   getUserSettingsKVType,
 } from "./users";
 
@@ -18,7 +18,7 @@ const fetch = {
     getPostsCountByStatus,
   },
   user: {
-    getUserDataTableByRole,
+    getUserDataTable,
     getUserCountByRole,
     getUserSettingsKVType,
   },

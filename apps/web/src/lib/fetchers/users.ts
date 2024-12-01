@@ -12,7 +12,7 @@ import {
  * Get user data for table.
  * @returns User data for table.
  */
-export async function getUserDataTableByRole(
+export async function getUserDataTable(
   role?: string,
   search?: string
 ): Promise<UserDataTableRowType[]> {

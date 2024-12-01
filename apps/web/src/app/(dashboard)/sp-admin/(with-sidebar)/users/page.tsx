@@ -16,7 +16,7 @@ export default async function Page({
     redirect("/sp-admin/users");
   }
 
-  const userTableData = await fetch.user.getUserDataTableByRole(
+  const userTableData = await fetch.user.getUserDataTable(
     searchParams.role,
     searchParams.search
   );
