@@ -9,6 +9,7 @@ export default async function Page({
 }: {
   searchParams: {
     role?: string;
+    search?: string;
   };
 }) {
   if (searchParams.role === "") {
@@ -16,7 +17,8 @@ export default async function Page({
   }
 
   const userTableData = await fetch.user.getUserDataTableByRole(
-    searchParams.role
+    searchParams.role,
+    searchParams.search
   );
   const countUserByRole = await fetch.user.getUserCountByRole();
 
