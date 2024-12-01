@@ -25,7 +25,7 @@ export async function getPosts(
           not: "trash",
         },
         author: {
-          username: author,
+          username: author?.toLowerCase(),
         },
         title: {
           contains: search,

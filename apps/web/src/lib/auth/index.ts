@@ -17,6 +17,7 @@ type SessionValidationResult =
       user: {
         id: string;
         username: string;
+        displayname: string;
         email: string;
         usermeta: {
           id: string;
@@ -77,6 +78,7 @@ async function validateSessionToken(
         select: {
           id: true,
           username: true,
+          displayname: true,
           email: true,
           usermeta: {
             where: {
@@ -176,6 +178,7 @@ const getCurrentUser = cache(
   async (): Promise<{
     id: string;
     username: string;
+    displayname: string;
     email: string;
     capability: string;
   } | null> => {
@@ -186,6 +189,7 @@ const getCurrentUser = cache(
     return {
       id: user.id,
       username: user.username,
+      displayname: user.displayname,
       email: user.email,
       capability: user.usermeta[0].value || "subscriber",
     };

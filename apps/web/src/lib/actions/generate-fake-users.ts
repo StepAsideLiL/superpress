@@ -21,12 +21,15 @@ const generateFakeUsers = authSafeActionClient
     try {
       return await Promise.all(
         Array.from({ length: Number(userCount) }, async () => {
-          const username = faker.internet.username();
-          const email = faker.internet.email();
+          const firstName = faker.person.firstName();
+          const lastName = faker.person.firstName();
+          const username = faker.internet.username({ firstName, lastName });
+          const email = faker.internet.email({ firstName, lastName });
           const password = "m";
           await prisma.users.create({
             data: {
-              username,
+              username: username.toLowerCase(),
+              displayname: username,
               email,
               password,
               usermeta: {

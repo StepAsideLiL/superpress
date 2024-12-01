@@ -43,7 +43,8 @@ const registerAndSetupAdmin = adminSafeActionClient
       return await prisma.users
         .create({
           data: {
-            username: username,
+            username: username.toLowerCase(),
+            displayname: username,
             email: email,
             password: await auth.hashPassword(password),
             usermeta: {
