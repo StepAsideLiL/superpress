@@ -126,7 +126,7 @@ export default function UserTabs({
             )}
             onClick={() => handleTabClick("user")}
           >
-            userCount ({countUserByRole.user})
+            User ({countUserByRole.user})
           </Button>
         </>
       )}
