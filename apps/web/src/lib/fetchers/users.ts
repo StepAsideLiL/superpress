@@ -22,36 +22,6 @@ export async function getUserDataTable(
     throw new Error("Not logged in.");
   }
 
-  // if (role === "" || role === undefined) {
-  //   const users = await prisma.users.findMany({
-  //     select: {
-  //       id: true,
-  //       username: true,
-  //       email: true,
-  //       usermeta: {
-  //         where: {
-  //           key: "capability",
-  //         },
-  //         select: {
-  //           key: true,
-  //           value: true,
-  //         },
-  //       },
-  //     },
-  //   });
-
-  //   return users.map((user) => {
-  //     return {
-  //       id: user.id,
-  //       username: user.username,
-  //       email: user.email,
-  //       role:
-  //         user.usermeta.find((item) => item.key === "capability")?.value ||
-  //         "user",
-  //     };
-  //   });
-  // }
-
   const users = await prisma.users.findMany({
     where: {
       displayname: {
