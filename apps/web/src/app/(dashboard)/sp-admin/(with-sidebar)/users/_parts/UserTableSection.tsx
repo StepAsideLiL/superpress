@@ -94,9 +94,8 @@ export default function UserTableSection({
 
       <section className="space-y-2">
         <div className="flex justify-between">
-          {data.length !== 0 && <BulkAction />}
+          <div>{data.length !== 0 && <BulkAction />}</div>
 
-          {/* <ScreenOptions /> */}
           <ScreenOptions
             table={table}
             itemPerPageKV={itemPerPageKV}
