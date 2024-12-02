@@ -28,7 +28,7 @@ import { updateScreenOptions } from "@/lib/actions/update-screen-options";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const fromSchema = z.object({
+const formSchema = z.object({
   itemPerPage: z.string(),
   columnView: z.array(
     z.object({
@@ -49,8 +49,8 @@ export default function ScreenOptions({
   columnViewKV: UserSettingKVType;
 }) {
   const columnView = JSON.parse(columnViewKV.value) as ColumnViewType;
-  const form = useForm<z.infer<typeof fromSchema>>({
-    resolver: zodResolver(fromSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       itemPerPage: itemPerPageKV.value,
       columnView: columnView,
@@ -70,7 +70,7 @@ export default function ScreenOptions({
     },
   });
 
-  function onSubmit(values: z.infer<typeof fromSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = [
       { id: itemPerPageKV.id, value: values.itemPerPage },
       { id: columnViewKV.id, value: JSON.stringify(values.columnView) },
@@ -156,35 +156,4 @@ export default function ScreenOptions({
       </PopoverContent>
     </Popover>
   );
-}
-
-{
-  /* <div className="flex items-center py-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div> */
 }
