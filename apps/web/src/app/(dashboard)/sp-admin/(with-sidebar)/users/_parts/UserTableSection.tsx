@@ -19,25 +19,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserDataTableRowType, UserTableTabCountByRoleType } from "@/lib/types";
+import {
+  ColumnViewType,
+  UserDataTableRowType,
+  UserSettingKVType,
+  UserTableTabCountByRoleType,
+} from "@/lib/types";
 import BulkAction from "./BulkAction";
-import ScreenOptions from "./ScreenOptions";
 import UserSearchBar from "./UserSearchBar";
 import UserTabs from "./UserTabs";
 import { useState } from "react";
 import { userTableColumns } from "./user-table-column";
 import { Button } from "@/components/ui/button";
+import ScreenOptions from "./ScreenOptions";
 
 export default function UserTableSection({
   data,
   countUserByRole,
+  itemPerPageKV,
+  columnViewKV,
 }: {
   data: UserDataTableRowType[];
   countUserByRole: UserTableTabCountByRoleType;
+  itemPerPageKV: UserSettingKVType;
+  columnViewKV: UserSettingKVType;
 }) {
+  const colViewJson = JSON.parse(columnViewKV.value) as ColumnViewType;
+
+  const colView = colViewJson.reduce(
+    (acc, curr) => {
+      acc[curr.colId] = curr.show;
+      return acc;
+    },
+    {} as { [key: string]: boolean }
+  );
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] =
+    useState<VisibilityState>(colView);
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -59,7 +79,7 @@ export default function UserTableSection({
     },
     initialState: {
       pagination: {
-        pageSize: 20,
+        pageSize: Number(itemPerPageKV.value),
       },
     },
   });
@@ -76,7 +96,12 @@ export default function UserTableSection({
         <div className="flex justify-between">
           {data.length !== 0 && <BulkAction />}
 
-          <ScreenOptions />
+          {/* <ScreenOptions /> */}
+          <ScreenOptions
+            table={table}
+            itemPerPageKV={itemPerPageKV}
+            columnViewKV={columnViewKV}
+          />
         </div>
 
         {/* Table */}

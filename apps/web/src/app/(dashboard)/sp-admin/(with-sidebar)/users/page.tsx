@@ -3,6 +3,7 @@ import React from "react";
 import UserTableSection from "./_parts/UserTableSection";
 import fetch from "@/lib/fetchers";
 import { redirect } from "next/navigation";
+import { getSettingByName } from "@/lib/utils";
 
 export default async function Page({
   searchParams,
@@ -21,6 +22,37 @@ export default async function Page({
     searchParams.search
   );
   const countUserByRole = await fetch.user.getUserCountByRole();
+  const userscreenSettings = await fetch.user.getUserSettingsKVType("user");
+
+  const itemPerPageKV = getSettingByName(
+    userscreenSettings,
+    "item_limit_per_page"
+  ) || {
+    id: "setting.user.item_limit_per_page",
+    key: `setting.user.item_limit_per_page`,
+    value: "20",
+  };
+  const columnViewKV = getSettingByName(userscreenSettings, "column_view") || {
+    id: "setting.user.column_view",
+    key: `setting.user.column_view`,
+    value: JSON.stringify([
+      {
+        colId: "username",
+        title: "Username",
+        show: true,
+      },
+      {
+        colId: "email",
+        title: "Email",
+        show: true,
+      },
+      {
+        colId: "role",
+        title: "Role",
+        show: true,
+      },
+    ]),
+  };
 
   return (
     <div className="space-y-6">
@@ -32,6 +64,8 @@ export default async function Page({
       <UserTableSection
         data={userTableData}
         countUserByRole={countUserByRole}
+        itemPerPageKV={itemPerPageKV}
+        columnViewKV={columnViewKV}
       />
     </div>
   );
