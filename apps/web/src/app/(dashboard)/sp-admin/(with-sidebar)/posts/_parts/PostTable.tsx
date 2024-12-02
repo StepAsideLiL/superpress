@@ -117,18 +117,17 @@ export default function PostTable({
 
       <div className="space-y-2">
         <div className="flex justify-between">
-          {data.length !== 0 && (
-            <div className="flex items-center gap-5">
-              {params.get("post_status") !== "trash" ? (
+          <div>
+            {data.length !== 0 &&
+              (params.get("post_status") !== "trash" ? (
                 <BulkAction table={table} setRowSelection={setRowSelection} />
               ) : (
                 <TrashBulkAction
                   table={table}
                   setRowSelection={setRowSelection}
                 />
-              )}
-            </div>
-          )}
+              ))}
+          </div>
 
           <ScreenOptions
             table={table}
