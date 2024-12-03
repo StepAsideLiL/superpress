@@ -33,6 +33,7 @@ import { useState } from "react";
 import { userTableColumns } from "./user-table-column";
 import { Button } from "@/components/ui/button";
 import ScreenOptions from "./ScreenOptions";
+import UserRoleBulkAction from "./UserRoleBulkAction";
 
 export default function UserTableSection({
   user,
@@ -97,15 +98,17 @@ export default function UserTableSection({
 
       <section className="space-y-2">
         <div className="flex justify-between">
-          <div>
-            {data.length !== 0 && (
+          {data.length !== 0 && (
+            <div className="flex items-center gap-4">
               <UserBulkAction
                 user={user}
                 table={table}
                 setRowSelection={setRowSelection}
               />
-            )}
-          </div>
+
+              <UserRoleBulkAction user={user} table={table} />
+            </div>
+          )}
 
           <ScreenOptions
             table={table}

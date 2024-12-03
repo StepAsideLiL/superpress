@@ -77,3 +77,11 @@ export const screenOptionFormSchema = z.array(
 );
 
 export const deleteUsersSchema = z.array(z.string());
+
+export const updateUserRoleByBulkSchema = z.array(
+  z.object({
+    userId: z.string(),
+    roleId: z.string(),
+    role: z.string(),
+  })
+);
