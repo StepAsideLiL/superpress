@@ -44,6 +44,7 @@ export async function getUserDataTable(
           key: "capability",
         },
         select: {
+          id: true,
           key: true,
           value: true,
         },
@@ -59,6 +60,9 @@ export async function getUserDataTable(
       role:
         user.usermeta.find((item) => item.key === "capability")?.value ||
         "user",
+      roleId:
+        user.usermeta.find((item) => item.key === "capability")?.id ||
+        `${user.id}.capability`,
     };
   });
 }
