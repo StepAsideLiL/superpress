@@ -52,3 +52,11 @@ export type UserTableTabCountByRoleType = {
   subscribe: number;
   user: number;
 };
+
+export type CurrentUserType = {
+  id: string;
+  username: string;
+  displayname: string;
+  email: string;
+  capability: string;
+};

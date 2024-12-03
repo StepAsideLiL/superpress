@@ -75,3 +75,5 @@ export const screenOptionFormSchema = z.array(
     value: z.string(),
   })
 );
+
+export const deleteUsersSchema = z.array(z.string());

@@ -21,11 +21,12 @@ import {
 } from "@/components/ui/table";
 import {
   ColumnViewType,
+  CurrentUserType,
   UserDataTableRowType,
   UserSettingKVType,
   UserTableTabCountByRoleType,
 } from "@/lib/types";
-import BulkAction from "./BulkAction";
+import UserBulkAction from "./UserBulkAction";
 import UserSearchBar from "./UserSearchBar";
 import UserTabs from "./UserTabs";
 import { useState } from "react";
@@ -34,11 +35,13 @@ import { Button } from "@/components/ui/button";
 import ScreenOptions from "./ScreenOptions";
 
 export default function UserTableSection({
+  user,
   data,
   countUserByRole,
   itemPerPageKV,
   columnViewKV,
 }: {
+  user: CurrentUserType;
   data: UserDataTableRowType[];
   countUserByRole: UserTableTabCountByRoleType;
   itemPerPageKV: UserSettingKVType;
@@ -94,7 +97,15 @@ export default function UserTableSection({
 
       <section className="space-y-2">
         <div className="flex justify-between">
-          <div>{data.length !== 0 && <BulkAction />}</div>
+          <div>
+            {data.length !== 0 && (
+              <UserBulkAction
+                user={user}
+                table={table}
+                setRowSelection={setRowSelection}
+              />
+            )}
+          </div>
 
           <ScreenOptions
             table={table}

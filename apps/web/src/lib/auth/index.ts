@@ -10,6 +10,7 @@ import type { sessions as Sessions } from "@prisma/client";
 import prisma from "@/lib/prismadb";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { CurrentUserType } from "@/lib/types";
 
 type SessionValidationResult =
   | {
@@ -174,27 +175,19 @@ const getCurrentSessionAndUser = cache(
 /**
  * Get the current user data.
  */
-const getCurrentUser = cache(
-  async (): Promise<{
-    id: string;
-    username: string;
-    displayname: string;
-    email: string;
-    capability: string;
-  } | null> => {
-    const { user } = await getCurrentSessionAndUser();
-    if (user === null) {
-      return null;
-    }
-    return {
-      id: user.id,
-      username: user.username,
-      displayname: user.displayname,
-      email: user.email,
-      capability: user.usermeta[0].value || "subscriber",
-    };
+const getCurrentUser = cache(async (): Promise<CurrentUserType | null> => {
+  const { user } = await getCurrentSessionAndUser();
+  if (user === null) {
+    return null;
   }
-);
+  return {
+    id: user.id,
+    username: user.username,
+    displayname: user.displayname,
+    email: user.email,
+    capability: user.usermeta[0].value || "subscriber",
+  };
+});
 
 /**
  * Check if the user is logged in.

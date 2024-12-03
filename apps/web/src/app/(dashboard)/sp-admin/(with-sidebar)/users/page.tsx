@@ -4,6 +4,7 @@ import UserTableSection from "./_parts/UserTableSection";
 import fetch from "@/lib/fetchers";
 import { redirect } from "next/navigation";
 import { getSettingByName } from "@/lib/utils";
+import auth from "@/lib/auth";
 
 export default async function Page({
   searchParams,
@@ -13,6 +14,12 @@ export default async function Page({
     search?: string;
   };
 }) {
+  const user = await auth.getCurrentUser();
+
+  if (!user) {
+    redirect("/");
+  }
+
   if (searchParams.role === "") {
     redirect("/sp-admin/users");
   }
@@ -62,6 +69,7 @@ export default async function Page({
       </section>
 
       <UserTableSection
+        user={user}
         data={userTableData}
         countUserByRole={countUserByRole}
         itemPerPageKV={itemPerPageKV}
