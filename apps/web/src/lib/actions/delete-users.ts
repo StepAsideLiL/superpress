@@ -11,6 +11,10 @@ export const deteteUsers = authSafeActionClient
       throw new Error("Unauthorized: User not logged in.");
     }
 
+    if (ctx.user.capability !== "admin") {
+      throw new Error("Unauthorized: User does not have the capability.");
+    }
+
     const users = parsedInput.filter((id) => id !== ctx.user.id);
 
     try {
