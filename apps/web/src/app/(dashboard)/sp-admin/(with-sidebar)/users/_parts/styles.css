@@ -1,0 +1,13 @@
+.table-row:hover .action-btns {
+  @apply visible;
+}
+
+.action-btns {
+  @apply invisible;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
