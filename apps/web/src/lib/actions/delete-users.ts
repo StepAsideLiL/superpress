@@ -4,6 +4,9 @@ import { deleteUsersSchema } from "@/lib/schemas";
 import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 
+/**
+ * Delete users from db. Needed capability: admin.
+ */
 export const deteteUsers = authSafeActionClient
   .schema(deleteUsersSchema)
   .action(async ({ parsedInput, ctx }) => {
