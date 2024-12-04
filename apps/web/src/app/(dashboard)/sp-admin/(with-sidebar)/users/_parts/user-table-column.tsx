@@ -40,7 +40,7 @@ export const userTableColumns: ColumnDef<UserDataTableRowType>[] = [
               Edit
             </ButtonLink>
             <Separator orientation="vertical" className="bg-muted-foreground" />
-            <DeleteButton userId={row.original.id} />
+            <DeleteButton user={row.original} />
             <Separator orientation="vertical" className="bg-muted-foreground" />
             <ButtonLink href={`/author/${row.original.username}`}>
               View
