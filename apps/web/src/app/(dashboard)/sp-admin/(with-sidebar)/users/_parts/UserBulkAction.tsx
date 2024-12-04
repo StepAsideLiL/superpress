@@ -68,11 +68,11 @@ export default function UserBulkAction({
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Seleted User IDs</DialogTitle>
+            <DialogTitle>Delete Seleted Users</DialogTitle>
           </DialogHeader>
 
           <div>
-            <ScrollArea className="h-96 rounded border p-1">
+            <ScrollArea className="h-96 rounded border p-3">
               {table.getSelectedRowModel().flatRows.map((row) => {
                 return (
                   <div key={row.original.id} className="text-sm">
