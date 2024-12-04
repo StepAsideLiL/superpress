@@ -4,6 +4,9 @@ import { restorePostsActionSchema } from "@/lib/schemas";
 import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 
+/**
+ * Restore posts from trash. Needed capability: admin, editor, and post author.
+ */
 const restorePosts = authSafeActionClient
   .schema(restorePostsActionSchema)
   .action(async ({ parsedInput, ctx }) => {

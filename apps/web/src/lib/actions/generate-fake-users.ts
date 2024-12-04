@@ -6,6 +6,9 @@ import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 import auth from "@/lib/auth";
 
+/**
+ * Generate fake users. Needed capability: admin.
+ */
 const generateFakeUsers = authSafeActionClient
   .schema(generateFakeUserFormSchema)
   .action(async ({ parsedInput, ctx }) => {

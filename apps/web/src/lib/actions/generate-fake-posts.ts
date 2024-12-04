@@ -6,6 +6,9 @@ import prisma from "@/lib/prismadb";
 import slug from "slug";
 import { faker } from "@faker-js/faker";
 
+/**
+ * Generate fake posts. Needed capability: admin.
+ */
 const generateFakePosts = authSafeActionClient
   .schema(generateFakePostsFormSchema)
   .action(async ({ parsedInput, ctx }) => {
