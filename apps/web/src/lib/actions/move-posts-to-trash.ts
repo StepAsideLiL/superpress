@@ -5,7 +5,7 @@ import { authSafeActionClient } from "./safe-action";
 import prisma from "@/lib/prismadb";
 
 /**
- * Move posts to trash (set post_status as trash in db). The capability needed for this action is: admin, editor and post author.
+ * Move posts to trash (set post_status as trash in db). Needed capability: admin, editor and post author.
  */
 const movePostsToTrash = authSafeActionClient
   .schema(movePostToTrashActionSchema)

@@ -10,7 +10,7 @@ const schema = quickEditFormSchema.extend({
 });
 
 /**
- * Update post info from quick edit form. The capabilities needed for this actions are: admin, editor,
+ * Update post info from quick edit form. Needed capability: admin, editor,
  */
 const updatePostInfoByQuickEdit = authSafeActionClient
   .schema(schema)
