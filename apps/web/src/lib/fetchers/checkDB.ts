@@ -27,7 +27,7 @@ export async function checkSiteAdmin() {
     const user = await prisma.users.findFirst({
       where: {
         usermeta: {
-          every: {
+          some: {
             key: "capability",
             value: "admin",
           },
