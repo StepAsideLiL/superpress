@@ -1,13 +1,4 @@
-"use client";
-
-import {
-  BookOpen,
-  Home,
-  PanelLeft,
-  StickyNote,
-  Terminal,
-  Users,
-} from "lucide-react";
+import { BookOpen, Home, StickyNote, Terminal, Users } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,8 +8,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
+import ToggleSidebarMenuButton from "@/components/sp-ui/ToggleSidebarMenuButton";
 
 // Menu items.
 const items = [
@@ -50,8 +41,6 @@ const items = [
 ];
 
 export default function DashboardSidebar() {
-  const { toggleSidebar } = useSidebar();
-
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -76,10 +65,7 @@ export default function DashboardSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={toggleSidebar}>
-                  <PanelLeft />
-                  <span>Collapse</span>
-                </SidebarMenuButton>
+                <ToggleSidebarMenuButton />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
