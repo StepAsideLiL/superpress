@@ -9,7 +9,7 @@ import {
 } from "./action-btns";
 import { Separator } from "@/components/ui/separator";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
-import PostSearchParamLink from "@/components/sp-ui/PostSearchParamLink";
+import SetSearchParamLink from "@/components/sp-ui/SetSearchParamLink";
 import * as df from "date-fns";
 
 export const columns: ColumnDef<PostType>[] = [
@@ -92,15 +92,13 @@ export const columns: ColumnDef<PostType>[] = [
     header: "Author",
     cell: ({ row }) => {
       return (
-        <div>
-          <PostSearchParamLink
-            param="author"
-            value={row.original.author.username}
-            className="h-auto text-base"
-          >
-            {row.original.author.username}
-          </PostSearchParamLink>
-        </div>
+        <SetSearchParamLink
+          param="author"
+          value={row.original.author.username}
+          className="h-auto"
+        >
+          {row.original.author.username}
+        </SetSearchParamLink>
       );
     },
   },
