@@ -15,15 +15,22 @@ export const safeActionClient = createSafeActionClient({
 });
 
 export const authSafeActionClient = safeActionClient.use(async ({ next }) => {
-  const currentUser = await auth.getCurrentUser();
+  const currentUser = await auth.getCurrentSessionAndUser();
 
-  if (!currentUser?.id) {
+  if (!currentUser.user?.id) {
     throw new Error("Unauthorized: User not logged in.");
   }
 
   return next({
     ctx: {
-      user: currentUser,
+      user: {
+        id: currentUser.user.id,
+        username: currentUser.user.username,
+        displayname: currentUser.user.displayname,
+        email: currentUser.user.email,
+        capability: currentUser.user.usermeta[0].value || "user",
+      },
+      session: currentUser.session,
     },
   });
 });
