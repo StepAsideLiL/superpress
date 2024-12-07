@@ -5,6 +5,9 @@ import prisma from "@/lib/prismadb";
 import { loginFormSchema } from "@/lib/schemas";
 import { safeActionClient } from "./safe-action";
 
+/**
+ * Login action.
+ */
 export const login = safeActionClient
   .schema(loginFormSchema)
   .action(async ({ parsedInput }) => {

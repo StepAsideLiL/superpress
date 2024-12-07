@@ -3,6 +3,9 @@
 import auth from "../auth";
 import { authSafeActionClient } from "./safe-action";
 
+/**
+ * Logout action.
+ */
 export const logout = authSafeActionClient.action(async ({ ctx }) => {
   if (!ctx.user) {
     throw new Error("Unauthorized: User not logged in.");
