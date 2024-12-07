@@ -1,3 +1,6 @@
+import { LucideProps } from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+
 export type PostType = {
   id: string;
   title: string;
@@ -60,4 +63,12 @@ export type CurrentUserType = {
   displayname: string;
   email: string;
   capability: string;
+};
+
+export type SidebarMenuItemType = {
+  title: string;
+  url: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
 };
