@@ -87,6 +87,8 @@ export const updateUserRoleByBulkSchema = z.array(
 );
 
 export const loginFormSchema = z.object({
-  usernameOrEmail: z.string(),
-  password: z.string(),
+  usernameOrEmail: z
+    .string()
+    .min(1, { message: "Provide a valid username or email." }),
+  password: z.string().min(1, { message: "Provide a valid password." }),
 });
