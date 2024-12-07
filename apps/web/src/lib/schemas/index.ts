@@ -85,3 +85,8 @@ export const updateUserRoleByBulkSchema = z.array(
     role: z.string(),
   })
 );
+
+export const loginFormSchema = z.object({
+  usernameOrEmail: z.string(),
+  password: z.string(),
+});
