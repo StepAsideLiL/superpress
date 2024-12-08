@@ -8,6 +8,7 @@ import {
 import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { ChevronsUpDown, UserRound } from "lucide-react";
 import LogoutDropdownMenuItem from "./LogoutDropdownMenuItem";
+import { ModeToggleDropdownMenuItem } from "./ModeToggleDropdownMenuItem";
 
 export default function SidebarProfileDropdown({
   username,
@@ -39,12 +40,7 @@ export default function SidebarProfileDropdown({
         side={isMobile ? "bottom" : "right"}
         sideOffset={4}
       >
-        {/* <DropdownMenuItem className="gap-2 p-2">
-          <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-            <LogOut className="size-4" />
-          </div>
-          <div className="font-medium text-muted-foreground">Logout</div>
-        </DropdownMenuItem> */}
+        <ModeToggleDropdownMenuItem />
         <LogoutDropdownMenuItem />
       </DropdownMenuContent>
     </DropdownMenu>
