@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "@/lib/fonts";
-import { ThemeProvider } from "@/features/dark-mode/theme-provider";
 import fetch from "@/lib/fetchers";
 import { Separator } from "@/components/ui/separator";
 
@@ -59,9 +58,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
