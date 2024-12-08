@@ -24,29 +24,25 @@ const deletePosts = authSafeActionClient
 
     try {
       if (ctx.user.capability === "author") {
-        return await Promise.all([
-          parsedInput.map(async (postId) => {
-            await prisma.posts.deleteMany({
-              where: {
-                id: postId,
-                author: {
-                  id: ctx.user.id,
-                },
-              },
-            });
-          }),
-        ]);
+        return await prisma.posts.deleteMany({
+          where: {
+            id: {
+              in: parsedInput,
+            },
+            author: {
+              id: ctx.user.id,
+            },
+          },
+        });
       }
 
-      return await Promise.all([
-        parsedInput.map(async (postId) => {
-          await prisma.posts.deleteMany({
-            where: {
-              id: postId,
-            },
-          });
-        }),
-      ]);
+      return await prisma.posts.deleteMany({
+        where: {
+          id: {
+            in: parsedInput,
+          },
+        },
+      });
     } catch (error) {
       console.error(error);
       throw new Error("Failed to delete posts.");

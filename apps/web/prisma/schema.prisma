@@ -14,7 +14,7 @@ datasource db {
 }
 
 model users {
-  id String @id @default(cuid())
+  id String @id @unique @default(cuid())
 
   username    String @unique
   displayname String
@@ -30,7 +30,7 @@ model users {
 }
 
 model sessions {
-  id        String   @id
+  id        String   @id @unique
   user_id   String
   expiresAt DateTime
 
@@ -38,7 +38,7 @@ model sessions {
 }
 
 model usermetas {
-  id String @id @default(cuid())
+  id String @id @unique @default(cuid())
 
   user_id String
   user    users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -48,7 +48,7 @@ model usermetas {
 }
 
 model posts {
-  id String @id @default(cuid())
+  id String @id @unique @default(cuid())
 
   title       String
   slug        String @unique
@@ -64,7 +64,7 @@ model posts {
 }
 
 model postmetas {
-  id String @id @default(cuid())
+  id String @id @unique @default(cuid())
 
   post_id String
   post    posts  @relation(fields: [post_id], references: [id], onDelete: Cascade)
@@ -74,7 +74,7 @@ model postmetas {
 }
 
 model options {
-  id String @id @default(cuid())
+  id String @id @unique @default(cuid())
 
   option_name  String
   option_value String
