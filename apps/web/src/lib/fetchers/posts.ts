@@ -197,3 +197,14 @@ export async function getPostsCountByStatus(
     };
   }
 }
+
+export async function getPostsForEdit(postId: string) {
+  return await prisma.posts.findUnique({
+    where: {
+      id: postId,
+    },
+    include: {
+      postmeta: true,
+    },
+  });
+}
