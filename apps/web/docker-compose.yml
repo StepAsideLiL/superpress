@@ -7,6 +7,38 @@ services:
       - "8080:8080"
     volumes:
       - crdb:/cockroach/cockroach-data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "./cockroach",
+          "node",
+          "status",
+          "--insecure",
+          "--host=localhost",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db-init:
+    image: cockroachdb/cockroach:v24.2.2
+    depends_on:
+      crdb:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "
+      until ./cockroach sql --insecure --host=crdb -e 'SELECT 1'; do
+        echo 'Waiting for CockroachDB to be ready...';
+        sleep 2;
+      done;
+      ./cockroach sql --insecure --host=crdb -e '
+        CREATE DATABASE IF NOT EXISTS superpress;';
+      echo 'Database check and creation completed.';
+      "
+    volumes:
+      - crdb:/cockroach/cockroach-data
 
   mailhog:
     image: "mailhog/mailhog:latest"
