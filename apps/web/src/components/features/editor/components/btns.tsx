@@ -13,7 +13,7 @@ import {
   toggleComponentSidebarAtom,
   toggleSettingsSidebarAtom,
 } from "../libs/store";
-import { PanelRight, Plus } from "lucide-react";
+import { PanelRight, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function SaveButton() {
@@ -62,5 +62,35 @@ export function ToggleSettingsSidebar() {
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  );
+}
+
+export function CloseComponentsSidebar() {
+  const [, toggleSidebar] = useAtom(toggleComponentSidebarAtom);
+
+  return (
+    <Button
+      variant={"ghost"}
+      size={"icon"}
+      className="mr-2 size-6"
+      onClick={() => toggleSidebar()}
+    >
+      <X />
+    </Button>
+  );
+}
+
+export function CloseSettingsSidebar() {
+  const [, toggleSidebar] = useAtom(toggleSettingsSidebarAtom);
+
+  return (
+    <Button
+      variant={"ghost"}
+      size={"icon"}
+      className="mr-2 size-6"
+      onClick={() => toggleSidebar()}
+    >
+      <X />
+    </Button>
   );
 }
