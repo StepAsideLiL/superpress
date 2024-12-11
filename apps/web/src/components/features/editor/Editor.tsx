@@ -5,7 +5,7 @@ import {
   SaveButton,
   ToggleComponentsSidebar,
   ToggleSettingsSidebar,
-} from "./components/btns";
+} from "./components/editor-ui/btns";
 import ComponentsSidebar from "./components/ComponentsSidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import EditorBody from "./EditorBody";
