@@ -5,9 +5,11 @@ import {
   SaveButton,
   ToggleComponentsSidebar,
   ToggleSettingsSidebar,
-} from "./ui/btns";
-import ComponentsSidebar from "./ui/ComponentsSidebar";
-import SettingsSidebar from "./ui/SettingsSidebar";
+} from "./components/btns";
+import ComponentsSidebar from "./components/ComponentsSidebar";
+import SettingsSidebar from "./components/SettingsSidebar";
+import EditorBody from "./EditorBody";
+import Link from "next/link";
 
 export default async function Editor({ postId }: { postId: string }) {
   const post = await fetch.post.getPostsForEdit(postId);
@@ -29,14 +31,17 @@ export default async function Editor({ postId }: { postId: string }) {
       <main className="flex h-screen max-h-screen flex-col overflow-hidden">
         <section className="flex h-16 w-full items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2">
-            <div className="grid size-16 place-content-center bg-foreground">
+            <Link
+              href={`/sp-admin/posts?post_type=${post.post_type}`}
+              className="grid size-16 place-content-center bg-foreground"
+            >
               <Image
                 src="/sp-logo.png"
                 alt="SuperPress Logo"
                 width={40}
                 height={40}
               />
-            </div>
+            </Link>
             <ToggleComponentsSidebar />
           </div>
 
@@ -59,9 +64,7 @@ export default async function Editor({ postId }: { postId: string }) {
           <div className="flex h-full">
             <ComponentsSidebar />
 
-            <section className="flex-1 overflow-auto">
-              <div>Main Editor</div>
-            </section>
+            <EditorBody />
 
             <SettingsSidebar />
           </div>
