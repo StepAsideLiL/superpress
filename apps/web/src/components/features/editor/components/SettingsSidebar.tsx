@@ -1,6 +1,10 @@
 "use client";
 
-import { openSettingsSidebarAtom, postAtom } from "../libs/store";
+import {
+  openSettingsSidebarAtom,
+  postAtom,
+  selectedElementIdForEditingAtom,
+} from "../libs/store";
 import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
@@ -9,16 +13,21 @@ import * as df from "date-fns";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
+  const [elementId, setElementID] = useAtom(selectedElementIdForEditingAtom);
   const [post] = useAtom(postAtom);
 
   if (open) {
     return (
       <section className="w-[300px] overflow-auto border">
-        <Tabs defaultValue="post">
+        <Tabs defaultValue={"block"} value={elementId ? "block" : "post"}>
           <div className="flex items-center justify-between border-b border-muted">
             <TabsList>
-              <TabsTrigger value="post">Post</TabsTrigger>
-              <TabsTrigger value="block">Block</TabsTrigger>
+              <TabsTrigger value="post" onClick={() => setElementID(null)}>
+                Post
+              </TabsTrigger>
+              <TabsTrigger value="block" onClick={() => setElementID("1")}>
+                Block
+              </TabsTrigger>
             </TabsList>
 
             <CloseSettingsSidebar />
