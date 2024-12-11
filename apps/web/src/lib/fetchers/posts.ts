@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/lib/prismadb";
-import { PostCountByStatus, PostType } from "@/lib/types";
+import { PostCountByStatus, PostForEditType, PostType } from "@/lib/types";
 
 /**
  * Get posts.
@@ -198,7 +198,9 @@ export async function getPostsCountByStatus(
   }
 }
 
-export async function getPostsForEdit(postId: string) {
+export async function getPostsForEdit(
+  postId: string
+): Promise<PostForEditType | null> {
   return await prisma.posts.findUnique({
     where: {
       id: postId,

@@ -72,3 +72,21 @@ export type SidebarMenuItemType = {
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
 };
+
+export type PostForEditType = {
+  postmeta: {
+    key: string;
+    id: string;
+    value: string;
+    post_id: string;
+  }[];
+} & {
+  title: string;
+  id: string;
+  slug: string;
+  author_id: string;
+  post_type: string;
+  post_status: string;
+  created: Date;
+  updated: Date;
+};
