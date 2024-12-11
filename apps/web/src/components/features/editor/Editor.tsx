@@ -10,6 +10,7 @@ import ComponentsSidebar from "./components/ComponentsSidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import EditorBody from "./EditorBody";
 import Link from "next/link";
+import SetDataInJotain from "./components/SetDataInJotain";
 
 export default async function Editor({ postId }: { postId: string }) {
   const post = await fetch.post.getPostsForEdit(postId);
@@ -28,6 +29,8 @@ export default async function Editor({ postId }: { postId: string }) {
 
   return (
     <EditorProvider>
+      <SetDataInJotain post={post} />
+
       <main className="flex h-screen max-h-screen flex-col overflow-hidden">
         <section className="flex h-16 w-full items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2">
