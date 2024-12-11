@@ -12,7 +12,7 @@ import {
   openComponentSidebarAtom,
   toggleComponentSidebarAtom,
   toggleSettingsSidebarAtom,
-} from "../store";
+} from "../libs/store";
 import { PanelRight, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 

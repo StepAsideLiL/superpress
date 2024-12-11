@@ -1,6 +1,6 @@
 "use client";
 
-import { openSettingsSidebarAtom } from "../store";
+import { openSettingsSidebarAtom } from "../libs/store";
 import { useAtom } from "jotai";
 
 export default function SettingsSidebar() {

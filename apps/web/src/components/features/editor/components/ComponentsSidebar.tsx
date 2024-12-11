@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { openComponentSidebarAtom } from "../store";
+import { openComponentSidebarAtom } from "../libs/store";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(openComponentSidebarAtom);
