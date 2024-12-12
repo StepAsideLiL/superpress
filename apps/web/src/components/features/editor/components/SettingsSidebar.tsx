@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
 import { Leaf } from "lucide-react";
 import * as df from "date-fns";
+import EditBlockContent from "./EditBlockContent";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
@@ -33,9 +34,9 @@ export default function SettingsSidebar() {
             <CloseSettingsSidebar />
           </div>
 
-          <TabsContent value="post" className="space-y-4 px-2">
+          <TabsContent value="post">
             {post && (
-              <>
+              <div className="space-y-4 px-2">
                 <div className="flex items-center gap-2">
                   <Leaf className="size-4" />
                   <h1 className="font-semibold">{post.title}</h1>
@@ -51,11 +52,13 @@ export default function SettingsSidebar() {
                   <span>Slug</span>
                   <span>{post.slug}</span>
                 </div>
-              </>
+              </div>
             )}
           </TabsContent>
 
-          <TabsContent value="block">Block</TabsContent>
+          <TabsContent value="block">
+            <EditBlockContent />
+          </TabsContent>
         </Tabs>
       </section>
     );
