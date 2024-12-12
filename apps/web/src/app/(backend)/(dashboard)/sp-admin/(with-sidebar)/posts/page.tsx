@@ -4,16 +4,17 @@ import { redirect } from "next/navigation";
 import fetch from "@/lib/fetchers";
 import { getSettingByName } from "@/lib/utils";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: {
-    post_type: string;
-    post_status?: string;
-    author?: string;
-    search?: string;
-  };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{
+      post_type: string;
+      post_status?: string;
+      author?: string;
+      search?: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   if (!searchParams.post_type) {
     redirect("/sp-admin/posts?post_type=post");
   }

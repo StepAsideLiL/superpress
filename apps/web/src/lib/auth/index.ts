@@ -131,8 +131,8 @@ async function invalidateSession(sessionId: string) {
  * @param token Token for the session id from generateSessionToken() function.
  * @param expiresAt Expiration date for the session from createSession(token, userId) function.
  */
-function setSessionTokenCookie(token: string, expiresAt: Date) {
-  const cookieStore = cookies();
+async function setSessionTokenCookie(token: string, expiresAt: Date) {
+  const cookieStore = await cookies();
   cookieStore.set("sp-session", token, {
     httpOnly: true,
     sameSite: "lax",
@@ -145,8 +145,8 @@ function setSessionTokenCookie(token: string, expiresAt: Date) {
 /**
  * Delete the session token cookie.
  */
-function deleteSessionTokenCookie() {
-  const cookieStore = cookies();
+async function deleteSessionTokenCookie() {
+  const cookieStore = await cookies();
   cookieStore.set("sp-session", "", {
     httpOnly: true,
     sameSite: "lax",
@@ -162,7 +162,7 @@ function deleteSessionTokenCookie() {
  */
 const getCurrentSessionAndUser = cache(
   async (): Promise<SessionValidationResult> => {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get("sp-session")?.value ?? null;
     if (token === null) {
       return { session: null, user: null };
@@ -208,7 +208,7 @@ const isUserLoggedIn = cache(async () => {
 async function setNewUserSession(userId: string) {
   const token = generateSessionToken();
   const session = await createSession(token, userId);
-  setSessionTokenCookie(token, session.expiresAt);
+  await setSessionTokenCookie(token, session.expiresAt);
 }
 
 /**
@@ -217,7 +217,7 @@ async function setNewUserSession(userId: string) {
  */
 async function deleteUserSession(sessionId: string) {
   await invalidateSession(sessionId);
-  deleteSessionTokenCookie();
+  await deleteSessionTokenCookie();
 }
 
 const options: Options = {

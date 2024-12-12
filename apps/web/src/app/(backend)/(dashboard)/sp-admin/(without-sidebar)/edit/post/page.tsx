@@ -1,10 +1,11 @@
 import Editor from "@/components/features/editor/Editor";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: { id: string };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{ id: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   return (
     <>
       <Editor postId={searchParams.id} />

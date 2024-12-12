@@ -22,6 +22,10 @@ import { toast } from "sonner";
 export default function LoginForm() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      usernameOrEmail: "",
+      password: "",
+    },
   });
   const router = useRouter();
 

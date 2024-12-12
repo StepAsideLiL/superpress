@@ -6,14 +6,15 @@ import { redirect } from "next/navigation";
 import { getSettingByName } from "@/lib/utils";
 import auth from "@/lib/auth";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: {
-    role?: string;
-    search?: string;
-  };
-}) {
+export default async function Page(
+  props: {
+    searchParams: Promise<{
+      role?: string;
+      search?: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const user = await auth.getCurrentUser();
 
   if (!user) {

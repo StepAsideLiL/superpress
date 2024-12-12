@@ -23,6 +23,14 @@ import { registerAndSetupAdminFromSchema } from "@/lib/schemas";
 export default function SetupAdminForm() {
   const form = useForm<z.infer<typeof registerAndSetupAdminFromSchema>>({
     resolver: zodResolver(registerAndSetupAdminFromSchema),
+    defaultValues: {
+      siteName: "",
+      siteDescription: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
   const router = useRouter();
 
