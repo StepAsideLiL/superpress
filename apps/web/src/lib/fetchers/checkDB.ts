@@ -23,26 +23,19 @@ export async function checkDatabaseConnection() {
  * @returns true if the site admin exists, false otherwise.
  */
 export async function checkSiteAdmin() {
-  try {
-    const user = await prisma.users.findFirst({
-      where: {
-        usermeta: {
-          some: {
-            key: "capability",
-            value: "admin",
-          },
+  const user = await prisma.users.findFirst({
+    where: {
+      usermeta: {
+        some: {
+          key: "capability",
+          value: "admin",
         },
       },
-    });
+    },
+  });
 
-    if (!user) {
-      console.error("Admin not found");
-      return false;
-    }
-    console.log("Admin found");
-    return true;
-  } catch (error) {
-    console.error("Failed to connect to the database:", error);
+  if (!user) {
     return false;
   }
+  return true;
 }
