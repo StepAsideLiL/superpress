@@ -201,12 +201,29 @@ export async function getPostsCountByStatus(
 export async function getPostsForEdit(
   postId: string
 ): Promise<PostForEditType | null> {
-  return await prisma.posts.findUnique({
+  const post = await prisma.posts.findUnique({
     where: {
       id: postId,
     },
-    include: {
-      postmeta: true,
+  });
+
+  const postContent = await prisma.postmetas.findUnique({
+    where: {
+      id: `${postId}.content`,
     },
   });
+
+  if (!post || !postContent) {
+    return null;
+  }
+
+  return {
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    postType: post.post_type,
+    postStatus: post.post_status,
+    created: post.created,
+    content: postContent.value,
+  };
 }

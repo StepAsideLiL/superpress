@@ -35,7 +35,7 @@ export default async function Editor({ postId }: { postId: string }) {
         <section className="flex h-16 w-full items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2">
             <Link
-              href={`/sp-admin/posts?post_type=${post.post_type}`}
+              href={`/sp-admin/posts?post_type=${post.postType}`}
               className="grid size-16 place-content-center bg-foreground"
             >
               <Image
@@ -53,7 +53,7 @@ export default async function Editor({ postId }: { postId: string }) {
               {post.title.length < 30
                 ? post.title
                 : `${post.title.slice(0, 30)}...`}{" "}
-              &bull; <span className="capitalize">{post.post_type}</span>
+              &bull; <span className="capitalize">{post.postType}</span>
             </h2>
           </div>
 

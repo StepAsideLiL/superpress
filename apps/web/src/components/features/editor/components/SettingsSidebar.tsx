@@ -44,7 +44,7 @@ export default function SettingsSidebar() {
 
                 <div className="grid grid-cols-2 gap-1">
                   <span>Status</span>
-                  <span className="capitalize">{post.post_status}</span>
+                  <span className="capitalize">{post.postStatus}</span>
 
                   <span>Publish</span>
                   <span>{df.format(new Date(post.created), "PPpp")}</span>

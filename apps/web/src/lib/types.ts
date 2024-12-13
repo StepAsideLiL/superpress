@@ -74,19 +74,11 @@ export type SidebarMenuItemType = {
 };
 
 export type PostForEditType = {
-  postmeta: {
-    key: string;
-    id: string;
-    value: string;
-    post_id: string;
-  }[];
-} & {
-  title: string;
   id: string;
+  title: string;
   slug: string;
-  author_id: string;
-  post_type: string;
-  post_status: string;
+  postType: string;
+  postStatus: string;
   created: Date;
-  updated: Date;
+  content: string;
 };
