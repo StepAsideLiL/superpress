@@ -26,6 +26,7 @@ type ComponentsListType = {
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
   type: ElementType;
   content?: string;
+  className?: string;
 };
 
 const components: ComponentsListType[] = [
@@ -35,6 +36,7 @@ const components: ComponentsListType[] = [
     icon: PilcrowIcon,
     type: "p",
     content: "Paragraph",
+    className: "text-default",
   },
   {
     title: "Heading",
@@ -42,6 +44,7 @@ const components: ComponentsListType[] = [
     icon: HeadingIcon,
     type: "h1",
     content: "This is a header",
+    className: "text-default",
   },
   {
     title: "List",
@@ -97,7 +100,7 @@ export default function InsertComponentBtn() {
                       width: "768px",
                       margin: "auto",
                     },
-                    className: "",
+                    className: component.className,
                     content: component.content
                       ? component.content
                       : component.title,

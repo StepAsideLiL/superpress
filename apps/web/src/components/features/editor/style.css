@@ -1,0 +1,15 @@
+.text-default {
+  @apply text-2xl font-medium;
+}
+
+.text-display {
+  @apply text-4xl font-semibold;
+}
+
+.text-subtitle {
+  @apply text-lg font-normal text-primary/80;
+}
+
+.text-annotation {
+  @apply mx-auto max-w-fit rounded-3xl border border-border px-4 py-1 text-center text-base font-normal;
+}

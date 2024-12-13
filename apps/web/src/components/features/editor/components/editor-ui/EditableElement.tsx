@@ -13,7 +13,7 @@ export default function EditableElement({
   const [, setSelectedElementId] = useAtom(selectedElementIdForEditingAtom);
 
   return (
-    <div className="border" onClick={() => setSelectedElementId(id)}>
+    <div className="mx-auto w-fit" onClick={() => setSelectedElementId(id)}>
       {children}
     </div>
   );

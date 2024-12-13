@@ -1,5 +1,6 @@
 "use client";
 
+import "./style.css";
 import InsertComponentBtn from "./components/InsertComponentBtn";
 import { renderHtmlForEditor } from "./libs/render";
 import { editorElementsAtom } from "./libs/store";

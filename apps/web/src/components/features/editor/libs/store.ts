@@ -97,7 +97,26 @@ export const selectElementAtom = atom(
 
     return findElement(data);
   },
-  (get, set, id: string) => {
-    set(selectedElementIdForEditingAtom, id);
+  (get, set, updatedElment: EditorElement) => {
+    const data = get(editorElementsAtom);
+
+    const updateElement = (elements: EditorElement[]): EditorElement[] => {
+      return elements.map((element) => {
+        if (element.id === updatedElment.id) {
+          return updatedElment;
+        }
+
+        if (Array.isArray(element.content)) {
+          return {
+            ...element,
+            content: updateElement(element.content as EditorElement[]),
+          };
+        }
+        return element;
+      });
+    };
+
+    const updatedData = updateElement(data);
+    set(editorElementsAtom, updatedData);
   }
 );
