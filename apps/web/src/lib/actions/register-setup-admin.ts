@@ -133,12 +133,6 @@ const registerAndSetupAdmin = adminSafeActionClient
                     id: user.id,
                   },
                 },
-                postmeta: {
-                  create: {
-                    key: "content",
-                    value: "This is content",
-                  },
-                },
               },
             })
             .then(async (post) => {
@@ -152,7 +146,7 @@ const registerAndSetupAdmin = adminSafeActionClient
                     },
                     id: `${post.id}.content`,
                     key: "content",
-                    value: "",
+                    value: "[]",
                   },
                 })
                 .catch(async (error) => {
