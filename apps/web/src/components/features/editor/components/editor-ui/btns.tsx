@@ -9,15 +9,49 @@ import {
 } from "@/components/ui/tooltip";
 import { useAtom } from "jotai";
 import {
+  editorElementsAtom,
   openComponentSidebarAtom,
+  postAtom,
   toggleComponentSidebarAtom,
   toggleSettingsSidebarAtom,
 } from "../../libs/store";
 import { PanelRight, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAction } from "next-safe-action/hooks";
+import savePostAfterEdit from "@/lib/actions/save-post-after-edit";
+import { toast } from "sonner";
 
 export function SaveButton() {
-  return <Button>Save</Button>;
+  const [post] = useAtom(postAtom);
+  const [element] = useAtom(editorElementsAtom);
+
+  const { executeAsync, isExecuting } = useAction(savePostAfterEdit, {
+    onSuccess: () => {
+      toast.success("Post saved.");
+    },
+    onError: () => {
+      toast.error("Failed to save post.");
+    },
+  });
+
+  function handleClick() {
+    console.log(!post || element.length === 0);
+
+    if (!post || element.length === 0) {
+      return;
+    }
+
+    executeAsync({
+      postId: post.id,
+      content: JSON.stringify(element),
+    });
+  }
+
+  return (
+    <Button onClick={() => handleClick()} disabled={isExecuting}>
+      Save
+    </Button>
+  );
 }
 
 export function ToggleComponentsSidebar() {

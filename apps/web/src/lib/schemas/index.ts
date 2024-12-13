@@ -92,3 +92,8 @@ export const loginFormSchema = z.object({
     .min(1, { message: "Provide a valid username or email." }),
   password: z.string().min(1, { message: "Provide a valid password." }),
 });
+
+export const savePostAfterEditSchema = z.object({
+  postId: z.string(),
+  content: z.string(),
+});
