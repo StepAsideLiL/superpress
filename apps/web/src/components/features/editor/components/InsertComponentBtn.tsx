@@ -7,64 +7,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Plus } from "lucide-react";
-import { addEditorElementAtom, ElementType } from "../libs/store";
-import { useAtom } from "jotai";
 import {
-  ButtonIcon,
-  HeadingIcon,
-  ListBulletIcon,
-  PilcrowIcon,
-} from "@radix-ui/react-icons";
+  addEditorElementAtom,
+  components,
+  openComponentSidebarAtom,
+} from "../libs/store";
+import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
-import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
+import { useState } from "react";
 import { nanoid } from "../libs/utils";
-
-type ComponentsListType = {
-  title: string;
-  lebel: string;
-  icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-  type: ElementType;
-  content?: string;
-  className?: string;
-};
-
-const components: ComponentsListType[] = [
-  {
-    title: "Paragraph",
-    lebel: "paragraph",
-    icon: PilcrowIcon,
-    type: "p",
-    content: "Paragraph",
-    className: "text-default",
-  },
-  {
-    title: "Heading",
-    lebel: "heading",
-    icon: HeadingIcon,
-    type: "h1",
-    content: "This is a header",
-    className: "text-default",
-  },
-  {
-    title: "List",
-    lebel: "list",
-    icon: ListBulletIcon,
-    type: "li",
-    content: "This is a list",
-  },
-  {
-    title: "Button",
-    lebel: "button",
-    icon: ButtonIcon,
-    type: "button",
-    content: "Button",
-  },
-];
 
 export default function InsertComponentBtn() {
   const [, addEditorElement] = useAtom(addEditorElementAtom);
   const [search, setSearch] = useState("");
+  const [, setTrue] = useAtom(openComponentSidebarAtom);
 
   return (
     <Popover>
@@ -74,7 +30,7 @@ export default function InsertComponentBtn() {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent align="end" className="w-96 space-y-2 p-4">
+      <PopoverContent align="center" className="w-96 space-y-2 p-4">
         <SearchInput
           type="text"
           placeholder="Search"
@@ -120,6 +76,15 @@ export default function InsertComponentBtn() {
             No Components
           </div>
         )}
+
+        <Button
+          className="w-full"
+          onClick={() => {
+            setTrue(true);
+          }}
+        >
+          Browse All
+        </Button>
       </PopoverContent>
     </Popover>
   );
