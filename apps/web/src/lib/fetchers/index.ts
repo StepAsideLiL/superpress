@@ -1,6 +1,11 @@
 import "server-only";
 
-import { getPosts, getPostsCountByStatus, getPostsForEdit } from "./posts";
+import {
+  getPostForRender,
+  getPosts,
+  getPostsCountByStatus,
+  getPostsForEdit,
+} from "./posts";
 import { checkDatabaseConnection, checkSiteAdmin } from "./checkDB";
 import {
   getUserCountByRole,
@@ -17,6 +22,7 @@ const fetch = {
     getPosts,
     getPostsCountByStatus,
     getPostsForEdit,
+    getPostForRender,
   },
   user: {
     getUserDataTable,

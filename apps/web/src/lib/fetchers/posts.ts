@@ -1,7 +1,12 @@
 import "server-only";
 
 import prisma from "@/lib/prismadb";
-import { PostCountByStatus, PostForEditType, PostType } from "@/lib/types";
+import {
+  GetPostForRenderType,
+  PostCountByStatus,
+  PostForEditType,
+  PostType,
+} from "@/lib/types";
 
 /**
  * Get posts.
@@ -225,5 +230,35 @@ export async function getPostsForEdit(
     postStatus: post.post_status,
     created: post.created,
     content: postContent.value,
+  };
+}
+
+/**
+ * Get post content for rendering.
+ * @param slug Slug of the post.
+ * @returns Post content.
+ */
+export async function getPostForRender(
+  slug: string
+): Promise<GetPostForRenderType | null> {
+  const post = await prisma.posts.findUnique({
+    where: {
+      slug: slug,
+    },
+    include: {
+      postmeta: {
+        where: {
+          key: "content",
+        },
+      },
+    },
+  });
+
+  if (!post) {
+    return null;
+  }
+
+  return {
+    content: post.postmeta[0].value,
   };
 }

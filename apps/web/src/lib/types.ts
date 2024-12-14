@@ -82,3 +82,7 @@ export type PostForEditType = {
   created: Date;
   content: string;
 };
+
+export type GetPostForRenderType = {
+  content: string;
+};
