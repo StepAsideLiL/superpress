@@ -1,13 +1,24 @@
 import { PostForEditType } from "@/lib/types";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { atom } from "jotai";
+import {
+  ButtonIcon,
+  HeadingIcon,
+  ListBulletIcon,
+  PilcrowIcon,
+} from "@radix-ui/react-icons";
 
 export type ElementType =
   | "h1"
   | "h2"
   | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
   | "p"
-  | "div"
   | "span"
+  | "div"
   | "button"
   | "li";
 
@@ -19,40 +30,47 @@ export type EditorElement = {
   className?: string;
 };
 
-export const htmlJson: EditorElement[] = [
+type ComponentsListType = {
+  title: string;
+  lebel: string;
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
+  type: ElementType;
+  content?: string;
+  className?: string;
+};
+
+export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
+
+export const components: ComponentsListType[] = [
   {
-    id: "1",
-    type: "div",
-    className: "container mx-auto",
-    content: [
-      {
-        id: "2",
-        type: "h1",
-        className: "text-2xl",
-        style: { color: "red" },
-        content: "Hello, world!",
-      },
-      {
-        id: "3",
-        type: "p",
-        className: "paragraph",
-        style: { fontSize: "18px" },
-        content: "This is a nested paragraph.",
-      },
-      {
-        id: "4",
-        type: "div",
-        className: "nested-container",
-        content: [
-          {
-            id: "5",
-            type: "h2",
-            style: { fontWeight: "bold" },
-            content: "Nested Heading",
-          },
-        ],
-      },
-    ],
+    title: "Paragraph",
+    lebel: "paragraph",
+    icon: PilcrowIcon,
+    type: "p",
+    content: "Paragraph",
+    className: "text-default",
+  },
+  {
+    title: "Heading",
+    lebel: "heading",
+    icon: HeadingIcon,
+    type: "h1",
+    content: "This is a header",
+    className: "text-default",
+  },
+  {
+    title: "List",
+    lebel: "list",
+    icon: ListBulletIcon,
+    type: "li",
+    content: "This is a list",
+  },
+  {
+    title: "Button",
+    lebel: "button",
+    icon: ButtonIcon,
+    type: "button",
+    content: "Button",
   },
 ];
 
