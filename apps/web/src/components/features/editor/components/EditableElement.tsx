@@ -3,7 +3,7 @@
 import { useAtom } from "jotai";
 import {
   EditorElement,
-  headingTags,
+  textTags,
   selectedElementIdForEditingAtom,
   selectElementAtom,
 } from "../libs/store";
@@ -19,7 +19,7 @@ export default function EditableElement({
   const [, setSelectedElementId] = useAtom(selectedElementIdForEditingAtom);
   const [, setElement] = useAtom(selectElementAtom);
 
-  if (headingTags.includes(element.type) && !Array.isArray(element.content)) {
+  if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
       <div
         className="mx-auto w-fit"

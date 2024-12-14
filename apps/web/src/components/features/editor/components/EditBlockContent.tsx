@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { headingTags, selectElementAtom } from "../libs/store";
+import { textTags, selectElementAtom } from "../libs/store";
 import EditText from "./block-edit/EditText";
 import { HeadingIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +21,7 @@ export default function EditBlockContent() {
 
   return (
     <div className="space-y-4">
-      {headingTags.includes(element.type) && (
+      {textTags.includes(element.type) && (
         <div>
           <div className="flex items-start gap-2 p-4">
             <HeadingIcon className="size-6" />
