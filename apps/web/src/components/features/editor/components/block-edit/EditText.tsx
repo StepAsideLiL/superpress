@@ -36,6 +36,8 @@ const stylePresets = [
 export default function EditText({ element }: { element: EditorElement }) {
   const [, setElement] = useAtom(selectElementAtom);
 
+  console.log(element);
+
   return (
     <div className="divide-y-2">
       {/* Tag type */}
@@ -46,6 +48,7 @@ export default function EditText({ element }: { element: EditorElement }) {
         <RadioGroup
           className="grid grid-cols-4 gap-2"
           defaultValue={element.type}
+          value={element.type}
         >
           {textTags.map((tag) => (
             <label
@@ -79,6 +82,7 @@ export default function EditText({ element }: { element: EditorElement }) {
         <RadioGroup
           className="grid grid-cols-2 gap-2"
           defaultValue={element.className}
+          value={element.className}
         >
           {stylePresets.map((style) => (
             <label
