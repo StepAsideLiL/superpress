@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { selectedElementIdForEditingAtom } from "../../libs/store";
+import { selectedElementIdForEditingAtom } from "../libs/store";
 
 export default function EditableElement({
   id,

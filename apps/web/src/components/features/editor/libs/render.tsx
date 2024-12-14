@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorElement } from "./store";
-import EditableElement from "../components/editor-ui/EditableElement";
+import EditableElement from "../components/EditableElement";
 
 export const renderHtml = (elements: EditorElement[]): React.ReactNode => {
   return elements.map((element) => {
@@ -32,32 +32,22 @@ export const renderHtmlForEditor = (
 
     // If content is a string, render it as text
     if (typeof content === "string") {
-      // return React.createElement(type, { key: id, style, className }, content);
       return (
         <EditableElement key={id} id={element.id}>
-          <div className="flex flex-col gap-2">
-            {React.createElement(type, { key: id, style, className }, content)}
-          </div>
+          {React.createElement(type, { key: id, style, className }, content)}
         </EditableElement>
       );
     }
 
     // If content is an array, recursively render children
     if (Array.isArray(content)) {
-      // return React.createElement(
-      //   type,
-      //   { key: id, style, className },
-      //   renderHtmlForEditor(content) // Recursively render children
-      // );
       return (
         <EditableElement key={id} id={element.id}>
-          <div className="flex flex-col gap-2">
-            {React.createElement(
-              type,
-              { key: id, style, className },
-              renderHtmlForEditor(content)
-            )}
-          </div>
+          {React.createElement(
+            type,
+            { key: id, style, className },
+            renderHtmlForEditor(content)
+          )}
         </EditableElement>
       );
     }
