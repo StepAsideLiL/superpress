@@ -9,6 +9,7 @@ import {
 } from "../../libs/store";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { TextIcon } from "@radix-ui/react-icons";
 
 const stylePresets = [
   {
@@ -40,6 +41,15 @@ export default function EditText({ element }: { element: EditorElement }) {
 
   return (
     <div className="divide-y-2">
+      <div className="flex items-start gap-2 p-4">
+        <TextIcon className="size-6" />
+
+        <div className="text-xs">
+          <h1 className="font-semibold">Text</h1>
+          <p>Title and subtitle for sections</p>
+        </div>
+      </div>
+
       {/* Tag type */}
       <fieldset className="space-y-2 p-4">
         <div>

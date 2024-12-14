@@ -4,18 +4,21 @@ import {
   openSettingsSidebarAtom,
   postAtom,
   selectedElementIdForEditingAtom,
+  selectElementAtom,
+  textTags,
 } from "../libs/store";
 import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
 import { Leaf } from "lucide-react";
 import * as df from "date-fns";
-import EditBlockContent from "./EditBlockContent";
+import EditText from "./block-edit/EditText";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
   const [elementId, setElementID] = useAtom(selectedElementIdForEditingAtom);
   const [post] = useAtom(postAtom);
+  const [element] = useAtom(selectElementAtom);
 
   if (open) {
     return (
@@ -57,7 +60,19 @@ export default function SettingsSidebar() {
           </TabsContent>
 
           <TabsContent value="block">
-            <EditBlockContent />
+            {!element ? (
+              <div className="py-5">
+                <p className="text-center text-sm text-muted-foreground">
+                  No block selected.
+                </p>
+              </div>
+            ) : (
+              <>
+                {textTags.includes(element.type) && (
+                  <EditText element={element} />
+                )}
+              </>
+            )}
           </TabsContent>
         </Tabs>
       </section>
