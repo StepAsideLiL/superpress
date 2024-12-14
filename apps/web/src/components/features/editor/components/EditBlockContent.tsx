@@ -1,14 +1,13 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { selectElementAtom } from "../libs/store";
+import { headingTags, selectElementAtom } from "../libs/store";
 import EditText from "./block-edit/EditText";
 import { HeadingIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 
 export default function EditBlockContent() {
   const [element] = useAtom(selectElementAtom);
-  const headingTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p"];
 
   if (!element) {
     return (
