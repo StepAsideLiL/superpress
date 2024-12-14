@@ -5,6 +5,7 @@ import {
   EditorElement,
   ElementType,
   selectElementAtom,
+  textTags,
 } from "../../libs/store";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -32,8 +33,6 @@ const stylePresets = [
   },
 ];
 
-const tagTypes = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
-
 export default function EditText({ element }: { element: EditorElement }) {
   const [, setElement] = useAtom(selectElementAtom);
 
@@ -48,7 +47,7 @@ export default function EditText({ element }: { element: EditorElement }) {
           className="grid grid-cols-4 gap-2"
           defaultValue={element.type}
         >
-          {tagTypes.map((tag) => (
+          {textTags.map((tag) => (
             <label
               key={tag}
               className={cn(
