@@ -11,6 +11,7 @@ import SettingsSidebar from "./components/SettingsSidebar";
 import EditorBody from "./EditorBody";
 import Link from "next/link";
 import SetDataInJotain from "./components/SetDataInJotain";
+import ViewElementJsonData from "./components/ViewElementJsonData";
 
 export default async function Editor({ postId }: { postId: string }) {
   const post = await fetch.post.getPostsForEdit(postId);
@@ -58,6 +59,7 @@ export default async function Editor({ postId }: { postId: string }) {
           </div>
 
           <div className="flex items-center gap-2 pr-2">
+            <ViewElementJsonData />
             <ToggleSettingsSidebar />
             <SaveButton />
           </div>
