@@ -12,8 +12,7 @@ export default function EditorBody() {
   return (
     <section className="flex-1 overflow-auto">
       <div className="p-4">{renderHtmlForEditor(content)}</div>
-      <div className="container mx-auto flex max-w-3xl items-center justify-between">
-        <p className="text-muted-foreground">Type / to choose a block</p>
+      <div className="container mx-auto flex max-w-3xl items-center justify-center">
         <InsertComponentBtn />
       </div>
     </section>
