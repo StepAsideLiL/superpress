@@ -7,7 +7,9 @@ import {
   HeadingIcon,
   ListBulletIcon,
   PilcrowIcon,
+  TextIcon,
 } from "@radix-ui/react-icons";
+import { nanoid } from "./utils";
 
 export type ElementType =
   | "h1"
@@ -18,9 +20,10 @@ export type ElementType =
   | "h6"
   | "p"
   | "span"
-  | "div"
   | "button"
-  | "li";
+  | "ul"
+  | "li"
+  | "div";
 
 export type EditorElement = {
   id: string;
@@ -35,7 +38,7 @@ type ComponentsListType = {
   lebel: string;
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
   type: ElementType;
-  content?: string;
+  content?: string | EditorElement[];
   className?: string;
 };
 
@@ -48,7 +51,7 @@ export const components: ComponentsListType[] = [
     icon: PilcrowIcon,
     type: "p",
     content: "Paragraph",
-    className: "text-default",
+    className: "text-subtitle",
   },
   {
     title: "Heading",
@@ -71,6 +74,54 @@ export const components: ComponentsListType[] = [
     icon: ButtonIcon,
     type: "button",
     content: "Button",
+  },
+];
+
+type ComponentGroupsType = {
+  name: string;
+  components: {
+    title: string;
+    lebel: string;
+    icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
+    type: ElementType;
+    content?: string | EditorElement[];
+    className?: string;
+  }[];
+};
+
+export const componentGroups: ComponentGroupsType[] = [
+  {
+    name: "Text",
+    components: [
+      {
+        title: "Text",
+        lebel: "text",
+        icon: TextIcon,
+        type: "p",
+        content: "Text",
+        className: "text-subtitle",
+      },
+      {
+        title: "Button",
+        lebel: "button",
+        icon: ButtonIcon,
+        type: "button",
+        content: "Click Me",
+      },
+      {
+        title: "List",
+        lebel: "list",
+        icon: ListBulletIcon,
+        type: "ul",
+        content: [
+          {
+            id: nanoid(),
+            type: "li",
+            content: "list",
+          },
+        ],
+      },
+    ],
   },
 ];
 
