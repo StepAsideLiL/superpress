@@ -1,14 +1,11 @@
 "use client";
 
 import { useAtom } from "jotai";
-import {
-  addEditorElementAtom,
-  componentGroups,
-  openComponentSidebarAtom,
-} from "../libs/store";
+import { addEditorElementAtom, openComponentSidebarAtom } from "../libs/store";
 import { Button } from "@/components/ui/button";
 import { CloseComponentsSidebar } from "./editor-ui/btns";
 import { nanoid } from "../libs/utils";
+import { componentGroups } from "../libs/components";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(openComponentSidebarAtom);

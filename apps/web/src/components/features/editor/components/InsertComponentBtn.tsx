@@ -7,22 +7,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Plus } from "lucide-react";
-import {
-  addEditorElementAtom,
-  componentGroups,
-  openComponentSidebarAtom,
-} from "../libs/store";
+import { addEditorElementAtom, openComponentSidebarAtom } from "../libs/store";
 import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import { nanoid } from "../libs/utils";
+import { components } from "../libs/components";
 
 export default function InsertComponentBtn() {
   const [, addEditorElement] = useAtom(addEditorElementAtom);
   const [search, setSearch] = useState("");
   const [, setTrue] = useAtom(openComponentSidebarAtom);
-
-  const components = componentGroups.flatMap((group) => group.components);
 
   return (
     <Popover>
