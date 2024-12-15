@@ -41,6 +41,8 @@ export default function ComponentsSidebar() {
                               content: component.content
                                 ? component.content
                                 : "",
+                              style: component.style,
+                              className: component.className,
                             })
                           }
                         >
