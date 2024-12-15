@@ -13,3 +13,34 @@
 .text-annotation {
   @apply mx-auto max-w-fit rounded-3xl border border-border px-4 py-1 text-center text-base font-normal;
 }
+
+.list-ul-none {
+  @apply list-none;
+}
+
+.list-ul-bullet {
+  @apply list-disc;
+}
+
+.list-ul-circle {
+  @apply list-[circle];
+}
+.list-ul-check {
+  @apply list-["✓"];
+}
+
+.list-ol-none {
+  @apply list-none;
+}
+
+.list-ol-decimal {
+  @apply list-decimal;
+}
+
+.list-ol-alphabet {
+  @apply list-[upper-alpha];
+}
+
+.list-ol-roman {
+  @apply list-[upper-roman];
+}

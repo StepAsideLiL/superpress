@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  listTags,
   openSettingsSidebarAtom,
   postAtom,
   selectedElementIdForEditingAtom,
@@ -13,6 +14,8 @@ import { CloseSettingsSidebar } from "./editor-ui/btns";
 import { Leaf } from "lucide-react";
 import * as df from "date-fns";
 import EditText from "./block-edit/EditText";
+import EditListItem from "./block-edit/EditListItem";
+import EditList from "./block-edit/EditList";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
@@ -70,6 +73,14 @@ export default function SettingsSidebar() {
               <>
                 {textTags.includes(element.type) && (
                   <EditText element={element} />
+                )}
+
+                {listTags.includes(element.type) && (
+                  <EditList element={element} />
+                )}
+
+                {element.type === "li" && !Array.isArray(element.content) && (
+                  <EditListItem element={element} />
                 )}
               </>
             )}

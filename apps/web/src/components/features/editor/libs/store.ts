@@ -21,6 +21,7 @@ export type ElementType =
   | "p"
   | "span"
   | "button"
+  | "ol"
   | "ul"
   | "li"
   | "div";
@@ -43,6 +44,7 @@ type ComponentsListType = {
 };
 
 export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
+export const listTags = ["ol", "ul"];
 
 export const components: ComponentsListType[] = [
   {
