@@ -66,7 +66,9 @@ export default function InsertComponentBtn() {
         </div>
 
         {components.filter((component) =>
-          component.lebel.includes(search.toLowerCase())
+          component.tags?.some((tag) =>
+            tag.includes(search.toLowerCase().trim())
+          )
         ).length === 0 && (
           <div className="w-full text-center text-muted-foreground">
             No Components
