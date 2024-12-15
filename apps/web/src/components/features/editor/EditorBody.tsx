@@ -10,9 +10,9 @@ export default function EditorBody() {
   const [content] = useAtom(editorElementsAtom);
 
   return (
-    <section className="flex-1 overflow-auto">
+    <section className="h-full flex-1 overflow-auto">
       <div className="p-4">{renderHtmlForEditor(content)}</div>
-      <div className="container mx-auto flex max-w-3xl items-center justify-center">
+      <div className="flex max-w-3xl items-center justify-center">
         <InsertComponentBtn />
       </div>
     </section>

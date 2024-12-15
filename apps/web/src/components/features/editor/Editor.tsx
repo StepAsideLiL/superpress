@@ -65,14 +65,12 @@ export default async function Editor({ postId }: { postId: string }) {
           </div>
         </section>
 
-        <section className="flex-1 overflow-hidden">
-          <div className="flex h-full">
-            <ComponentsSidebar />
+        <section className="flex h-[calc(100vh-4rem)] flex-1">
+          <ComponentsSidebar />
 
-            <EditorBody />
+          <EditorBody />
 
-            <SettingsSidebar />
-          </div>
+          <SettingsSidebar />
         </section>
       </main>
     </EditorProvider>
