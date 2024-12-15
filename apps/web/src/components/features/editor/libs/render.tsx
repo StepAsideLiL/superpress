@@ -32,14 +32,6 @@ export const renderHtmlForEditor = (
 
     // If content is a string, render it as text
     if (typeof content === "string") {
-      if (type === "li") {
-        return React.createElement(
-          type,
-          { key: id, style, className },
-          content
-        );
-      }
-
       return (
         <EditableElement key={id} element={element}>
           {React.createElement(type, { key: id, style, className }, content)}
@@ -49,14 +41,6 @@ export const renderHtmlForEditor = (
 
     // If content is an array, recursively render children
     if (Array.isArray(content)) {
-      if (type === "li") {
-        return React.createElement(
-          type,
-          { key: id, style, className },
-          renderHtmlForEditor(content)
-        );
-      }
-
       return (
         <EditableElement key={id} element={element}>
           {React.createElement(
