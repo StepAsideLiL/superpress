@@ -46,6 +46,7 @@ type ComponentGroupsType = {
     content?: string | EditorElement[];
     className?: string;
     style?: React.CSSProperties;
+    tags?: string[];
   }[];
 };
 
@@ -65,6 +66,19 @@ export const componentGroups: ComponentGroupsType[] = [
           marginLeft: "auto",
           marginRight: "auto",
         },
+        tags: [
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p",
+          "span",
+          "heading",
+          "paragraph",
+          "text",
+        ],
       },
       {
         title: "Button",
@@ -72,6 +86,7 @@ export const componentGroups: ComponentGroupsType[] = [
         icon: ButtonIcon,
         type: "button",
         content: "Click Me",
+        tags: ["button", "btn"],
       },
       {
         title: "List",
@@ -91,6 +106,7 @@ export const componentGroups: ComponentGroupsType[] = [
           marginLeft: "auto",
           marginRight: "auto",
         },
+        tags: ["list", "ul", "ol", "bullet", "unordered", "ordered"],
       },
     ],
   },
@@ -104,6 +120,7 @@ export const componentGroups: ComponentGroupsType[] = [
         type: "div",
         content: "Container",
         className: "container",
+        tags: ["container", "div"],
       },
     ],
   },

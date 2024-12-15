@@ -43,7 +43,9 @@ export default function InsertComponentBtn() {
         <div className="grid grid-cols-3 gap-2">
           {components
             .filter((component) =>
-              component.lebel.includes(search.toLowerCase())
+              component.tags?.some((tag) =>
+                tag.includes(search.toLowerCase().trim())
+              )
             )
             .map((component) => (
               <Button
