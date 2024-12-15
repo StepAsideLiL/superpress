@@ -88,6 +88,7 @@ type ComponentGroupsType = {
     type: ElementType;
     content?: string | EditorElement[];
     className?: string;
+    style?: React.CSSProperties;
   }[];
 };
 
@@ -102,6 +103,11 @@ export const componentGroups: ComponentGroupsType[] = [
         type: "p",
         content: "Text",
         className: "text-subtitle",
+        style: {
+          width: "768px",
+          marginLeft: "auto",
+          marginRight: "auto",
+        },
       },
       {
         title: "Button",
@@ -122,6 +128,12 @@ export const componentGroups: ComponentGroupsType[] = [
             content: "list",
           },
         ],
+        className: "list-ul-bullet",
+        style: {
+          width: "768px",
+          marginLeft: "auto",
+          marginRight: "auto",
+        },
       },
     ],
   },
