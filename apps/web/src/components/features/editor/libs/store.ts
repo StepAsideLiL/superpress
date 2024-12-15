@@ -1,5 +1,6 @@
 import { PostForEditType } from "@/lib/types";
 import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 export type ElementType =
   | "h1"
@@ -29,8 +30,14 @@ export const listTags = ["ol", "ul"];
 
 export const postAtom = atom<PostForEditType>();
 
-export const openComponentSidebarAtom = atom<boolean>(false);
-export const openSettingsSidebarAtom = atom<boolean>(true);
+export const openComponentSidebarAtom = atomWithStorage<boolean>(
+  "ComponentSidebar",
+  false
+);
+export const openSettingsSidebarAtom = atomWithStorage<boolean>(
+  "SettingSidebar",
+  true
+);
 
 export const toggleComponentSidebarAtom = atom(null, (get, set) => {
   set(openComponentSidebarAtom, !get(openComponentSidebarAtom));
