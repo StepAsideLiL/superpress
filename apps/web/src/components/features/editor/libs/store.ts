@@ -4,9 +4,8 @@ import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { atom } from "jotai";
 import {
   ButtonIcon,
-  HeadingIcon,
+  ContainerIcon,
   ListBulletIcon,
-  PilcrowIcon,
   TextIcon,
 } from "@radix-ui/react-icons";
 import { nanoid } from "./utils";
@@ -34,50 +33,8 @@ export type EditorElement = {
   className?: string;
 };
 
-type ComponentsListType = {
-  title: string;
-  lebel: string;
-  icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-  type: ElementType;
-  content?: string | EditorElement[];
-  className?: string;
-};
-
 export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
 export const listTags = ["ol", "ul"];
-
-export const components: ComponentsListType[] = [
-  {
-    title: "Paragraph",
-    lebel: "paragraph",
-    icon: PilcrowIcon,
-    type: "p",
-    content: "Paragraph",
-    className: "text-subtitle",
-  },
-  {
-    title: "Heading",
-    lebel: "heading",
-    icon: HeadingIcon,
-    type: "h1",
-    content: "This is a header",
-    className: "text-default",
-  },
-  {
-    title: "List",
-    lebel: "list",
-    icon: ListBulletIcon,
-    type: "li",
-    content: "This is a list",
-  },
-  {
-    title: "Button",
-    lebel: "button",
-    icon: ButtonIcon,
-    type: "button",
-    content: "Button",
-  },
-];
 
 type ComponentGroupsType = {
   name: string;
@@ -134,6 +91,19 @@ export const componentGroups: ComponentGroupsType[] = [
           marginLeft: "auto",
           marginRight: "auto",
         },
+      },
+    ],
+  },
+  {
+    name: "Container",
+    components: [
+      {
+        title: "Container",
+        lebel: "container",
+        icon: ContainerIcon,
+        type: "div",
+        content: "Container",
+        className: "container",
       },
     ],
   },

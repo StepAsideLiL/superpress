@@ -9,7 +9,7 @@ import {
 import { Plus } from "lucide-react";
 import {
   addEditorElementAtom,
-  components,
+  componentGroups,
   openComponentSidebarAtom,
 } from "../libs/store";
 import { useAtom } from "jotai";
@@ -21,6 +21,8 @@ export default function InsertComponentBtn() {
   const [, addEditorElement] = useAtom(addEditorElementAtom);
   const [search, setSearch] = useState("");
   const [, setTrue] = useAtom(openComponentSidebarAtom);
+
+  const components = componentGroups.flatMap((group) => group.components);
 
   return (
     <Popover>
@@ -52,10 +54,7 @@ export default function InsertComponentBtn() {
                   addEditorElement({
                     id: nanoid(),
                     type: component.type,
-                    style: {
-                      width: "768px",
-                      margin: "auto",
-                    },
+                    style: component.style,
                     className: component.className,
                     content: component.content
                       ? component.content
