@@ -98,3 +98,24 @@ export const selectElementAtom = atom(
     set(editorElementsAtom, updatedData);
   }
 );
+
+export const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
+  const elementData = get(editorElementsAtom);
+
+  const updateElement = (elements: EditorElement[]): EditorElement[] => {
+    return elements
+      .filter((element) => element.id !== elementId)
+      .map((element) => {
+        if (Array.isArray(element.content)) {
+          return {
+            ...element,
+            content: updateElement(element.content as EditorElement[]),
+          };
+        }
+        return element;
+      });
+  };
+
+  const updatedElementData = updateElement(elementData);
+  set(editorElementsAtom, updatedElementData);
+});

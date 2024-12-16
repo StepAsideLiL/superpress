@@ -7,6 +7,7 @@ import {
   selectedElementIdForEditingAtom,
   selectElementAtom,
   listTags,
+  deleteElementByIdAtom,
 } from "../libs/store";
 import { cn } from "@/lib/utils";
 import {
@@ -36,6 +37,7 @@ export default function EditableElement({
     selectedElementIdForEditingAtom
   );
   const [, setElement] = useAtom(selectElementAtom);
+  const [, deleteElementById] = useAtom(deleteElementByIdAtom);
 
   if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
@@ -81,7 +83,10 @@ export default function EditableElement({
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="start">
-              <DropdownMenuItem className="hover:cursor-pointer">
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => deleteElementById(element.id)}
+              >
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -128,7 +133,10 @@ export default function EditableElement({
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="start">
-              <DropdownMenuItem className="hover:cursor-pointer">
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => deleteElementById(element.id)}
+              >
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -182,7 +190,10 @@ export default function EditableElement({
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="start">
-              <DropdownMenuItem className="hover:cursor-pointer">
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => deleteElementById(element.id)}
+              >
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
