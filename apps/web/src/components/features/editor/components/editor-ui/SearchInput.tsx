@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import icon from "@/lib/icons";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface InputProps
@@ -20,7 +20,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
-        <MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+        <icon.Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
       </div>
     );
   }

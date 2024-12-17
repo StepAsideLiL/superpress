@@ -11,11 +11,11 @@ import {
 import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
-import { Leaf } from "lucide-react";
 import * as df from "date-fns";
 import EditText from "./block-edit/EditText";
 import EditListItem from "./block-edit/EditListItem";
 import EditList from "./block-edit/EditList";
+import icon from "@/lib/icons";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
@@ -44,7 +44,7 @@ export default function SettingsSidebar() {
             {post && (
               <div className="space-y-4 px-2">
                 <div className="flex items-center gap-2">
-                  <Leaf className="size-4" />
+                  <icon.Leaf className="size-4" />
                   <h1 className="font-semibold">{post.title}</h1>
                 </div>
 

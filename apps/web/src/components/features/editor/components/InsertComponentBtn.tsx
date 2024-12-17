@@ -6,13 +6,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Plus } from "lucide-react";
 import { addEditorElementAtom, openComponentSidebarAtom } from "../libs/store";
 import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import { nanoid } from "../libs/utils";
 import { components } from "../libs/components";
+import icon from "@/lib/icons";
 
 export default function InsertComponentBtn() {
   const [, addEditorElement] = useAtom(addEditorElementAtom);
@@ -23,7 +23,7 @@ export default function InsertComponentBtn() {
     <Popover>
       <PopoverTrigger asChild>
         <Button size={"icon"} className="size-6">
-          <Plus />
+          <icon.Plus />
         </Button>
       </PopoverTrigger>
 

@@ -15,11 +15,11 @@ import {
   toggleComponentSidebarAtom,
   toggleSettingsSidebarAtom,
 } from "../../libs/store";
-import { PanelRight, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAction } from "next-safe-action/hooks";
 import savePostAfterEdit from "@/lib/actions/save-post-after-edit";
 import { toast } from "sonner";
+import icon from "@/lib/icons";
 
 export function SaveButton() {
   const [post] = useAtom(postAtom);
@@ -63,7 +63,7 @@ export function ToggleComponentsSidebar() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button size={"icon"} onClick={() => toggleSidebar()}>
-            <Plus
+            <icon.Plus
               className={cn("rotate-0 transition-all", open && "rotate-45")}
             />
             <span className="sr-only">
@@ -87,7 +87,7 @@ export function ToggleSettingsSidebar() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button size={"icon"} onClick={() => toggleSidebar()}>
-            <PanelRight />
+            <icon.SidebarRight />
             <span className="sr-only">Settings sidebar</span>
           </Button>
         </TooltipTrigger>
@@ -109,7 +109,7 @@ export function CloseComponentsSidebar() {
       className="mr-2 size-6"
       onClick={() => toggleSidebar()}
     >
-      <X />
+      <icon.X />
     </Button>
   );
 }
@@ -124,7 +124,7 @@ export function CloseSettingsSidebar() {
       className="mr-2 size-6"
       onClick={() => toggleSidebar()}
     >
-      <X />
+      <icon.X />
     </Button>
   );
 }

@@ -15,7 +15,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ListBulletIcon, TextIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,8 +22,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { EllipsisVerticalIcon, LogsIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import icon from "@/lib/icons";
 
 export default function EditableElement({
   element,
@@ -71,14 +70,14 @@ export default function EditableElement({
           side="top"
           className="flex h-11 items-center justify-between px-2 py-1"
         >
-          <TextIcon className="size-5" />
+          <icon.Text className="size-5" />
 
           <Separator orientation="vertical" className="h-11" />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant={"ghost"} size={"icon"}>
-                <EllipsisVerticalIcon />
+                <icon.EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
 
@@ -121,14 +120,14 @@ export default function EditableElement({
           side="top"
           className="flex h-11 items-center justify-between px-2 py-1"
         >
-          <ListBulletIcon className="size-5" />
+          <icon.List className="size-5" />
 
           <Separator orientation="vertical" className="h-11" />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant={"ghost"} size={"icon"}>
-                <EllipsisVerticalIcon />
+                <icon.EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
 
@@ -178,14 +177,14 @@ export default function EditableElement({
           side="top"
           className="flex h-11 items-center justify-between px-2 py-1"
         >
-          <LogsIcon className="size-5" />
+          <icon.Logs className="size-5" />
 
           <Separator orientation="vertical" className="h-11" />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant={"ghost"} size={"icon"}>
-                <EllipsisVerticalIcon />
+                <icon.EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
 

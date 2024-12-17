@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BracesIcon } from "lucide-react";
 import { editorElementsAtom } from "../libs/store";
 import { useAtom } from "jotai";
 import {
@@ -17,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import icon from "@/lib/icons";
 
 export default function ViewElementJsonData() {
   const [element] = useAtom(editorElementsAtom);
@@ -29,7 +29,7 @@ export default function ViewElementJsonData() {
             <TooltipTrigger asChild>
               <DialogTrigger asChild>
                 <Button variant={"secondary"} size={"icon"}>
-                  <BracesIcon />
+                  <icon.BracesIcon />
                   <span className="sr-only">View Element Data</span>
                 </Button>
               </DialogTrigger>

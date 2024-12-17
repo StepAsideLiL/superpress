@@ -2,10 +2,10 @@
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/actions/logout";
-import { LogOut } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import icon from "@/lib/icons";
 
 export default function LogoutDropdownMenuItem() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function LogoutDropdownMenuItem() {
       onClick={() => executeAsync()}
     >
       <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-        <LogOut className="size-4" />
+        <icon.LogOut className="size-4" />
       </div>
       <div className="font-medium text-muted-foreground">Logout</div>
     </DropdownMenuItem>

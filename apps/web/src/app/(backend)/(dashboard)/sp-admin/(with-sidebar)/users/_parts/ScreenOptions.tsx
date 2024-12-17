@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { GearIcon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 import {
   ColumnViewType,
@@ -31,6 +30,7 @@ import { useAction } from "next-safe-action/hooks";
 import { updateScreenOptions } from "@/lib/actions/update-screen-options";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import icon from "@/lib/icons";
 
 const fromSchema = z.object({
   itemPerPage: z.string(),
@@ -87,7 +87,7 @@ export default function ScreenOptions({
     <Popover>
       <PopoverTrigger asChild>
         <Button variant={"outline"} size={"icon"}>
-          <GearIcon />
+          <icon.Setting />
         </Button>
       </PopoverTrigger>
 

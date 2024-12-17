@@ -1,12 +1,4 @@
 import {
-  BookOpen,
-  Home,
-  StickyNote,
-  Terminal,
-  User,
-  Users,
-} from "lucide-react";
-import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -21,6 +13,7 @@ import ToggleSidebarMenuButton from "@/components/sp-ui/ToggleSidebarMenuButton"
 import auth from "@/lib/auth";
 import { SidebarMenuItemType } from "@/lib/types";
 import SidebarProfileDropdown from "./SidebarProfileDropdown";
+import icon from "@/lib/icons";
 
 export default async function DashboardSidebar() {
   const user = await auth.getCurrentUser();
@@ -56,7 +49,7 @@ export default async function DashboardSidebar() {
     contentMenu.push({
       title: "Posts",
       url: "/sp-admin/posts?post_type=post",
-      icon: StickyNote,
+      icon: icon.StickyNote,
     });
   }
 
@@ -64,7 +57,7 @@ export default async function DashboardSidebar() {
     contentMenu.push({
       title: "Pages",
       url: "/sp-admin/posts?post_type=page",
-      icon: BookOpen,
+      icon: icon.BookOpen,
     });
   }
 
@@ -72,7 +65,7 @@ export default async function DashboardSidebar() {
     settingMenu.push({
       title: "Users",
       url: "/sp-admin/users",
-      icon: Users,
+      icon: icon.Users,
     });
   }
 
@@ -86,7 +79,7 @@ export default async function DashboardSidebar() {
     settingMenu.push({
       title: "Profile",
       url: "/sp-admin/profile",
-      icon: User,
+      icon: icon.User,
     });
   }
 
@@ -94,7 +87,7 @@ export default async function DashboardSidebar() {
     settingMenu.push({
       title: "Dev",
       url: "/sp-admin/dev",
-      icon: Terminal,
+      icon: icon.Terminal,
     });
   }
 
@@ -115,7 +108,7 @@ export default async function DashboardSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href={"/sp-admin"}>
-                    <Home />
+                    <icon.Home />
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>

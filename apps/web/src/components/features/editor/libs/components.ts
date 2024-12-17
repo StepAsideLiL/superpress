@@ -1,20 +1,15 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { ReactNode } from "react";
 import { IconProps } from "@radix-ui/react-icons/dist/types";
-import {
-  ButtonIcon,
-  ContainerIcon,
-  ListBulletIcon,
-  TextIcon,
-} from "@radix-ui/react-icons";
 import { nanoid } from "./utils";
 import { EditorElement, ElementType } from "./store";
+import icon from "@/lib/icons";
 
 type ComponentGroupsType = {
   name: string;
   components: {
     title: string;
     lebel: string;
-    icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
+    icon: (props: IconProps) => ReactNode;
     type: ElementType;
     content?: string | EditorElement[];
     className?: string;
@@ -30,7 +25,7 @@ export const componentGroups: ComponentGroupsType[] = [
       {
         title: "Text",
         lebel: "text",
-        icon: TextIcon,
+        icon: icon.Text,
         type: "p",
         content: "Text",
         className: "text-subtitle",
@@ -56,7 +51,7 @@ export const componentGroups: ComponentGroupsType[] = [
       {
         title: "Button",
         lebel: "button",
-        icon: ButtonIcon,
+        icon: icon.Button,
         type: "button",
         content: "Click Me",
         tags: ["button", "btn"],
@@ -64,7 +59,7 @@ export const componentGroups: ComponentGroupsType[] = [
       {
         title: "List",
         lebel: "list",
-        icon: ListBulletIcon,
+        icon: icon.List,
         type: "ul",
         content: [
           {
@@ -89,7 +84,7 @@ export const componentGroups: ComponentGroupsType[] = [
       {
         title: "Container",
         lebel: "container",
-        icon: ContainerIcon,
+        icon: icon.Container,
         type: "div",
         content: "Container",
         className: "container",

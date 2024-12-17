@@ -1,4 +1,3 @@
-import { ListBulletIcon } from "@radix-ui/react-icons";
 import {
   EditorElement,
   ElementType,
@@ -8,6 +7,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
+import icon from "@/lib/icons";
 
 const unorderedListStyle = [
   {
@@ -53,7 +53,7 @@ export default function EditList({ element }: { element: EditorElement }) {
   return (
     <div className="divide-y-2">
       <div className="flex items-start gap-2 p-4">
-        <ListBulletIcon className="size-6" />
+        <icon.List className="size-6" />
 
         <div className="text-xs">
           <h1 className="font-semibold">List</h1>
