@@ -43,7 +43,7 @@ const icon = {
   ),
   Plus: (props: lucideIcon.LucideProps) => <lucideIcon.Plus {...props} />,
   Search: (props: IconProps) => (
-    <radixIcon.MagicWandIcon
+    <radixIcon.MagnifyingGlassIcon
       className={cn("size-5", props.className)}
       {...props}
     />
