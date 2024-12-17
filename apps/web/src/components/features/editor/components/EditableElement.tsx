@@ -43,25 +43,22 @@ export default function EditableElement({
       <Popover open={selectedElementId === element.id}>
         <PopoverTrigger asChild>
           <div
+            contentEditable={element.id === selectedElementId}
+            suppressContentEditableWarning
             className={cn(
-              "mx-auto w-fit cursor-pointer border hover:border hover:border-muted",
+              "mx-auto cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
               selectedElementId === element.id
-                ? "border-blue-500 hover:border-blue-500"
-                : "border-background"
+                ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
+                : "border-background",
+              element.className
             )}
+            style={element.style}
             onClick={() => setSelectedElementId(element.id)}
+            onBlur={(e) => {
+              setElement({ ...element, content: e.currentTarget.innerHTML });
+            }}
           >
-            <input
-              className={cn(
-                "cursor-pointer bg-background focus-within:cursor-auto focus-within:outline-none",
-                element.className
-              )}
-              style={element.style}
-              value={element.content}
-              onChange={(e) =>
-                setElement({ ...element, content: e.target.value })
-              }
-            />
+            {element.content}
           </div>
         </PopoverTrigger>
 
@@ -150,25 +147,25 @@ export default function EditableElement({
       <Popover open={selectedElementId === element.id}>
         <PopoverTrigger asChild>
           <li
+            contentEditable={element.id === selectedElementId}
+            suppressContentEditableWarning
             className={cn(
-              "z-50 w-fit cursor-pointer border hover:border hover:border-muted",
+              "cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
               selectedElementId === element.id
-                ? "border-blue-500 hover:border-blue-500"
-                : "border-background"
+                ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
+                : "border-background",
+              element.className
             )}
+            style={element.style}
             onClick={(e) => {
               e.stopPropagation();
               setSelectedElementId(element.id);
             }}
+            onBlur={(e) => {
+              setElement({ ...element, content: e.currentTarget.innerHTML });
+            }}
           >
-            <input
-              className={cn(
-                "cursor-pointer bg-background focus-within:cursor-auto focus-within:outline-none",
-                element.className
-              )}
-              style={element.style}
-              defaultValue={element.content}
-            />
+            {element.content}
           </li>
         </PopoverTrigger>
 
