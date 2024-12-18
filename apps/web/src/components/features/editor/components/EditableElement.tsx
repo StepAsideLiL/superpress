@@ -12,11 +12,6 @@ import {
 } from "../libs/store";
 import { cn } from "@/lib/utils";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -26,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import icon from "@/lib/icons";
 import { nanoid } from "../libs/utils";
+import { useFloating } from "@floating-ui/react";
+import { useEffect, useRef } from "react";
 
 export default function EditableElement({
   element,
@@ -38,209 +35,118 @@ export default function EditableElement({
     selectedElementIdForEditingAtom
   );
   const [, setElement] = useAtom(selectElementAtom);
-  const [, deleteElementById] = useAtom(deleteElementByIdAtom);
   const [, insertElement] = useAtom(insertElementAfterSelectedElementByIdAtom);
 
   if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
-      <Popover open={selectedElementId === element.id}>
-        <PopoverTrigger asChild>
-          <div
-            contentEditable={element.id === selectedElementId}
-            suppressContentEditableWarning
-            className={cn(
-              "mx-auto cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
-              selectedElementId === element.id
-                ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
-                : "border-background",
-              element.className
-            )}
-            style={element.style}
-            onClick={() => setSelectedElementId(element.id)}
-            onBlur={(e) => {
-              setElement({ ...element, content: e.currentTarget.innerHTML });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-              }
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                const newElementid = nanoid();
+      <div
+        contentEditable={element.id === selectedElementId}
+        suppressContentEditableWarning
+        id={element.id}
+        className={cn(
+          "mx-auto cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
+          selectedElementId === element.id
+            ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
+            : "border-background",
+          element.className
+        )}
+        style={element.style}
+        onClick={() => setSelectedElementId(element.id)}
+        onBlur={(e) => {
+          setElement({ ...element, content: e.currentTarget.innerHTML });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            const newElementid = nanoid();
 
-                insertElement(element.id, {
-                  id: newElementid,
-                  type: "p",
-                  content: "paragraph",
-                  className: "text-subtitle",
-                  style: {
-                    width: "768px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  },
-                });
+            insertElement(element.id, {
+              id: newElementid,
+              type: "p",
+              content: "paragraph",
+              className: "text-subtitle",
+              style: {
+                width: "768px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              },
+            });
 
-                setSelectedElementId(newElementid);
-              }
-            }}
-          >
-            {element.content}
-          </div>
-        </PopoverTrigger>
-
-        <PopoverContent
-          align="start"
-          side="top"
-          className="flex h-11 items-center justify-between px-2 py-1"
-        >
-          <icon.Text className="size-5" />
-
-          <Separator orientation="vertical" className="h-11" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"} size={"icon"}>
-                <icon.EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => deleteElementById(element.id)}
-              >
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </PopoverContent>
-      </Popover>
+            setSelectedElementId(newElementid);
+          }
+        }}
+      >
+        {element.content}
+      </div>
     );
   }
 
   if (listTags.includes(element.type)) {
     return (
-      <Popover open={selectedElementId === element.id}>
-        <PopoverTrigger asChild>
-          <div
-            className={cn(
-              "mx-auto w-auto cursor-pointer border py-1 hover:border hover:border-muted",
-              selectedElementId === element.id
-                ? "border-blue-500 hover:border-blue-500"
-                : "border-background"
-            )}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedElementId(element.id);
-            }}
-          >
-            {children}
-          </div>
-        </PopoverTrigger>
-
-        <PopoverContent
-          align="start"
-          side="top"
-          className="flex h-11 items-center justify-between px-2 py-1"
-        >
-          <icon.List className="size-5" />
-
-          <Separator orientation="vertical" className="h-11" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"} size={"icon"}>
-                <icon.EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => deleteElementById(element.id)}
-              >
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </PopoverContent>
-      </Popover>
+      <div
+        id={element.id}
+        className={cn(
+          "mx-auto w-auto cursor-pointer border py-1 hover:border hover:border-muted",
+          selectedElementId === element.id
+            ? "border-blue-500 hover:border-blue-500"
+            : "border-background"
+        )}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedElementId(element.id);
+        }}
+      >
+        {children}
+      </div>
     );
   }
 
   if (element.type === "li" && !Array.isArray(element.content)) {
     return (
-      <Popover open={selectedElementId === element.id}>
-        <PopoverTrigger asChild>
-          <li
-            contentEditable={element.id === selectedElementId}
-            suppressContentEditableWarning
-            className={cn(
-              "cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
-              selectedElementId === element.id
-                ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
-                : "border-background",
-              element.className
-            )}
-            style={element.style}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedElementId(element.id);
-            }}
-            onBlur={(e) => {
-              setElement({ ...element, content: e.currentTarget.innerHTML });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-              }
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                const newElementid = nanoid();
+      <li
+        contentEditable={element.id === selectedElementId}
+        suppressContentEditableWarning
+        id={element.id}
+        className={cn(
+          "cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
+          selectedElementId === element.id
+            ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
+            : "border-background",
+          element.className
+        )}
+        style={element.style}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedElementId(element.id);
+        }}
+        onBlur={(e) => {
+          setElement({ ...element, content: e.currentTarget.innerHTML });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            const newElementid = nanoid();
 
-                insertElement(element.id, {
-                  id: newElementid,
-                  type: "li",
-                  content: "",
-                });
+            insertElement(element.id, {
+              id: newElementid,
+              type: "li",
+              content: "",
+            });
 
-                setSelectedElementId(newElementid);
-              }
-            }}
-          >
-            {element.content}
-          </li>
-        </PopoverTrigger>
-
-        <PopoverContent
-          align="start"
-          side="top"
-          className="flex h-11 items-center justify-between px-2 py-1"
-        >
-          <icon.Logs className="size-5" />
-
-          <Separator orientation="vertical" className="h-11" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"} size={"icon"}>
-                <icon.EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => deleteElementById(element.id)}
-              >
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </PopoverContent>
-      </Popover>
+            setSelectedElementId(newElementid);
+          }
+        }}
+      >
+        {element.content}
+      </li>
     );
   }
 
@@ -252,4 +158,61 @@ export default function EditableElement({
   //     {children}
   //   </div>
   // );
+}
+
+export function FloatingTopbar() {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const { refs, floatingStyles, update } = useFloating({
+    placement: "top-start",
+  });
+  const [element] = useAtom(selectElementAtom);
+  const [, deleteElementById] = useAtom(deleteElementByIdAtom);
+
+  useEffect(() => {
+    if (element) {
+      elementRef.current = document.getElementById(element.id) || null;
+      refs.setReference(elementRef.current);
+      update();
+    } else {
+      refs.setReference(null);
+    }
+  }, [element, refs, update]);
+
+  if (!element) return null;
+
+  return (
+    <div
+      ref={refs.setFloating}
+      style={floatingStyles}
+      className="w-96 border border-primary bg-background px-2"
+    >
+      <div className="flex items-center justify-between">
+        {textTags.includes(element.type) && !Array.isArray(element.content) && (
+          <icon.Text className="size-5" />
+        )}
+        {listTags.includes(element.type) && <icon.List className="size-5" />}
+        {element.type === "li" && !Array.isArray(element.content) && (
+          <icon.Logs className="size-5" />
+        )}
+
+        <Separator orientation="vertical" className="h-11" />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <icon.EllipsisVertical />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => deleteElementById(element.id)}
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
 }
