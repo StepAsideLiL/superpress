@@ -119,3 +119,35 @@ export const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
   const updatedElementData = updateElement(elementData);
   set(editorElementsAtom, updatedElementData);
 });
+
+export const insertElementAfterSelectedElementByIdAtom = atom(
+  null,
+  (get, set, elementId: string, newElement: EditorElement) => {
+    const editorElementData = get(editorElementsAtom);
+
+    function updateElement(content: EditorElement[]): EditorElement[] {
+      const updatedElements: EditorElement[] = [];
+
+      for (let i = 0; i < content.length; i++) {
+        const element = content[i];
+        updatedElements.push(element);
+
+        if (element.id === elementId) {
+          updatedElements.push(newElement);
+        }
+
+        if (Array.isArray(element.content)) {
+          updatedElements[updatedElements.length - 1] = {
+            ...element,
+            content: updateElement(element.content),
+          };
+        }
+      }
+      return updatedElements;
+    }
+
+    const updatedElements = updateElement(editorElementData);
+
+    set(editorElementsAtom, updatedElements);
+  }
+);

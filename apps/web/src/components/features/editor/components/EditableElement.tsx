@@ -8,6 +8,7 @@ import {
   selectElementAtom,
   listTags,
   deleteElementByIdAtom,
+  insertElementAfterSelectedElementByIdAtom,
 } from "../libs/store";
 import { cn } from "@/lib/utils";
 import {
@@ -24,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import icon from "@/lib/icons";
+import { nanoid } from "../libs/utils";
 
 export default function EditableElement({
   element,
@@ -37,6 +39,7 @@ export default function EditableElement({
   );
   const [, setElement] = useAtom(selectElementAtom);
   const [, deleteElementById] = useAtom(deleteElementByIdAtom);
+  const [, insertElement] = useAtom(insertElementAfterSelectedElementByIdAtom);
 
   if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
@@ -56,6 +59,30 @@ export default function EditableElement({
             onClick={() => setSelectedElementId(element.id)}
             onBlur={(e) => {
               setElement({ ...element, content: e.currentTarget.innerHTML });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                const newElementid = nanoid();
+
+                insertElement(element.id, {
+                  id: newElementid,
+                  type: "p",
+                  content: "paragraph",
+                  className: "text-subtitle",
+                  style: {
+                    width: "768px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  },
+                });
+
+                setSelectedElementId(newElementid);
+              }
             }}
           >
             {element.content}
@@ -163,6 +190,24 @@ export default function EditableElement({
             }}
             onBlur={(e) => {
               setElement({ ...element, content: e.currentTarget.innerHTML });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                const newElementid = nanoid();
+
+                insertElement(element.id, {
+                  id: newElementid,
+                  type: "li",
+                  content: "",
+                });
+
+                setSelectedElementId(newElementid);
+              }
             }}
           >
             {element.content}
