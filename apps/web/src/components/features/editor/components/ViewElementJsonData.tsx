@@ -8,7 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { editorElementsAtom } from "../libs/store";
+import {
+  editorElementsAtom,
+  selectedElementIdForEditingAtom,
+} from "../libs/store";
 import { useAtom } from "jotai";
 import {
   Tooltip,
@@ -20,6 +23,7 @@ import icon from "@/lib/icons";
 
 export default function ViewElementJsonData() {
   const [element] = useAtom(editorElementsAtom);
+  const [selectedElementId] = useAtom(selectedElementIdForEditingAtom);
 
   return (
     <div>
@@ -45,6 +49,7 @@ export default function ViewElementJsonData() {
           <DialogHeader>
             <DialogTitle>Element Data</DialogTitle>
           </DialogHeader>
+          <div>Selected Element Id: {selectedElementId}</div>
           <pre>{JSON.stringify(element, null, 2)}</pre>
         </DialogContent>
       </Dialog>
