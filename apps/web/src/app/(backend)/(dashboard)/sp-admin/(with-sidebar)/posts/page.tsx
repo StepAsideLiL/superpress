@@ -1,19 +1,17 @@
-import { Button } from "@/components/ui/button";
 import PostTable from "./_parts/PostTable";
 import { redirect } from "next/navigation";
 import fetch from "@/lib/fetchers";
 import { getSettingByName } from "@/lib/utils";
+import { AddNewPostButton } from "./_parts/action-btns";
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{
-      post_type: string;
-      post_status?: string;
-      author?: string;
-      search?: string;
-    }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{
+    post_type: string;
+    post_status?: string;
+    author?: string;
+    search?: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   if (!searchParams.post_type) {
     redirect("/sp-admin/posts?post_type=post");
@@ -109,9 +107,7 @@ export default async function Page(
         <h1 className="text-2xl">
           {searchParams.post_type === "page" ? "Pages" : "Posts"}
         </h1>
-        <Button variant={"outline"}>
-          Add New {searchParams.post_type === "page" ? "Page" : "Post"}
-        </Button>
+        <AddNewPostButton postType={searchParams.post_type} />
       </section>
 
       <PostTable
