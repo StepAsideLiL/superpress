@@ -94,6 +94,11 @@ export const loginFormSchema = z.object({
 });
 
 export const savePostAfterEditSchema = z.object({
+  post: z.object({
+    title: z.string(),
+    slug: z.string(),
+    postStatus: z.string(),
+  }),
   postId: z.string(),
   content: z.string(),
 });

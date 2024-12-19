@@ -16,11 +16,22 @@ import EditText from "./block-edit/EditText";
 import EditListItem from "./block-edit/EditListItem";
 import EditList from "./block-edit/EditList";
 import icon from "@/lib/icons";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import slug from "slug";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
   const [elementId, setElementID] = useAtom(selectedElementIdForEditingAtom);
-  const [post] = useAtom(postAtom);
+  const [post, setPost] = useAtom(postAtom);
   const [element] = useAtom(selectElementAtom);
 
   if (open) {
@@ -45,7 +56,63 @@ export default function SettingsSidebar() {
               <div className="space-y-4 px-2">
                 <div className="flex items-center gap-2">
                   <icon.Leaf className="size-4" />
-                  <h1 className="font-semibold">{post.title}</h1>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      {post.title !== "" ? (
+                        <Button variant={"ghost"} className="font-semibold">
+                          {post.title}
+                        </Button>
+                      ) : (
+                        <Button
+                          variant={"ghost"}
+                          className="text-muted-foreground"
+                        >
+                          No Title
+                        </Button>
+                      )}
+                    </DialogTrigger>
+
+                    <DialogContent>
+                      <DialogTitle>Edit Post Title</DialogTitle>
+                      <Input
+                        placeholder="Enter post title"
+                        value={post.title}
+                        onChange={(e) =>
+                          setPost({
+                            ...post,
+                            title: e.target.value,
+                            slug: slug(e.target.value),
+                          })
+                        }
+                      />
+
+                      <DialogFooter className="justify-start sm:justify-start">
+                        <DialogClose asChild>
+                          <Button
+                            onClick={() => {
+                              setPost({ ...post });
+                            }}
+                          >
+                            Save
+                          </Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                          <Button
+                            variant={"outline"}
+                            onClick={() => {
+                              setPost({
+                                ...post,
+                                title: "",
+                                slug: "",
+                              });
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
 
                 <div className="grid grid-cols-2 gap-1">
@@ -56,7 +123,11 @@ export default function SettingsSidebar() {
                   <span>{df.format(new Date(post.created), "PPpp")}</span>
 
                   <span>Slug</span>
-                  <span>{post.slug}</span>
+                  {post.slug !== "" ? (
+                    <span>{post.slug}</span>
+                  ) : (
+                    <span className="text-muted-foreground">No Slug</span>
+                  )}
                 </div>
               </div>
             )}

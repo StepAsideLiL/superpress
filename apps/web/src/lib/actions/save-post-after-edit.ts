@@ -23,9 +23,7 @@ const savePostAfterEdit = authSafeActionClient
       throw new Error("Unauthorized: Not allowed");
     }
 
-    const { postId, content } = parsedInput;
-
-    console.log(content);
+    const { post, postId, content } = parsedInput;
 
     await prisma.postmetas.update({
       where: {
@@ -33,6 +31,13 @@ const savePostAfterEdit = authSafeActionClient
       },
       data: {
         value: content,
+        post: {
+          update: {
+            title: post.title,
+            slug: post.slug,
+            post_status: post.postStatus,
+          },
+        },
       },
     });
   });

@@ -20,10 +20,20 @@ import { useAction } from "next-safe-action/hooks";
 import savePostAfterEdit from "@/lib/actions/save-post-after-edit";
 import { toast } from "sonner";
 import icon from "@/lib/icons";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useState } from "react";
 
 export function SaveButton() {
   const [post] = useAtom(postAtom);
   const [element] = useAtom(editorElementsAtom);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { executeAsync, isExecuting } = useAction(savePostAfterEdit, {
     onSuccess: () => {
@@ -34,21 +44,79 @@ export function SaveButton() {
     },
   });
 
-  function handleClick() {
-    console.log(!post || element.length === 0);
-
+  function handleSave() {
     if (!post || element.length === 0) {
       return;
     }
 
     executeAsync({
+      post: {
+        title: post.title,
+        slug: post.slug,
+        postStatus: post.postStatus,
+      },
       postId: post.id,
       content: JSON.stringify(element),
     });
   }
 
+  function handlePublish() {
+    if (!post || element.length === 0) {
+      return;
+    }
+
+    executeAsync({
+      post: {
+        title: post.title,
+        slug: post.slug,
+        postStatus: "publish",
+      },
+      postId: post.id,
+      content: JSON.stringify(element),
+    });
+  }
+
+  if (post?.postStatus === "draft") {
+    return (
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetTrigger asChild>
+          <Button
+            onClick={() => setIsSheetOpen(true)}
+            disabled={post.title === ""}
+          >
+            Publish
+          </Button>
+        </SheetTrigger>
+
+        <SheetContent side={"right"} className="space-y-4">
+          <SheetHeader>
+            <SheetTitle>Publish Post</SheetTitle>
+          </SheetHeader>
+
+          <div className="flex w-full items-center gap-2">
+            <Button
+              onClick={() => handlePublish()}
+              disabled={isExecuting}
+              className="w-full"
+            >
+              Publish
+            </Button>
+            <SheetClose asChild>
+              <Button variant={"outline"} className="w-full">
+                Cancel
+              </Button>
+            </SheetClose>
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
   return (
-    <Button onClick={() => handleClick()} disabled={isExecuting}>
+    <Button
+      onClick={() => handleSave()}
+      disabled={isExecuting || post?.title === ""}
+    >
       Save
     </Button>
   );
