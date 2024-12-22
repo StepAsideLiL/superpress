@@ -1,13 +1,11 @@
 "use server";
 
 import { authSafeActionClient } from "./safe-action";
-import { z } from "zod";
 import prisma from "@/lib/prismadb";
-
-const schema = z.string();
+import { addNewPostSchema } from "@/lib/schemas";
 
 const addNewPost = authSafeActionClient
-  .schema(schema)
+  .schema(addNewPostSchema)
   .action(async ({ parsedInput, ctx }) => {
     if (!ctx.user) {
       throw new Error("Unauthorized: User not logged in.");
@@ -22,13 +20,15 @@ const addNewPost = authSafeActionClient
       throw new Error("Unauthorized: User does not have the capability.");
     }
 
+    const { title, slug, postType, postStatus, content } = parsedInput;
+
     const post = await prisma.posts
       .create({
         data: {
-          title: "",
-          slug: "",
-          post_type: parsedInput,
-          post_status: "draft",
+          title: title,
+          slug: slug,
+          post_type: postType,
+          post_status: postStatus,
           author: {
             connect: {
               id: ctx.user.id,
@@ -46,7 +46,7 @@ const addNewPost = authSafeActionClient
             },
             id: `${post.id}.content`,
             key: "content",
-            value: "[]",
+            value: content,
           },
         });
         return post;

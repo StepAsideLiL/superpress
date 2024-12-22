@@ -93,6 +93,14 @@ export const loginFormSchema = z.object({
   password: z.string().min(1, { message: "Provide a valid password." }),
 });
 
+export const addNewPostSchema = z.object({
+  title: z.string(),
+  slug: z.string(),
+  postType: z.string(),
+  postStatus: z.string(),
+  content: z.string(),
+});
+
 export const savePostAfterEditSchema = z.object({
   post: z.object({
     title: z.string(),
