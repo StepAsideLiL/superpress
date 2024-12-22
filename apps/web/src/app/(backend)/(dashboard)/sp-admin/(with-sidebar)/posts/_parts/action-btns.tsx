@@ -12,29 +12,14 @@ import deletePosts from "@/lib/actions/delete-posts";
 import { useSetAtom } from "jotai";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
 import { quickEditRowIdAtom } from "@/lib/store";
-import addNewPost from "@/lib/actions/add-new-post";
+import Link from "next/link";
 
 export function AddNewPostButton({ postType }: { postType: string }) {
-  const router = useRouter();
-
-  const { executeAsync, isExecuting } = useAction(addNewPost, {
-    onSuccess: (res) => {
-      router.push(`/sp-admin/edit/post?id=${res.data?.id}`);
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Failed to add new post.");
-    },
-  });
-
   return (
-    <Button
-      variant={"outline"}
-      className="gap-1"
-      disabled={isExecuting}
-      onClick={() => executeAsync(postType)}
-    >
-      Add New <span className="capitalize">{postType}</span>
+    <Button variant={"outline"} className="gap-1" asChild>
+      <Link href={`/sp-admin/add-post?post_type=${postType}`}>
+        Add New <span className="capitalize">{postType}</span>
+      </Link>
     </Button>
   );
 }
