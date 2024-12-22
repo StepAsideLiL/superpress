@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { editorElementsAtom, postAtom } from "../libs/store";
 import { useAtom } from "jotai";
 
-export default function SetDataInJotain({ post }: { post: PostForEditType }) {
+export default function SetDataInJotai({ post }: { post: PostForEditType }) {
   const [, setPost] = useAtom(postAtom);
   const [, setContent] = useAtom(editorElementsAtom);
 
