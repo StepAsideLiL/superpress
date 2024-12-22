@@ -29,27 +29,42 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import addNewPost from "@/lib/actions/add-new-post";
 
 export function SaveButton() {
   const [post] = useAtom(postAtom);
   const [element] = useAtom(editorElementsAtom);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const router = useRouter();
 
-  const { executeAsync, isExecuting } = useAction(savePostAfterEdit, {
-    onSuccess: () => {
-      toast.success("Post saved.");
-    },
-    onError: () => {
-      toast.error("Failed to save post.");
-    },
-  });
+  const { executeAsync: publishAction, isExecuting: isPublishActionExecuting } =
+    useAction(addNewPost, {
+      onSuccess: (res) => {
+        router.push(`/sp-admin/edit/post?id=${res.data?.id}`);
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error("Failed to add new post.");
+      },
+    });
+
+  const { executeAsync: saveAction, isExecuting: isSaveActionExecuting } =
+    useAction(savePostAfterEdit, {
+      onSuccess: () => {
+        toast.success("Post saved.");
+      },
+      onError: () => {
+        toast.error("Failed to save post.");
+      },
+    });
 
   function handleSave() {
     if (!post || element.length === 0) {
       return;
     }
 
-    executeAsync({
+    saveAction({
       post: {
         title: post.title,
         slug: post.slug,
@@ -65,13 +80,11 @@ export function SaveButton() {
       return;
     }
 
-    executeAsync({
-      post: {
-        title: post.title,
-        slug: post.slug,
-        postStatus: "publish",
-      },
-      postId: post.id,
+    publishAction({
+      title: post.title,
+      slug: post.slug,
+      postType: post.postType,
+      postStatus: "publish",
       content: JSON.stringify(element),
     });
   }
@@ -96,7 +109,7 @@ export function SaveButton() {
           <div className="flex w-full items-center gap-2">
             <Button
               onClick={() => handlePublish()}
-              disabled={isExecuting}
+              disabled={isPublishActionExecuting}
               className="w-full"
             >
               Publish
@@ -115,7 +128,7 @@ export function SaveButton() {
   return (
     <Button
       onClick={() => handleSave()}
-      disabled={isExecuting || post?.title === ""}
+      disabled={isSaveActionExecuting || post?.title === ""}
     >
       Save
     </Button>
