@@ -41,7 +41,7 @@ export function SaveButton() {
   const { executeAsync: publishAction, isExecuting: isPublishActionExecuting } =
     useAction(addNewPost, {
       onSuccess: (res) => {
-        router.push(`/sp-admin/edit/post?id=${res.data?.id}`);
+        router.push(`/sp-admin/edit-post?id=${res.data?.id}`);
       },
       onError: (error) => {
         console.log(error);

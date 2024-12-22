@@ -60,7 +60,7 @@ export const columns: ColumnDef<PostType>[] = [
             </section>
           ) : (
             <section className="action-btns flex h-3 items-center gap-2 text-xs">
-              <ButtonLink href={`/sp-admin/edit/post?id=${post.id}`}>
+              <ButtonLink href={`/sp-admin/edit-post?id=${post.id}`}>
                 Edit
               </ButtonLink>
               <Separator
