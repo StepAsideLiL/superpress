@@ -1,7 +1,7 @@
 import { Provider as EditorProvider } from "jotai";
 import Image from "next/image";
 import {
-  SaveButton,
+  // SaveButton,
   ToggleComponentsSidebar,
   ToggleSettingsSidebar,
 } from "./components/editor-ui/btns";
@@ -13,6 +13,7 @@ import SetDataInJotai from "./components/SetDataInJotai";
 import ViewElementJsonData from "./components/ViewElementJsonData";
 import { PostForEditType } from "@/lib/types";
 import PostTitle from "./components/PostTitle";
+import SavePublishBtn from "./components/SavePublishBtn";
 
 export default async function Editor({ post }: { post: PostForEditType }) {
   return (
@@ -41,7 +42,7 @@ export default async function Editor({ post }: { post: PostForEditType }) {
           <div className="flex items-center gap-2 pr-2">
             <ViewElementJsonData />
             <ToggleSettingsSidebar />
-            <SaveButton />
+            <SavePublishBtn />
           </div>
         </section>
 
