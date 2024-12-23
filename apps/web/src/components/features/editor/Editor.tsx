@@ -36,9 +36,7 @@ export default async function Editor({ post }: { post: PostForEditType }) {
             <ToggleComponentsSidebar />
           </div>
 
-          <div className="w-96 rounded bg-muted px-2 py-1 text-sm text-muted-foreground">
-            <PostTitle />
-          </div>
+          <PostTitle />
 
           <div className="flex items-center gap-2 pr-2">
             <ViewElementJsonData />

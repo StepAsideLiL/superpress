@@ -16,22 +16,14 @@ import EditText from "./block-edit/EditText";
 import EditListItem from "./block-edit/EditListItem";
 import EditList from "./block-edit/EditList";
 import icon from "@/lib/icons";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import slug from "slug";
+import UpdatePostTitle from "./UpdatePostTitle";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(openSettingsSidebarAtom);
   const [elementId, setElementID] = useAtom(selectedElementIdForEditingAtom);
-  const [post, setPost] = useAtom(postAtom);
+  const [post] = useAtom(postAtom);
   const [element] = useAtom(selectElementAtom);
 
   if (open) {
@@ -72,46 +64,7 @@ export default function SettingsSidebar() {
                       )}
                     </DialogTrigger>
 
-                    <DialogContent>
-                      <DialogTitle>Edit Post Title</DialogTitle>
-                      <Input
-                        placeholder="Enter post title"
-                        value={post.title}
-                        onChange={(e) =>
-                          setPost({
-                            ...post,
-                            title: e.target.value,
-                            slug: slug(e.target.value),
-                          })
-                        }
-                      />
-
-                      <DialogFooter className="justify-start sm:justify-start">
-                        <DialogClose asChild>
-                          <Button
-                            onClick={() => {
-                              setPost({ ...post });
-                            }}
-                          >
-                            Save
-                          </Button>
-                        </DialogClose>
-                        <DialogClose asChild>
-                          <Button
-                            variant={"outline"}
-                            onClick={() => {
-                              setPost({
-                                ...post,
-                                title: "",
-                                slug: "",
-                              });
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
+                    <UpdatePostTitle />
                   </Dialog>
                 </div>
 
