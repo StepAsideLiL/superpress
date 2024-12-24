@@ -83,3 +83,10 @@ export type PostForEditType = {
 export type GetPostForRenderType = {
   content: string;
 };
+
+export type UpdateUserProfileType = {
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+};

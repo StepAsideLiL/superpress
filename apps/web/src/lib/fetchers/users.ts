@@ -4,6 +4,7 @@ import prisma from "@/lib/prismadb";
 import auth from "@/lib/auth";
 import {
   UserDataTableRowType,
+  UpdateUserProfileType,
   UserSettingsKVType,
   UserTableTabCountByRoleType,
 } from "@/lib/types";
@@ -157,4 +158,48 @@ export async function getUserSettingsKVType(
   });
 
   return settinsKV;
+}
+
+export async function getUserCurrentProfile(): Promise<UpdateUserProfileType | null> {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error("Not logged in.");
+  }
+
+  const user = await prisma.users.findUnique({
+    where: {
+      id: currentUser.id,
+    },
+    select: {
+      displayname: true,
+      email: true,
+    },
+  });
+
+  const usermeta = await prisma.usermetas.findMany({
+    where: {
+      OR: [
+        {
+          id: `${currentUser.id}.first_name`,
+        },
+        {
+          id: `${currentUser.id}.last_name`,
+        },
+      ],
+    },
+  });
+
+  if (!user || !usermeta) {
+    return null;
+  }
+
+  return {
+    username: user.displayname,
+    email: user.email,
+    firstName:
+      usermeta.find((item) => item.id.endsWith("first_name"))?.value || "",
+    lastName:
+      usermeta.find((item) => item.id.endsWith("last_name"))?.value || "",
+  };
 }

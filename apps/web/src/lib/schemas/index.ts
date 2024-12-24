@@ -110,3 +110,8 @@ export const savePostAfterEditSchema = z.object({
   postId: z.string(),
   content: z.string(),
 });
+
+export const updateUserProfileSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+});
