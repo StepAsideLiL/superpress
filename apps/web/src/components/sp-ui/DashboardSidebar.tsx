@@ -5,7 +5,6 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
@@ -14,6 +13,7 @@ import auth from "@/lib/auth";
 import { SidebarMenuItemType } from "@/lib/types";
 import SidebarProfileDropdown from "./SidebarProfileDropdown";
 import icon from "@/lib/icons";
+import SidebarMenuButtonLink from "./SidebarMenuButtonLink";
 
 export default async function DashboardSidebar() {
   const user = await auth.getCurrentUser();
@@ -106,12 +106,12 @@ export default async function DashboardSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButtonLink url={"/sp-admin"}>
                   <Link href={"/sp-admin"}>
                     <icon.Home />
                     <span>Dashboard</span>
                   </Link>
-                </SidebarMenuButton>
+                </SidebarMenuButtonLink>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
@@ -122,12 +122,12 @@ export default async function DashboardSidebar() {
             <SidebarMenu>
               {contentMenu.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButtonLink url={item.url}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
-                  </SidebarMenuButton>
+                  </SidebarMenuButtonLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -139,12 +139,12 @@ export default async function DashboardSidebar() {
             <SidebarMenu>
               {settingMenu.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButtonLink url={item.url}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
-                  </SidebarMenuButton>
+                  </SidebarMenuButtonLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
