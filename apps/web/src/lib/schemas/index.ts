@@ -115,3 +115,14 @@ export const updateUserProfileSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
 });
+
+export const createNewUserSchema = z.object({
+  username: z.string().min(1, {
+    message: "Username is required.",
+  }),
+  email: z.string().min(1, { message: "Email is required." }),
+  firstName: z.string(),
+  lastName: z.string(),
+  password: z.string().min(1, { message: "Password is required." }),
+  role: z.string(),
+});

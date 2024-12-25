@@ -28,6 +28,10 @@ const icon = {
   EllipsisVertical: (props: lucideIcon.LucideProps) => (
     <lucideIcon.EllipsisVerticalIcon {...props} />
   ),
+  EyeClosed: (props: lucideIcon.LucideProps) => (
+    <lucideIcon.EyeClosed {...props} />
+  ),
+  EyeOpen: (props: lucideIcon.LucideProps) => <lucideIcon.Eye {...props} />,
   Home: (props: lucideIcon.LucideProps) => <lucideIcon.Home {...props} />,
   Leaf: (props: lucideIcon.LucideProps) => <lucideIcon.Leaf {...props} />,
   List: (props: IconProps) => (
