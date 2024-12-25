@@ -7,7 +7,7 @@ export const isBulkEditTableRowOpenAtom = atom(false);
 const store = {
   quickEditRowIdAtom,
   isBulkEditTableRowOpenAtom,
-  dashboardSidebar: atomWithStorage("dashboardSidebar", false),
+  isDashboardSidebarOpen: atomWithStorage("isDashboardSidebarOpen", false),
   userId: atomWithStorage("userId", ""),
 };
 

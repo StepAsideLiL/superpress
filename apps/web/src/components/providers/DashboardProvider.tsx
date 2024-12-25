@@ -13,6 +13,7 @@ export default function DashboardProvider({
   children: React.ReactNode;
 }) {
   const [, setUserId] = useAtom(store.userId);
+  const [open, setOpen] = useAtom(store.isDashboardSidebarOpen);
 
   useEffect(() => {
     setUserId(userId);
@@ -20,7 +21,9 @@ export default function DashboardProvider({
 
   return (
     <JotaiProvider>
-      <SidebarProvider>{children}</SidebarProvider>
+      <SidebarProvider open={open} onOpenChange={setOpen}>
+        {children}
+      </SidebarProvider>
     </JotaiProvider>
   );
 }
