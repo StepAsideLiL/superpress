@@ -126,3 +126,10 @@ export const createNewUserSchema = z.object({
   password: z.string().min(1, { message: "Password is required." }),
   role: z.string(),
 });
+
+export const editUserProfileByAdminSchema = z.object({
+  userId: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  role: z.string(),
+});

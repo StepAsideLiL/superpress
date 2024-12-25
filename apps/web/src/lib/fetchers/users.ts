@@ -7,6 +7,7 @@ import {
   UpdateUserProfileType,
   UserSettingsKVType,
   UserTableTabCountByRoleType,
+  UserProfileForEditByAdminType,
 } from "@/lib/types";
 
 /**
@@ -205,5 +206,42 @@ export async function getCurrentUserProfile(): Promise<UpdateUserProfileType | n
       usermeta.find((item) => item.id.endsWith("first_name"))?.value || "",
     lastName:
       usermeta.find((item) => item.id.endsWith("last_name"))?.value || "",
+  };
+}
+
+/**
+ * Get user profile for edit by admin.
+ * @param userId User id for edit.
+ * @returns User info
+ */
+export async function getUserProfileForEditByAdmin(
+  userId: string
+): Promise<UserProfileForEditByAdminType | null> {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  const usermeta = await prisma.usermetas.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+
+  if (!user || !usermeta) {
+    return null;
+  }
+
+  return {
+    userId: user.id,
+    username: user.displayname,
+    email: user.email,
+    firstName:
+      usermeta.find((item) => item.id.endsWith("first_name"))?.value || "",
+    lastName:
+      usermeta.find((item) => item.id.endsWith("last_name"))?.value || "",
+    role:
+      usermeta.find((item) => item.id.endsWith("capability"))?.value || "user",
   };
 }

@@ -12,6 +12,7 @@ import {
   getCurrentUserProfile,
   getUserDataTable,
   getUserSettingsKVType,
+  getUserProfileForEditByAdmin,
 } from "./users";
 
 const fetch = {
@@ -30,6 +31,7 @@ const fetch = {
     getUserCountByRole,
     getUserSettingsKVType,
     getCurrentUserProfile,
+    getUserProfileForEditByAdmin,
   },
 };
 

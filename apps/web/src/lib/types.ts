@@ -90,3 +90,12 @@ export type UpdateUserProfileType = {
   firstName: string;
   lastName: string;
 };
+
+export type UserProfileForEditByAdminType = {
+  userId: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+};
