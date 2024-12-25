@@ -60,7 +60,13 @@ function TableActionsBtns({ row }: { row: Row<UserDataTableRowType> }) {
     <div className="space-y-2">
       <h1 className="font-semibold">{row.getValue("username")}</h1>
       <section className="action-btns flex h-3 items-center gap-2 text-xs">
-        <ButtonLink href={`/sp-admin/edit-profile?id=${row.original.id}`}>
+        <ButtonLink
+          href={
+            userId === row.original.id
+              ? `/sp-admin/profile`
+              : `/sp-admin/edit-profile?id=${row.original.id}`
+          }
+        >
           Edit
         </ButtonLink>
 
