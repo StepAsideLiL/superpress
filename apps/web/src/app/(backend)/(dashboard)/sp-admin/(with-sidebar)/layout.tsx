@@ -1,14 +1,23 @@
+import DashboardProvider from "@/components/providers/DashboardProvider";
 import DashboardSidebar from "@/components/sp-ui/DashboardSidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { Provider as JotaiProvider } from "jotai";
+import auth from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const currentUser = await auth.getCurrentUser();
+
+  if (!currentUser) {
+    redirect("/");
+  }
+
   return (
-    <JotaiProvider>
-      <SidebarProvider>
-        <DashboardSidebar />
-        <main className="w-full px-8 py-6">{children}</main>
-      </SidebarProvider>
-    </JotaiProvider>
+    <DashboardProvider userId={currentUser.id}>
+      <DashboardSidebar />
+      <main className="w-full px-8 py-6">{children}</main>
+    </DashboardProvider>
   );
 }
