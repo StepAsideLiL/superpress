@@ -5,15 +5,14 @@ import fetch from "@/lib/fetchers";
 import { redirect } from "next/navigation";
 import { getSettingByName } from "@/lib/utils";
 import auth from "@/lib/auth";
+import Link from "next/link";
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{
-      role?: string;
-      search?: string;
-    }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{
+    role?: string;
+    search?: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   const user = await auth.getCurrentUser();
 
@@ -66,7 +65,9 @@ export default async function Page(
     <div className="space-y-6">
       <section className="flex items-center gap-2">
         <h1 className="text-2xl">Users</h1>
-        <Button variant={"outline"}>Add New User</Button>
+        <Button variant={"outline"} asChild>
+          <Link href={"/sp-admin/new-user"}>Add New User</Link>
+        </Button>
       </section>
 
       <UserTableSection
