@@ -160,6 +160,10 @@ export async function getUserSettingsKVType(
   return settinsKV;
 }
 
+/**
+ * Get current user profile.
+ * @returns User info.
+ */
 export async function getUserCurrentProfile(): Promise<UpdateUserProfileType | null> {
   const currentUser = await auth.getCurrentUser();
 
