@@ -75,6 +75,6 @@ export function DeleteButton({ user }: { user: UserDataTableRowType }) {
   );
 }
 
-export function SendPasswordPasswordButton() {
+export function SendPasswordButton() {
   return <ButtonLink>Send Password Reset</ButtonLink>;
 }

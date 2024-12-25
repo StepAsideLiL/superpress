@@ -3,7 +3,7 @@ import { UserDataTableRowType } from "@/lib/types";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Separator } from "@/components/ui/separator";
 import ButtonLink from "@/components/sp-ui/ButtonLink";
-import { DeleteButton, SendPasswordPasswordButton } from "./action-btns";
+import { DeleteButton, SendPasswordButton } from "./action-btns";
 import { useAtom } from "jotai";
 import store from "@/lib/store";
 
@@ -77,7 +77,7 @@ function TableActionsBtns({ row }: { row: Row<UserDataTableRowType> }) {
         {userId === row.original.id || (
           <>
             <Separator orientation="vertical" className="bg-muted-foreground" />
-            <SendPasswordPasswordButton />
+            <SendPasswordButton />
           </>
         )}
       </section>
