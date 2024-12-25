@@ -2,7 +2,7 @@ import fetch from "@/lib/fetchers";
 import ProfileEditForm from "./_parts/ProfileEditForm";
 
 export default async function Page() {
-  const user = await fetch.user.getUserCurrentProfile();
+  const user = await fetch.user.getCurrentUserProfile();
 
   return (
     <div className="space-y-6">

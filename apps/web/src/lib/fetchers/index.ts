@@ -9,7 +9,7 @@ import {
 import { checkDatabaseConnection, checkSiteAdmin } from "./checkDB";
 import {
   getUserCountByRole,
-  getUserCurrentProfile,
+  getCurrentUserProfile,
   getUserDataTable,
   getUserSettingsKVType,
 } from "./users";
@@ -29,7 +29,7 @@ const fetch = {
     getUserDataTable,
     getUserCountByRole,
     getUserSettingsKVType,
-    getUserCurrentProfile,
+    getCurrentUserProfile,
   },
 };
 
