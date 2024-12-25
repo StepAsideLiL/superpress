@@ -26,7 +26,7 @@ const formSchema = updateUserProfileSchema.extend({
   email: z.string().min(1, { message: "Email is required." }),
 });
 
-export default function ProfileEditForm({
+export default function ProfileUpdateForm({
   user,
 }: {
   user: UpdateUserProfileType;

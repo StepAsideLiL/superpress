@@ -1,5 +1,5 @@
 import fetch from "@/lib/fetchers";
-import ProfileEditForm from "./_parts/ProfileEditForm";
+import ProfileUpdateForm from "./_parts/ProfileUpdateForm";
 
 export default async function Page() {
   const user = await fetch.user.getCurrentUserProfile();
@@ -14,7 +14,7 @@ export default async function Page() {
         {!user ? (
           <h1 className="text-center">User not found.</h1>
         ) : (
-          <ProfileEditForm user={user} />
+          <ProfileUpdateForm user={user} />
         )}
       </section>
     </div>
