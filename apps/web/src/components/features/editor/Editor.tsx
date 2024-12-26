@@ -1,7 +1,6 @@
 import { Provider as EditorProvider } from "jotai";
 import Image from "next/image";
 import {
-  // SaveButton,
   ToggleComponentsSidebar,
   ToggleSettingsSidebar,
 } from "./components/editor-ui/btns";
