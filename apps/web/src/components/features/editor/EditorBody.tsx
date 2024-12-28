@@ -3,12 +3,12 @@
 import "./style.css";
 import InsertComponentBtn from "./components/InsertComponentBtn";
 import { renderHtmlForEditor } from "./libs/render";
-import { editorElementsAtom } from "./libs/store";
+import editorStore from "./libs/store";
 import { useAtom } from "jotai";
 import { FloatingTopbar } from "./components/EditableElement";
 
 export default function EditorBody() {
-  const [content] = useAtom(editorElementsAtom);
+  const [content] = useAtom(editorStore.editorElementsAtom);
 
   return (
     <section className="h-full flex-1 overflow-auto">

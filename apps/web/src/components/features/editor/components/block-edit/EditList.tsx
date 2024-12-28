@@ -1,4 +1,4 @@
-import { listTags, selectElementAtom } from "../../libs/store";
+import editorStore, { listTags } from "../../libs/store";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
@@ -44,7 +44,7 @@ const orderedListStyle = [
 ];
 
 export default function EditList({ element }: { element: EditorElement }) {
-  const [, setElement] = useAtom(selectElementAtom);
+  const [, setElement] = useAtom(editorStore.selectElementAtom);
 
   return (
     <div className="divide-y-2">

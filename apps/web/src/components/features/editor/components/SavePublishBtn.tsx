@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
-import { editorElementsAtom, postAtom } from "../libs/store";
+import editorStore from "../libs/store";
 import { useAtom } from "jotai";
 import { Button } from "@/components/ui/button";
 import addNewPost from "@/lib/actions/add-new-post";
@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import savePostAfterEdit from "@/lib/actions/save-post-after-edit";
 
 export default function SavePublishBtn() {
-  const [post] = useAtom(postAtom);
+  const [post] = useAtom(editorStore.postAtom);
   const pathname = usePathname();
 
   if (!post) return null;
@@ -31,8 +31,8 @@ export default function SavePublishBtn() {
 }
 
 function PublishSheet() {
-  const [post] = useAtom(postAtom);
-  const [element] = useAtom(editorElementsAtom);
+  const [post] = useAtom(editorStore.postAtom);
+  const [element] = useAtom(editorStore.editorElementsAtom);
 
   const router = useRouter();
 
@@ -87,8 +87,8 @@ function PublishSheet() {
 }
 
 function SavePostBtn() {
-  const [post] = useAtom(postAtom);
-  const [element] = useAtom(editorElementsAtom);
+  const [post] = useAtom(editorStore.postAtom);
+  const [element] = useAtom(editorStore.editorElementsAtom);
 
   const { executeAsync, isExecuting } = useAction(savePostAfterEdit, {
     onSuccess: () => {

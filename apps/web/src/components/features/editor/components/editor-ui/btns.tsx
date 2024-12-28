@@ -8,17 +8,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useAtom } from "jotai";
-import {
-  openComponentSidebarAtom,
-  toggleComponentSidebarAtom,
-  toggleSettingsSidebarAtom,
-} from "../../libs/store";
+import editorStore from "../../libs/store";
 import { cn } from "@/lib/utils";
 import icon from "@/lib/icons";
 
 export function ToggleComponentsSidebar() {
-  const [open] = useAtom(openComponentSidebarAtom);
-  const [, toggleSidebar] = useAtom(toggleComponentSidebarAtom);
+  const [open] = useAtom(editorStore.openComponentSidebarAtom);
+  const [, toggleSidebar] = useAtom(editorStore.toggleComponentSidebarAtom);
 
   return (
     <TooltipProvider>
@@ -42,7 +38,7 @@ export function ToggleComponentsSidebar() {
 }
 
 export function ToggleSettingsSidebar() {
-  const [, toggleSidebar] = useAtom(toggleSettingsSidebarAtom);
+  const [, toggleSidebar] = useAtom(editorStore.toggleSettingsSidebarAtom);
 
   return (
     <TooltipProvider>
@@ -62,7 +58,7 @@ export function ToggleSettingsSidebar() {
 }
 
 export function CloseComponentsSidebar() {
-  const [, toggleSidebar] = useAtom(toggleComponentSidebarAtom);
+  const [, toggleSidebar] = useAtom(editorStore.toggleComponentSidebarAtom);
 
   return (
     <Button
@@ -77,7 +73,7 @@ export function CloseComponentsSidebar() {
 }
 
 export function CloseSettingsSidebar() {
-  const [, toggleSidebar] = useAtom(toggleSettingsSidebarAtom);
+  const [, toggleSidebar] = useAtom(editorStore.toggleSettingsSidebarAtom);
 
   return (
     <Button

@@ -1,12 +1,12 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { postAtom } from "../libs/store";
+import editorStore from "../libs/store";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import UpdatePostTitle from "./UpdatePostTitle";
 
 export default function PostTitle() {
-  const [post] = useAtom(postAtom);
+  const [post] = useAtom(editorStore.postAtom);
 
   if (!post) return null;
 

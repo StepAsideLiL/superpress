@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  listTags,
-  openSettingsSidebarAtom,
-  postAtom,
-  selectedElementIdForEditingAtom,
-  selectElementAtom,
-  textTags,
-} from "../libs/store";
+import editorStore, { listTags, textTags } from "../libs/store";
 import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
@@ -21,10 +14,12 @@ import { Button } from "@/components/ui/button";
 import UpdatePostTitle from "./UpdatePostTitle";
 
 export default function SettingsSidebar() {
-  const [open] = useAtom(openSettingsSidebarAtom);
-  const [elementId, setElementID] = useAtom(selectedElementIdForEditingAtom);
-  const [post] = useAtom(postAtom);
-  const [element] = useAtom(selectElementAtom);
+  const [open] = useAtom(editorStore.openSettingsSidebarAtom);
+  const [elementId, setElementID] = useAtom(
+    editorStore.selectedElementIdForEditingAtom
+  );
+  const [post] = useAtom(editorStore.postAtom);
+  const [element] = useAtom(editorStore.selectElementAtom);
 
   if (open) {
     return (

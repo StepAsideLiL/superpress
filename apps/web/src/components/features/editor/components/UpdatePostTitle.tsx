@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useAtom } from "jotai";
-import { postAtom } from "../libs/store";
+import editorStore from "../libs/store";
 import slug from "slug";
 import {
   Form,
@@ -30,7 +30,7 @@ const formSchema = z.object({
 });
 
 export default function UpdatePostTitle() {
-  const [post, setPost] = useAtom(postAtom);
+  const [post, setPost] = useAtom(editorStore.postAtom);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

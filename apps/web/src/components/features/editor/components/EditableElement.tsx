@@ -1,14 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import {
-  textTags,
-  selectedElementIdForEditingAtom,
-  selectElementAtom,
-  listTags,
-  deleteElementByIdAtom,
-  insertElementAfterSelectedElementByIdAtom,
-} from "../libs/store";
+import editorStore, { textTags, listTags } from "../libs/store";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -32,10 +25,12 @@ export default function EditableElement({
   children: React.ReactNode;
 }) {
   const [selectedElementId, setSelectedElementId] = useAtom(
-    selectedElementIdForEditingAtom
+    editorStore.selectedElementIdForEditingAtom
   );
-  const [, setElement] = useAtom(selectElementAtom);
-  const [, insertElement] = useAtom(insertElementAfterSelectedElementByIdAtom);
+  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, insertElement] = useAtom(
+    editorStore.insertElementAfterSelectedElementByIdAtom
+  );
 
   if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
@@ -165,8 +160,8 @@ export function FloatingTopbar() {
   const { refs, floatingStyles, update } = useFloating({
     placement: "top-start",
   });
-  const [element] = useAtom(selectElementAtom);
-  const [, deleteElementById] = useAtom(deleteElementByIdAtom);
+  const [element] = useAtom(editorStore.selectElementAtom);
+  const [, deleteElementById] = useAtom(editorStore.deleteElementByIdAtom);
 
   useEffect(() => {
     if (element) {

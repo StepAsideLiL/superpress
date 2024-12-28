@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { addEditorElementAtom, openComponentSidebarAtom } from "../libs/store";
+import editorStore from "../libs/store";
 import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
@@ -15,9 +15,9 @@ import { components } from "../libs/components";
 import icon from "@/lib/icons";
 
 export default function InsertComponentBtn() {
-  const [, addEditorElement] = useAtom(addEditorElementAtom);
+  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [search, setSearch] = useState("");
-  const [, setTrue] = useAtom(openComponentSidebarAtom);
+  const [, setTrue] = useAtom(editorStore.openComponentSidebarAtom);
 
   return (
     <Popover>

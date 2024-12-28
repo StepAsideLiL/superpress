@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { addEditorElementAtom, openComponentSidebarAtom } from "../libs/store";
+import editorStore from "../libs/store";
 import { Button } from "@/components/ui/button";
 import { CloseComponentsSidebar } from "./editor-ui/btns";
 import { nanoid } from "../libs/utils";
@@ -10,8 +10,8 @@ import { useState } from "react";
 import { componentGroups, components } from "../libs/components";
 
 export default function ComponentsSidebar() {
-  const [open] = useAtom(openComponentSidebarAtom);
-  const [, addEditorElement] = useAtom(addEditorElementAtom);
+  const [open] = useAtom(editorStore.openComponentSidebarAtom);
+  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [search, setSearch] = useState("");
 
   if (open) {

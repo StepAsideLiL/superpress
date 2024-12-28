@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { selectElementAtom, textTags } from "../../libs/store";
+import editorStore, { textTags } from "../../libs/store";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import icon from "@/lib/icons";
@@ -31,7 +31,7 @@ const stylePresets = [
 ];
 
 export default function EditText({ element }: { element: EditorElement }) {
-  const [, setElement] = useAtom(selectElementAtom);
+  const [, setElement] = useAtom(editorStore.selectElementAtom);
 
   console.log(element);
 

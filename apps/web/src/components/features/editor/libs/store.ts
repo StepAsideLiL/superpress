@@ -6,34 +6,34 @@ import { EditorElement } from "./types";
 export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
 export const listTags = ["ol", "ul"];
 
-export const postAtom = atom<PostForEditType>();
+const postAtom = atom<PostForEditType>();
 
-export const openComponentSidebarAtom = atomWithStorage<boolean>(
+const openComponentSidebarAtom = atomWithStorage<boolean>(
   "ComponentSidebar",
   false
 );
-export const openSettingsSidebarAtom = atomWithStorage<boolean>(
+const openSettingsSidebarAtom = atomWithStorage<boolean>(
   "SettingSidebar",
   true
 );
 
-export const toggleComponentSidebarAtom = atom(null, (get, set) => {
+const toggleComponentSidebarAtom = atom(null, (get, set) => {
   set(openComponentSidebarAtom, !get(openComponentSidebarAtom));
 });
-export const toggleSettingsSidebarAtom = atom(null, (get, set) => {
+const toggleSettingsSidebarAtom = atom(null, (get, set) => {
   set(openSettingsSidebarAtom, !get(openSettingsSidebarAtom));
 });
 
-export const editorElementsAtom = atom<EditorElement[]>([]);
-export const addEditorElementAtom = atom(
+const editorElementsAtom = atom<EditorElement[]>([]);
+const addEditorElementAtom = atom(
   null,
   (get, set, newEditorElement: EditorElement) => {
     set(editorElementsAtom, [...get(editorElementsAtom), newEditorElement]);
   }
 );
 
-export const selectedElementIdForEditingAtom = atom<string | null>(null);
-export const selectElementAtom = atom(
+const selectedElementIdForEditingAtom = atom<string | null>(null);
+const selectElementAtom = atom(
   (get) => {
     const data = get(editorElementsAtom);
     const selectedId = get(selectedElementIdForEditingAtom);
@@ -77,7 +77,7 @@ export const selectElementAtom = atom(
   }
 );
 
-export const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
+const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
   const elementData = get(editorElementsAtom);
 
   const updateElement = (elements: EditorElement[]): EditorElement[] => {
@@ -98,7 +98,7 @@ export const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
   set(editorElementsAtom, updatedElementData);
 });
 
-export const insertElementAfterSelectedElementByIdAtom = atom(
+const insertElementAfterSelectedElementByIdAtom = atom(
   null,
   (get, set, elementId: string, newElement: EditorElement) => {
     const editorElementData = get(editorElementsAtom);
@@ -129,3 +129,19 @@ export const insertElementAfterSelectedElementByIdAtom = atom(
     set(editorElementsAtom, updatedElements);
   }
 );
+
+const editorStore = {
+  postAtom,
+  openComponentSidebarAtom,
+  openSettingsSidebarAtom,
+  toggleComponentSidebarAtom,
+  toggleSettingsSidebarAtom,
+  editorElementsAtom,
+  addEditorElementAtom,
+  selectedElementIdForEditingAtom,
+  selectElementAtom,
+  deleteElementByIdAtom,
+  insertElementAfterSelectedElementByIdAtom,
+};
+
+export default editorStore;
