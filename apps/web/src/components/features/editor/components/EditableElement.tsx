@@ -46,7 +46,10 @@ export default function EditableElement({
           element.className
         )}
         style={element.style}
-        onClick={() => setSelectedElementId(element.id)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedElementId(element.id);
+        }}
         onBlur={(e) => {
           setElement({ ...element, content: e.currentTarget.innerHTML });
         }}
