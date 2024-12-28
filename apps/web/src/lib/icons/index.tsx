@@ -19,6 +19,10 @@ const icon = {
   ChevronsUpDown: (props: lucideIcon.LucideProps) => (
     <lucideIcon.ChevronsUpDown {...props} />
   ),
+  Compass: (props: lucideIcon.LucideProps) => <lucideIcon.Compass {...props} />,
+  Component: (props: lucideIcon.LucideProps) => (
+    <lucideIcon.Component {...props} />
+  ),
   Container: (props: IconProps) => (
     <radixIcon.ContainerIcon
       className={cn("size-5", props.className)}

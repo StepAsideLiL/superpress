@@ -1,13 +1,9 @@
-import {
-  EditorElement,
-  ElementType,
-  listTags,
-  selectElementAtom,
-} from "../../libs/store";
+import { listTags, selectElementAtom } from "../../libs/store";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import icon from "@/lib/icons";
+import { EditorElement, ElementType } from "../../libs/types";
 
 const unorderedListStyle = [
   {

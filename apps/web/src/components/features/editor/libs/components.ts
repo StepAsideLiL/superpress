@@ -1,22 +1,6 @@
-import { ReactNode } from "react";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { nanoid } from "./utils";
-import { EditorElement, ElementType } from "./store";
+import { ComponentGroupsType } from "./types";
 import icon from "@/lib/icons";
-
-type ComponentGroupsType = {
-  name: string;
-  components: {
-    title: string;
-    lebel: string;
-    icon: (props: IconProps) => ReactNode;
-    type: ElementType;
-    content?: string | EditorElement[];
-    className?: string;
-    style?: React.CSSProperties;
-    tags?: string[];
-  }[];
-};
 
 export const componentGroups: ComponentGroupsType[] = [
   {

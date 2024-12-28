@@ -2,7 +2,6 @@
 
 import { useAtom } from "jotai";
 import {
-  EditorElement,
   textTags,
   selectedElementIdForEditingAtom,
   selectElementAtom,
@@ -23,6 +22,7 @@ import icon from "@/lib/icons";
 import { nanoid } from "../libs/utils";
 import { useFloating } from "@floating-ui/react";
 import { useEffect, useRef } from "react";
+import { EditorElement } from "../libs/types";
 
 export default function EditableElement({
   element,

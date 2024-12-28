@@ -1,4 +1,4 @@
-import { EditorElement } from "../../libs/store";
+import { EditorElement } from "../../libs/types";
 import icon from "@/lib/icons";
 
 export default function EditListItem({ element }: { element: EditorElement }) {

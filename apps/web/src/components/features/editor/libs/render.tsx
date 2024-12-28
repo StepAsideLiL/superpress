@@ -1,5 +1,5 @@
 import React from "react";
-import { EditorElement } from "./store";
+import { EditorElement } from "./types";
 import EditableElement from "../components/EditableElement";
 
 export const renderHtml = (elements: EditorElement[]): React.ReactNode => {

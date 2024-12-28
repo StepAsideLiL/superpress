@@ -1,15 +1,11 @@
 "use client";
 
 import { useAtom } from "jotai";
-import {
-  EditorElement,
-  ElementType,
-  selectElementAtom,
-  textTags,
-} from "../../libs/store";
+import { selectElementAtom, textTags } from "../../libs/store";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import icon from "@/lib/icons";
+import { EditorElement, ElementType } from "../../libs/types";
 
 const stylePresets = [
   {

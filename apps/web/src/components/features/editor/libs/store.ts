@@ -1,29 +1,7 @@
 import { PostForEditType } from "@/lib/types";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-
-export type ElementType =
-  | "h1"
-  | "h2"
-  | "h3"
-  | "h4"
-  | "h5"
-  | "h6"
-  | "p"
-  | "span"
-  | "button"
-  | "ol"
-  | "ul"
-  | "li"
-  | "div";
-
-export type EditorElement = {
-  id: string;
-  type: ElementType;
-  content: string | EditorElement[];
-  style?: React.CSSProperties;
-  className?: string;
-};
+import { EditorElement } from "./types";
 
 export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
 export const listTags = ["ol", "ul"];
