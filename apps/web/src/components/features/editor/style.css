@@ -15,32 +15,32 @@
 }
 
 .list-ul-none {
-  @apply list-inside list-none;
+  @apply list-outside list-none pl-5;
 }
 
 .list-ul-bullet {
-  @apply list-inside list-disc;
+  @apply list-outside list-disc pl-5;
 }
 
 .list-ul-circle {
-  @apply list-inside list-[circle];
+  @apply list-outside list-[circle] pl-5;
 }
 .list-ul-check {
-  @apply list-inside list-["✓"];
+  @apply list-outside list-["✓"] pl-5;
 }
 
 .list-ol-none {
-  @apply list-inside list-none;
+  @apply list-outside list-none pl-5;
 }
 
 .list-ol-decimal {
-  @apply list-inside list-decimal;
+  @apply list-outside list-decimal pl-5;
 }
 
 .list-ol-alphabet {
-  @apply list-inside list-[upper-alpha];
+  @apply list-outside list-[upper-alpha] pl-5;
 }
 
 .list-ol-roman {
-  @apply list-inside list-[upper-roman];
+  @apply list-outside list-[upper-roman] pl-5;
 }

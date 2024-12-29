@@ -31,12 +31,24 @@ export default function EditableElement({
   const [, insertElement] = useAtom(
     editorStore.insertElementAfterSelectedElementByIdAtom
   );
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const liRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (divRef.current && element.id === selectedElementId) {
+      divRef.current.contentEditable = "true";
+      divRef.current.focus();
+    }
+    if (liRef.current && element.id === selectedElementId) {
+      liRef.current.contentEditable = "true";
+      liRef.current.focus();
+    }
+  }, [element.id, selectedElementId]);
 
   if (textTags.includes(element.type) && !Array.isArray(element.content)) {
     return (
       <div
-        contentEditable={element.id === selectedElementId}
-        suppressContentEditableWarning
+        ref={divRef}
         id={element.id}
         className={cn(
           "mx-auto cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
@@ -49,6 +61,10 @@ export default function EditableElement({
         onClick={(e) => {
           e.stopPropagation();
           setSelectedElementId(element.id);
+          if (divRef.current) {
+            divRef.current.contentEditable = "true";
+            divRef.current.focus();
+          }
         }}
         onBlur={(e) => {
           setElement({ ...element, content: e.currentTarget.innerHTML });
@@ -65,7 +81,7 @@ export default function EditableElement({
             insertElement(element.id, {
               id: newElementid,
               type: "p",
-              content: "paragraph",
+              content: "",
               className: "text-subtitle",
               style: {
                 width: "768px",
@@ -75,6 +91,9 @@ export default function EditableElement({
             });
 
             setSelectedElementId(newElementid);
+            if (divRef.current) {
+              divRef.current.contentEditable = "false";
+            }
           }
         }}
       >
@@ -106,8 +125,7 @@ export default function EditableElement({
   if (element.type === "li" && !Array.isArray(element.content)) {
     return (
       <li
-        contentEditable={element.id === selectedElementId}
-        suppressContentEditableWarning
+        ref={liRef}
         id={element.id}
         className={cn(
           "cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
@@ -120,6 +138,10 @@ export default function EditableElement({
         onClick={(e) => {
           e.stopPropagation();
           setSelectedElementId(element.id);
+          if (liRef.current) {
+            liRef.current.contentEditable = "true";
+            liRef.current.focus();
+          }
         }}
         onBlur={(e) => {
           setElement({ ...element, content: e.currentTarget.innerHTML });
@@ -140,6 +162,9 @@ export default function EditableElement({
             });
 
             setSelectedElementId(newElementid);
+            if (liRef.current) {
+              liRef.current.contentEditable = "false";
+            }
           }
         }}
       >
