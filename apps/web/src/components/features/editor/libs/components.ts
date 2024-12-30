@@ -39,6 +39,8 @@ export const componentGroups: ComponentGroupsType[] = [
         type: "button",
         content: "Click Me",
         tags: ["button", "btn"],
+        className: "button",
+        style: {},
       },
       {
         title: "List",

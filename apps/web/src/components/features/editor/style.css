@@ -44,3 +44,7 @@
 .list-ol-roman {
   @apply list-outside list-[upper-roman] pl-5;
 }
+
+.button {
+  @apply bg-blue-500 px-5 py-2 hover:bg-blue-700;
+}
