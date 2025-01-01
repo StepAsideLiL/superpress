@@ -38,7 +38,7 @@ export const componentGroups: ComponentGroupsType[] = [
         icon: icon.Button,
         type: "button",
         content: "Click Me",
-        tags: ["button", "btn"],
+        tags: ["button", "btn", "link"],
         className: "button",
         style: {},
       },

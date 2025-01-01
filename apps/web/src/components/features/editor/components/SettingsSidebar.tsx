@@ -12,6 +12,7 @@ import icon from "@/lib/icons";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import UpdatePostTitle from "./UpdatePostTitle";
+import EditButton from "./block-edit/EditButton";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(editorStore.openSettingsSidebarAtom);
@@ -93,6 +94,8 @@ export default function SettingsSidebar() {
                 {textTags.includes(element.type) && (
                   <EditText element={element} />
                 )}
+
+                {element.type === "button" && <EditButton element={element} />}
 
                 {listTags.includes(element.type) && (
                   <EditList element={element} />

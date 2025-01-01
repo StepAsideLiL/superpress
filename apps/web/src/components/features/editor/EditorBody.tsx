@@ -10,6 +10,7 @@ import ListElement from "./components/render/ListElement";
 import ListItemElement from "./components/render/ListItemElement";
 import { createElement } from "react";
 import FloatingToolbar from "./components/block-edit/FloatingToolbar";
+import ButtonElement from "./components/render/ButtonElement";
 
 export default function EditorBody() {
   const [content] = useAtom(editorStore.editorElementsAtom);
@@ -37,6 +38,10 @@ function RenderElements({ elements }: { elements: EditorElement[] }) {
       {elements.map((element) => {
         if (textTags.includes(element.type)) {
           return <TextElement key={element.id} element={element} />;
+        }
+
+        if (element.type === "button") {
+          return <ButtonElement key={element.id} element={element} />;
         }
 
         if (listTags.includes(element.type) && Array.isArray(element.content)) {

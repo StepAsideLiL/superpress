@@ -42,6 +42,7 @@ export default function FloatingToolbar() {
         {textTags.includes(element.type) && !Array.isArray(element.content) && (
           <icon.Text className="size-5" />
         )}
+        {element.type === "button" && <icon.Button className="size-5" />}
         {listTags.includes(element.type) && <icon.List className="size-5" />}
         {element.type === "li" && !Array.isArray(element.content) && (
           <icon.Logs className="size-5" />
