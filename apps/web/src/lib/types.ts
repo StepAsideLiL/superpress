@@ -62,16 +62,18 @@ export type CurrentUserType = {
   capability: string;
 };
 
+export type IconType = ({
+  size,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) => React.ReactElement;
+
 export type SidebarMenuItemType = {
   title: string;
   url: string;
-  icon: ({
-    size,
-    className,
-  }: {
-    size?: number;
-    className?: string;
-  }) => React.ReactElement;
+  icon: IconType;
 };
 
 export type PostForEditType = {
