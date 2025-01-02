@@ -2,6 +2,14 @@ import * as lucideIcon from "lucide-react";
 import * as radixIcon from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 
+export type IconType = ({
+  size,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) => React.ReactElement;
+
 const icon = {
   BookOpen: ({
     size = 20,

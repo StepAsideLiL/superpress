@@ -1,3 +1,5 @@
+import { IconType } from "@/lib/icons";
+
 export type PostType = {
   id: string;
   title: string;
@@ -61,14 +63,6 @@ export type CurrentUserType = {
   email: string;
   capability: string;
 };
-
-export type IconType = ({
-  size,
-  className,
-}: {
-  size?: number;
-  className?: string;
-}) => React.ReactElement;
 
 export type SidebarMenuItemType = {
   title: string;
