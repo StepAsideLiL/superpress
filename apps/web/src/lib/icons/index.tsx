@@ -1,88 +1,190 @@
 import * as lucideIcon from "lucide-react";
 import * as radixIcon from "@radix-ui/react-icons";
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { cn } from "@/lib/utils";
 
 const icon = {
-  BookOpen: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.BookOpen {...props} />
-  ),
-  BracesIcon: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.BracesIcon {...props} />
-  ),
-  Button: (props: IconProps) => (
+  BookOpen: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.BookOpen size={size} className={cn(className)} />,
+  BracesIcon: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.BracesIcon size={size} className={cn(className)} />,
+  Button: ({ size = 20, className }: { size?: number; className?: string }) => (
     <radixIcon.ButtonIcon
-      className={cn("size-5", props.className)}
-      {...props}
+      className={cn(className)}
+      height={size}
+      width={size}
     />
   ),
-  ChevronsUpDown: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.ChevronsUpDown {...props} />
-  ),
-  Compass: (props: lucideIcon.LucideProps) => <lucideIcon.Compass {...props} />,
-  Component: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.Component {...props} />
-  ),
-  Container: (props: IconProps) => (
+  ChevronsUpDown: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.ChevronsUpDown size={size} className={cn(className)} />,
+  Compass: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.Compass size={size} className={cn(className)} />,
+  Component: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.Component size={size} className={cn(className)} />,
+  Container: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => (
     <radixIcon.ContainerIcon
-      className={cn("size-5", props.className)}
-      {...props}
+      className={cn(className)}
+      height={size}
+      width={size}
     />
   ),
-  EllipsisVertical: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.EllipsisVerticalIcon {...props} />
+  EllipsisVertical: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => (
+    <lucideIcon.EllipsisVerticalIcon size={size} className={cn(className)} />
   ),
-  EyeClosed: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.EyeClosed {...props} />
+  EyeClosed: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.EyeClosed size={size} className={cn(className)} />,
+  EyeOpen: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.Eye size={size} className={cn(className)} />,
+  Heading: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => (
+    <radixIcon.HeadingIcon
+      className={cn(className)}
+      height={size}
+      width={size}
+    />
   ),
-  EyeOpen: (props: lucideIcon.LucideProps) => <lucideIcon.Eye {...props} />,
-  Home: (props: lucideIcon.LucideProps) => <lucideIcon.Home {...props} />,
-  Leaf: (props: lucideIcon.LucideProps) => <lucideIcon.Leaf {...props} />,
-  List: (props: IconProps) => (
+  Home: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Home size={size} className={cn(className)} />
+  ),
+  Leaf: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Leaf size={size} className={cn(className)} />
+  ),
+  List: ({ size = 20, className }: { size?: number; className?: string }) => (
     <radixIcon.ListBulletIcon
-      className={cn("size-5", props.className)}
-      {...props}
+      className={cn(className)}
+      height={size}
+      width={size}
     />
   ),
-  LogOut: (props: lucideIcon.LucideProps) => <lucideIcon.LogOut {...props} />,
-  Logs: (props: lucideIcon.LucideProps) => <lucideIcon.LogsIcon {...props} />,
-  Moon: (props: IconProps) => (
-    <radixIcon.MoonIcon className={cn("size-5", props.className)} {...props} />
+  LogOut: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.LogOut size={size} className={cn(className)} />
   ),
-  Plus: (props: lucideIcon.LucideProps) => <lucideIcon.Plus {...props} />,
-  Search: (props: IconProps) => (
+  Logs: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.LogsIcon size={size} className={cn(className)} />
+  ),
+  Moon: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <radixIcon.MoonIcon className={cn(className)} height={size} width={size} />
+  ),
+  Plus: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Plus size={size} className={cn(className)} />
+  ),
+  Search: ({ size = 20, className }: { size?: number; className?: string }) => (
     <radixIcon.MagnifyingGlassIcon
-      className={cn("size-5", props.className)}
-      {...props}
+      className={cn(className)}
+      height={size}
+      width={size}
     />
   ),
-  Setting: (props: IconProps) => (
-    <radixIcon.GearIcon className={cn("size-5", props.className)} {...props} />
+  Setting: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => (
+    <radixIcon.GearIcon className={cn(className)} height={size} width={size} />
   ),
-  SidebarLeft: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.PanelLeft {...props} />
+  SidebarLeft: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.PanelLeft size={size} className={cn(className)} />,
+  SidebarRight: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.PanelRight size={size} className={cn(className)} />,
+  StickyNote: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.StickyNote size={size} className={cn(className)} />,
+  Sun: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <radixIcon.SunIcon className={cn(className)} height={size} width={size} />
   ),
-  SidebarRight: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.PanelRight {...props} />
+  Terminal: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.Terminal size={size} className={cn(className)} />,
+  Text: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <radixIcon.TextIcon className={cn(className)} height={size} width={size} />
   ),
-  StickyNote: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.StickyNote {...props} />
+  User: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.User size={size} className={cn(className)} />
   ),
-  Sun: (props: IconProps) => (
-    <radixIcon.SunIcon className={cn("size-5", props.className)} {...props} />
+  UserRound: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.UserRound size={size} className={cn(className)} />,
+  Users: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Users size={size} className={cn(className)} />
   ),
-  Terminal: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.Terminal {...props} />
+  X: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.X size={size} className={cn(className)} />
   ),
-  Text: (props: IconProps) => (
-    <radixIcon.TextIcon className={cn("size-5", props.className)} {...props} />
-  ),
-  User: (props: lucideIcon.LucideProps) => <lucideIcon.User {...props} />,
-  UserRound: (props: lucideIcon.LucideProps) => (
-    <lucideIcon.UserRound {...props} />
-  ),
-  Users: (props: lucideIcon.LucideProps) => <lucideIcon.Users {...props} />,
-  X: (props: lucideIcon.LucideProps) => <lucideIcon.X {...props} />,
 };
 
 export default icon;

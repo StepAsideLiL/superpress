@@ -1,5 +1,3 @@
-import { LucideProps } from "lucide-react";
-
 export type PostType = {
   id: string;
   title: string;
@@ -67,7 +65,13 @@ export type CurrentUserType = {
 export type SidebarMenuItemType = {
   title: string;
   url: string;
-  icon: (props: LucideProps) => React.ReactElement;
+  icon: ({
+    size,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => React.ReactElement;
 };
 
 export type PostForEditType = {
