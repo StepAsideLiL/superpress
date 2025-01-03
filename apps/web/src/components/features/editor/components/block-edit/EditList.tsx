@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import icon from "@/lib/icons";
-import { EditorElement, ElementType } from "../../libs/types";
+import { EditorElement, TagType } from "../../libs/types";
 
 const unorderedListStyle = [
   {
@@ -77,7 +77,7 @@ export default function EditList({ element }: { element: EditorElement }) {
                 "has-[[data-disabled]]:cursor-not-allowed"
               )}
               onClick={() => {
-                setElement({ ...element, type: tag as ElementType });
+                setElement({ ...element, type: tag as TagType });
               }}
             >
               <RadioGroupItem

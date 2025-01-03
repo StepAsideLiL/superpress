@@ -1,7 +1,6 @@
-import { IconProps } from "@radix-ui/react-icons/dist/types";
-import { ReactNode } from "react";
+import { IconType } from "@/lib/icons";
 
-export type ElementType =
+export type TagType =
   | "h1"
   | "h2"
   | "h3"
@@ -18,7 +17,7 @@ export type ElementType =
 
 export type EditorElement = {
   id: string;
-  type: ElementType;
+  type: TagType;
   content: string | EditorElement[];
   style?: React.CSSProperties;
   className?: string;
@@ -29,11 +28,37 @@ export type ComponentGroupsType = {
   components: {
     title: string;
     lebel: string;
-    icon: (props: IconProps) => ReactNode;
-    type: ElementType;
+    icon: IconType;
+    type: TagType;
     content?: string | EditorElement[];
     className?: string;
     style?: React.CSSProperties;
     tags?: string[];
   }[];
+};
+
+export type ComponentGroupType = "Text" | "List";
+
+export type ElementType = {
+  title: string;
+  description: string;
+  lebel: string;
+  group: ComponentGroupType;
+  icon: IconType;
+  tags: {
+    title: string;
+    type: TagType;
+    icon: IconType;
+  }[];
+  keyWords: string[];
+  defaultContent: EditorElement;
+  sidebar: () => React.ReactNode;
+  renderInEditor: ({
+    children,
+    element,
+  }: {
+    children: React.ReactNode;
+    element: EditorElement;
+  }) => React.ReactNode;
+  toolbar: () => React.ReactNode;
 };
