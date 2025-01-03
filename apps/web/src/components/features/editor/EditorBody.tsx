@@ -2,15 +2,12 @@
 
 import "./style.css";
 import InsertComponentBtn from "./components/InsertComponentBtn";
-import editorStore, { listTags, textTags } from "./libs/store";
+import editorStore from "./libs/store";
 import { useAtom } from "jotai";
 import { EditorElement } from "./libs/types";
-import TextElement from "./components/render/TextElement";
-import ListElement from "./components/render/ListElement";
-import ListItemElement from "./components/render/ListItemElement";
 import { createElement } from "react";
 import FloatingToolbar from "./components/block-edit/FloatingToolbar";
-import ButtonElement from "./components/render/ButtonElement";
+import { elementsByTag } from "./elements";
 
 export default function EditorBody() {
   const [content] = useAtom(editorStore.editorElementsAtom);
@@ -36,17 +33,11 @@ function RenderElements({ elements }: { elements: EditorElement[] }) {
   return (
     <>
       {elements.map((element) => {
-        if (textTags.includes(element.type)) {
-          return <TextElement key={element.id} element={element} />;
-        }
+        const Render = elementsByTag[element.type].renderInEditor;
 
-        if (element.type === "button") {
-          return <ButtonElement key={element.id} element={element} />;
-        }
-
-        if (listTags.includes(element.type) && Array.isArray(element.content)) {
+        if (Array.isArray(element.content)) {
           return (
-            <ListElement key={element.id} element={element}>
+            <Render key={element.id} element={element}>
               {createElement(
                 element.type,
                 {
@@ -55,19 +46,15 @@ function RenderElements({ elements }: { elements: EditorElement[] }) {
                 },
                 <RenderElements key={element.id} elements={element.content} />
               )}
-            </ListElement>
+            </Render>
           );
         }
 
-        if (element.type === "li") {
-          return <ListItemElement key={element.id} element={element} />;
-        }
-
-        if (!Array.isArray(element.content)) {
-          return <div key={element.id}>{element.content}</div>;
-        }
-
-        return <RenderElements key={element.id} elements={element.content} />;
+        return (
+          <Render key={element.id} element={element}>
+            {element.content}
+          </Render>
+        );
       })}
     </>
   );
