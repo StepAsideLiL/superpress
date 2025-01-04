@@ -17,6 +17,8 @@ const openSettingsSidebarAtom = atomWithStorage<boolean>(
   true
 );
 
+const openInsertPopoverAtom = atom(false);
+
 const toggleComponentSidebarAtom = atom(null, (get, set) => {
   set(openComponentSidebarAtom, !get(openComponentSidebarAtom));
 });
@@ -142,6 +144,7 @@ const editorStore = {
   selectElementAtom,
   deleteElementByIdAtom,
   insertElementAfterSelectedElementByIdAtom,
+  openInsertPopoverAtom,
 };
 
 export default editorStore;

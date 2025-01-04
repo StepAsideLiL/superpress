@@ -10,17 +10,16 @@ import editorStore from "../libs/store";
 import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
-import { nanoid } from "../libs/utils";
-import { components } from "../libs/components";
 import icon from "@/lib/icons";
+import { elementBlocks } from "../elements";
 
 export default function InsertComponentBtn() {
-  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [search, setSearch] = useState("");
   const [, setTrue] = useAtom(editorStore.openComponentSidebarAtom);
+  const [open, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={(open) => setOpen(open)}>
       <PopoverTrigger asChild>
         <Button size={"icon"} className="size-6">
           <icon.Plus />
@@ -36,38 +35,23 @@ export default function InsertComponentBtn() {
         />
 
         <div className="grid grid-cols-3 gap-2">
-          {components
-            .filter((component) =>
-              component.tags?.some((tag) =>
-                tag.includes(search.toLowerCase().trim())
+          {elementBlocks
+            .filter((element) =>
+              element.keyWords?.some((keyWord) =>
+                keyWord.includes(search.toLowerCase().trim())
               )
             )
-            .map((component) => (
-              <Button
-                variant="ghost"
-                key={component.lebel}
-                className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
-                onClick={() =>
-                  addEditorElement({
-                    id: nanoid(),
-                    type: component.type,
-                    style: component.style,
-                    className: component.className,
-                    content: component.content
-                      ? component.content
-                      : component.title,
-                  })
-                }
-              >
-                <span>{component.title}</span>
-                <component.icon className="size-6" />
-              </Button>
-            ))}
+            .map((element) => {
+              const AddComponentButton = element.addElement;
+              return (
+                <AddComponentButton key={element.lebel} element={element} />
+              );
+            })}
         </div>
 
-        {components.filter((component) =>
-          component.tags?.some((tag) =>
-            tag.includes(search.toLowerCase().trim())
+        {elementBlocks.filter((element) =>
+          element.keyWords?.some((keyWord) =>
+            keyWord.includes(search.toLowerCase().trim())
           )
         ).length === 0 && (
           <div className="w-full text-center text-muted-foreground">
@@ -79,6 +63,7 @@ export default function InsertComponentBtn() {
           className="w-full"
           onClick={() => {
             setTrue(true);
+            setOpen(false);
           }}
         >
           Browse All

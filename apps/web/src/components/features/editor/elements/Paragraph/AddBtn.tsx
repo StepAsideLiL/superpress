@@ -7,13 +7,17 @@ import { nanoid } from "../../libs/utils";
 export default function AddBtn({ element }: { element: ElementType }) {
   const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
+  const [, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
 
   return (
     <Button
       key={element.lebel}
       variant={"ghost"}
       className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
-      onClick={() => {
+      onClick={(event) => {
+        event.stopPropagation();
+        setOpen(false);
+
         const id = nanoid();
 
         addEditorElement({
