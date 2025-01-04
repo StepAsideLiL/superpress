@@ -1,6 +1,6 @@
 import { EditorElement } from "../../libs/types";
 import { cn } from "@/lib/utils";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import editorStore from "../../libs/store";
 import { useAtom } from "jotai";
 
@@ -12,10 +12,17 @@ export default function EditorRender({
   element: EditorElement;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [, setSelectedElementId] = useAtom(
+  const [selectedElementId, setSelectedElementId] = useAtom(
     editorStore.selectedElementIdForEditingAtom
   );
   const [, setElement] = useAtom(editorStore.selectElementAtom);
+
+  useEffect(() => {
+    if (ref.current && element.id === selectedElementId) {
+      ref.current.contentEditable = "true";
+      ref.current.focus();
+    }
+  }, [element.id, selectedElementId]);
 
   return (
     <div
