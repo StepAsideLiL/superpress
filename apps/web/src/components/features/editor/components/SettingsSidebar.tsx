@@ -1,18 +1,15 @@
 "use client";
 
-import editorStore, { listTags, textTags } from "../libs/store";
+import editorStore from "../libs/store";
 import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
 import * as df from "date-fns";
-import EditText from "./block-edit/EditText";
-import EditListItem from "./block-edit/EditListItem";
-import EditList from "./block-edit/EditList";
 import icon from "@/lib/icons";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import UpdatePostTitle from "./UpdatePostTitle";
-import EditButton from "./block-edit/EditButton";
+import { elementsByTag } from "../elements";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(editorStore.openSettingsSidebarAtom);
@@ -20,7 +17,6 @@ export default function SettingsSidebar() {
     editorStore.selectedElementIdForEditingAtom
   );
   const [post] = useAtom(editorStore.postAtom);
-  const [element] = useAtom(editorStore.selectElementAtom);
 
   if (open) {
     return (
@@ -83,29 +79,7 @@ export default function SettingsSidebar() {
           </TabsContent>
 
           <TabsContent value="block">
-            {!element ? (
-              <div className="py-5">
-                <p className="text-center text-sm text-muted-foreground">
-                  No block selected.
-                </p>
-              </div>
-            ) : (
-              <>
-                {textTags.includes(element.type) && (
-                  <EditText element={element} />
-                )}
-
-                {element.type === "button" && <EditButton element={element} />}
-
-                {listTags.includes(element.type) && (
-                  <EditList element={element} />
-                )}
-
-                {element.type === "li" && !Array.isArray(element.content) && (
-                  <EditListItem element={element} />
-                )}
-              </>
-            )}
+            <BlockContent />
           </TabsContent>
         </Tabs>
       </section>
@@ -113,4 +87,22 @@ export default function SettingsSidebar() {
   } else {
     return null;
   }
+}
+
+function BlockContent() {
+  const [element] = useAtom(editorStore.selectElementAtom);
+
+  if (!element) {
+    return (
+      <div className="py-5">
+        <p className="text-center text-sm text-muted-foreground">
+          No block selected.
+        </p>
+      </div>
+    );
+  }
+
+  const EditSidebar = elementsByTag[element.type].sidebar;
+
+  return <EditSidebar />;
 }
