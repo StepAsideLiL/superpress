@@ -8,10 +8,10 @@ import { nanoid } from "../libs/utils";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import { elementBlocks, elementBlocksByGroup } from "../elements";
+import { ElementType } from "../libs/types";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(editorStore.openComponentSidebarAtom);
-  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [search, setSearch] = useState("");
 
   if (open) {
@@ -40,25 +40,10 @@ export default function ComponentsSidebar() {
                     <div className="grid grid-cols-3 gap-2">
                       {group.elements.map((element) => {
                         return (
-                          <Button
+                          <AddComponentBtn
                             key={element.lebel}
-                            variant={"ghost"}
-                            className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
-                            onClick={() =>
-                              addEditorElement({
-                                id: nanoid(),
-                                type: element.defaultContent.type,
-                                content: element.defaultContent.content
-                                  ? element.defaultContent.content
-                                  : "",
-                                style: element.defaultContent.style,
-                                className: element.defaultContent.className,
-                              })
-                            }
-                          >
-                            <span>{element.title}</span>
-                            <element.icon className="size-6" />
-                          </Button>
+                            element={element}
+                          />
                         );
                       })}
                     </div>
@@ -76,25 +61,7 @@ export default function ComponentsSidebar() {
                     )
                   )
                   .map((element) => (
-                    <Button
-                      key={element.lebel}
-                      variant={"ghost"}
-                      className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
-                      onClick={() =>
-                        addEditorElement({
-                          id: nanoid(),
-                          type: element.defaultContent.type,
-                          content: element.defaultContent.content
-                            ? element.defaultContent.content
-                            : "",
-                          style: element.defaultContent.style,
-                          className: element.defaultContent.className,
-                        })
-                      }
-                    >
-                      <span>{element.title}</span>
-                      <element.icon className="size-6" />
-                    </Button>
+                    <AddComponentBtn key={element.lebel} element={element} />
                   ))}
               </div>
 
@@ -115,4 +82,35 @@ export default function ComponentsSidebar() {
   } else {
     return null;
   }
+}
+
+function AddComponentBtn({ element }: { element: ElementType }) {
+  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
+  const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
+
+  return (
+    <Button
+      key={element.lebel}
+      variant={"ghost"}
+      className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
+      onClick={() => {
+        const id = nanoid();
+
+        addEditorElement({
+          id: id,
+          type: element.defaultContent.type,
+          content: element.defaultContent.content
+            ? element.defaultContent.content
+            : "",
+          style: element.defaultContent.style,
+          className: element.defaultContent.className,
+        });
+
+        setElementID(id);
+      }}
+    >
+      <span>{element.title}</span>
+      <element.icon className="size-6" />
+    </Button>
+  );
 }
