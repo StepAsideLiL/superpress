@@ -1,7 +1,7 @@
 import { useFloating } from "@floating-ui/react";
 import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
-import editorStore, { listTags, textTags } from "../../libs/store";
+import editorStore from "../../libs/store";
 import icon from "@/lib/icons";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { elementsByTag } from "../../elements";
 
 export default function FloatingToolbar() {
   const elementRef = useRef<HTMLElement | null>(null);
@@ -32,6 +33,8 @@ export default function FloatingToolbar() {
 
   if (!element) return null;
 
+  const Toolbar = elementsByTag[element.type].toolbar;
+
   return (
     <div
       ref={refs.setFloating}
@@ -39,14 +42,7 @@ export default function FloatingToolbar() {
       className="w-96 border border-primary bg-background px-2"
     >
       <div className="flex items-center justify-between">
-        {textTags.includes(element.type) && !Array.isArray(element.content) && (
-          <icon.Text className="size-5" />
-        )}
-        {element.type === "button" && <icon.Button className="size-5" />}
-        {listTags.includes(element.type) && <icon.List className="size-5" />}
-        {element.type === "li" && !Array.isArray(element.content) && (
-          <icon.Logs className="size-5" />
-        )}
+        <Toolbar />
 
         <Separator orientation="vertical" className="h-11" />
 
