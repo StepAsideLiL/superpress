@@ -6,7 +6,7 @@ import editorStore from "./libs/store";
 import { useAtom } from "jotai";
 import { EditorElement } from "./libs/types";
 import { createElement } from "react";
-import FloatingToolbar from "./components/block-edit/FloatingToolbar";
+import FloatingToolbar from "./components/editor-ui/FloatingToolbar";
 import { elementsByTag } from "./elements";
 
 export default function EditorBody() {
