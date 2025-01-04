@@ -7,7 +7,7 @@ import { CloseComponentsSidebar } from "./editor-ui/btns";
 import { nanoid } from "../libs/utils";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
-import { componentGroups, components } from "../libs/components";
+import { elementBlocks, elementBlocksByGroup } from "../elements";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(editorStore.openComponentSidebarAtom);
@@ -33,31 +33,31 @@ export default function ComponentsSidebar() {
 
           {search.trim() === "" ? (
             <div className="space-y-4 px-4 py-2">
-              {componentGroups.map((group) => {
+              {elementBlocksByGroup.map((group) => {
                 return (
                   <div key={group.name} className="space-y-2">
                     <h2 className="text-sm font-medium">{group.name}</h2>
                     <div className="grid grid-cols-3 gap-2">
-                      {group.components.map((component) => {
+                      {group.elements.map((element) => {
                         return (
                           <Button
-                            key={component.lebel}
+                            key={element.lebel}
                             variant={"ghost"}
                             className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
                             onClick={() =>
                               addEditorElement({
                                 id: nanoid(),
-                                type: component.type,
-                                content: component.content
-                                  ? component.content
+                                type: element.defaultContent.type,
+                                content: element.defaultContent.content
+                                  ? element.defaultContent.content
                                   : "",
-                                style: component.style,
-                                className: component.className,
+                                style: element.defaultContent.style,
+                                className: element.defaultContent.className,
                               })
                             }
                           >
-                            <span>{component.title}</span>
-                            <component.icon className="size-6" />
+                            <span>{element.title}</span>
+                            <element.icon className="size-6" />
                           </Button>
                         );
                       })}
@@ -69,36 +69,38 @@ export default function ComponentsSidebar() {
           ) : (
             <div className="space-y-4 px-4 py-2">
               <div className="grid grid-cols-3 gap-2">
-                {components
-                  .filter((component) =>
-                    component.tags?.some((tag) =>
-                      tag.includes(search.toLowerCase().trim())
+                {elementBlocks
+                  .filter((element) =>
+                    element.keyWords?.some((keyword) =>
+                      keyword.includes(search.toLowerCase().trim())
                     )
                   )
-                  .map((component) => (
+                  .map((element) => (
                     <Button
-                      key={component.lebel}
+                      key={element.lebel}
                       variant={"ghost"}
                       className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
                       onClick={() =>
                         addEditorElement({
                           id: nanoid(),
-                          type: component.type,
-                          content: component.content ? component.content : "",
-                          style: component.style,
-                          className: component.className,
+                          type: element.defaultContent.type,
+                          content: element.defaultContent.content
+                            ? element.defaultContent.content
+                            : "",
+                          style: element.defaultContent.style,
+                          className: element.defaultContent.className,
                         })
                       }
                     >
-                      <span>{component.title}</span>
-                      <component.icon className="size-6" />
+                      <span>{element.title}</span>
+                      <element.icon className="size-6" />
                     </Button>
                   ))}
               </div>
 
-              {components.filter((component) =>
-                component.tags?.some((tag) =>
-                  tag.includes(search.toLowerCase().trim())
+              {elementBlocks.filter((element) =>
+                element.keyWords?.some((keyWord) =>
+                  keyWord.includes(search.toLowerCase().trim())
                 )
               ).length === 0 && (
                 <div className="w-full text-center text-muted-foreground">
