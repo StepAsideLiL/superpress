@@ -16,7 +16,7 @@ export default function EditorBody() {
   return (
     <section
       className="h-full flex-1 overflow-auto"
-      onClick={() => setElementID("1")}
+      onClick={() => setElementID(null)}
     >
       <div className="p-4">
         <RenderElements elements={content} />
