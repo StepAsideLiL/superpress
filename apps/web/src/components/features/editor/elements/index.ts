@@ -1,15 +1,27 @@
 import icon from "@/lib/icons";
-import { HeadingEditorRender, HeadingSidebar, HeadingToolbar } from "./Heading";
+import {
+  AddHeadingBtn,
+  HeadingEditorRender,
+  HeadingSidebar,
+  HeadingToolbar,
+} from "./Heading";
 import { nanoid } from "../libs/utils";
 import { ElementType, ComponentGroupType } from "../libs/types";
 import {
+  AddParagraphBtn,
   ParagraphEditorRender,
   ParagraphSidebar,
   ParagraphToolbar,
 } from "./Paragraph";
-import { ListEditorRender, ListSidebar, ListToolbar } from "./List";
-import { ButtonEditorRender, ButtonSidebar, ButtonToolbar } from "./Button";
+import { AddListBtn, ListEditorRender, ListSidebar, ListToolbar } from "./List";
 import {
+  AddButtonBtn,
+  ButtonEditorRender,
+  ButtonSidebar,
+  ButtonToolbar,
+} from "./Button";
+import {
+  AddListItemBtn,
   ListItemEditorRender,
   ListItemSidebar,
   ListItemToolbar,
@@ -67,6 +79,7 @@ export const elements: ElementType[] = [
     renderInEditor: HeadingEditorRender,
     sidebar: HeadingSidebar,
     toolbar: HeadingToolbar,
+    addElement: AddHeadingBtn,
   },
   {
     title: "Paragraph",
@@ -94,6 +107,7 @@ export const elements: ElementType[] = [
     renderInEditor: ParagraphEditorRender,
     sidebar: ParagraphSidebar,
     toolbar: ParagraphToolbar,
+    addElement: AddParagraphBtn,
   },
   {
     title: "Button",
@@ -118,6 +132,7 @@ export const elements: ElementType[] = [
     renderInEditor: ButtonEditorRender,
     sidebar: ButtonSidebar,
     toolbar: ButtonToolbar,
+    addElement: AddButtonBtn,
   },
   {
     title: "List",
@@ -145,7 +160,7 @@ export const elements: ElementType[] = [
         {
           id: nanoid(),
           type: "li",
-          content: "list",
+          content: "",
         },
       ],
       className: "list-ul-bullet",
@@ -158,6 +173,7 @@ export const elements: ElementType[] = [
     renderInEditor: ListEditorRender,
     sidebar: ListSidebar,
     toolbar: ListToolbar,
+    addElement: AddListBtn,
   },
   {
     title: "List Item",
@@ -181,6 +197,7 @@ export const elements: ElementType[] = [
     renderInEditor: ListItemEditorRender,
     sidebar: ListItemSidebar,
     toolbar: ListItemToolbar,
+    addElement: AddListItemBtn,
   },
 ];
 

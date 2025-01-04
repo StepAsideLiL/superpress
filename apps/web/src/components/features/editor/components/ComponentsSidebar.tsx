@@ -2,13 +2,10 @@
 
 import { useAtom } from "jotai";
 import editorStore from "../libs/store";
-import { Button } from "@/components/ui/button";
 import { CloseComponentsSidebar } from "./editor-ui/btns";
-import { nanoid } from "../libs/utils";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import { elementBlocks, elementBlocksByGroup } from "../elements";
-import { ElementType } from "../libs/types";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(editorStore.openComponentSidebarAtom);
@@ -39,8 +36,10 @@ export default function ComponentsSidebar() {
                     <h2 className="text-sm font-medium">{group.name}</h2>
                     <div className="grid grid-cols-3 gap-2">
                       {group.elements.map((element) => {
+                        const AddComponentButton = element.addElement;
+
                         return (
-                          <AddComponentBtn
+                          <AddComponentButton
                             key={element.lebel}
                             element={element}
                           />
@@ -60,9 +59,16 @@ export default function ComponentsSidebar() {
                       keyword.includes(search.toLowerCase().trim())
                     )
                   )
-                  .map((element) => (
-                    <AddComponentBtn key={element.lebel} element={element} />
-                  ))}
+                  .map((element) => {
+                    const AddComponentButton = element.addElement;
+
+                    return (
+                      <AddComponentButton
+                        key={element.lebel}
+                        element={element}
+                      />
+                    );
+                  })}
               </div>
 
               {elementBlocks.filter((element) =>
@@ -82,35 +88,4 @@ export default function ComponentsSidebar() {
   } else {
     return null;
   }
-}
-
-function AddComponentBtn({ element }: { element: ElementType }) {
-  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
-  const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
-
-  return (
-    <Button
-      key={element.lebel}
-      variant={"ghost"}
-      className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
-      onClick={() => {
-        const id = nanoid();
-
-        addEditorElement({
-          id: id,
-          type: element.defaultContent.type,
-          content: element.defaultContent.content
-            ? element.defaultContent.content
-            : "",
-          style: element.defaultContent.style,
-          className: element.defaultContent.className,
-        });
-
-        setElementID(id);
-      }}
-    >
-      <span>{element.title}</span>
-      <element.icon className="size-6" />
-    </Button>
-  );
 }

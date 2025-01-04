@@ -61,4 +61,5 @@ export type ElementType = {
     element: EditorElement;
   }) => React.ReactNode;
   toolbar: () => React.ReactNode;
+  addElement: ({ element }: { element: ElementType }) => React.ReactNode;
 };
