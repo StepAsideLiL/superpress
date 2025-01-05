@@ -37,13 +37,13 @@ export type ComponentGroupsType = {
   }[];
 };
 
-export type ComponentGroupType = "Text" | "List";
+export type ElementGroupType = "Text" | "List";
 
 export type ElementType = {
   title: string;
   description: string;
   lebel: string;
-  group: ComponentGroupType;
+  group: ElementGroupType;
   icon: IconType;
   tags: {
     title: string;
