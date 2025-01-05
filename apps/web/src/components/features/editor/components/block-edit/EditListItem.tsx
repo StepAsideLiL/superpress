@@ -1,7 +1,11 @@
-import { EditorElement } from "../../libs/types";
+import { EditorElementType } from "../../libs/types";
 import icon from "@/lib/icons";
 
-export default function EditListItem({ element }: { element: EditorElement }) {
+export default function EditListItem({
+  element,
+}: {
+  element: EditorElementType;
+}) {
   return (
     <div className="divide-y-2">
       <div className="flex items-start gap-2 p-4">

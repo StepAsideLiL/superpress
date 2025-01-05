@@ -15,13 +15,13 @@ import icon from "@/lib/icons";
 import { nanoid } from "../libs/utils";
 import { useFloating } from "@floating-ui/react";
 import { useEffect, useRef } from "react";
-import { EditorElement } from "../libs/types";
+import { EditorElementType } from "../libs/types";
 
 export default function EditableElement({
   element,
   children,
 }: {
-  element: EditorElement;
+  element: EditorElementType;
   children: React.ReactNode;
 }) {
   const [selectedElementId, setSelectedElementId] = useAtom(

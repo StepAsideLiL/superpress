@@ -1,4 +1,4 @@
-import { EditorElement } from "../../libs/types";
+import { EditorElementType } from "../../libs/types";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import editorStore from "../../libs/store";
@@ -9,7 +9,7 @@ export default function EditorRender({
   element,
 }: {
   children: React.ReactNode;
-  element: EditorElement;
+  element: EditorElementType;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [selectedElementId, setSelectedElementId] = useAtom(

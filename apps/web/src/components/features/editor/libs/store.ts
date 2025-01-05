@@ -1,7 +1,7 @@
 import { PostForEditType } from "@/lib/types";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { EditorElement } from "./types";
+import { EditorElementType } from "./types";
 
 export const textTags = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span"];
 export const listTags = ["ol", "ul"];
@@ -26,10 +26,10 @@ const toggleSettingsSidebarAtom = atom(null, (get, set) => {
   set(openSettingsSidebarAtom, !get(openSettingsSidebarAtom));
 });
 
-const editorElementsAtom = atom<EditorElement[]>([]);
+const editorElementsAtom = atom<EditorElementType[]>([]);
 const addEditorElementAtom = atom(
   null,
-  (get, set, newEditorElement: EditorElement) => {
+  (get, set, newEditorElement: EditorElementType) => {
     set(editorElementsAtom, [...get(editorElementsAtom), newEditorElement]);
   }
 );
@@ -42,11 +42,15 @@ const selectElementAtom = atom(
 
     if (!selectedId) return null;
 
-    const findElement = (elements: EditorElement[]): EditorElement | null => {
+    const findElement = (
+      elements: EditorElementType[]
+    ): EditorElementType | null => {
       for (const element of elements) {
         if (element.id === selectedId) return element;
         if (Array.isArray(element.content)) {
-          const childElement = findElement(element.content as EditorElement[]);
+          const childElement = findElement(
+            element.content as EditorElementType[]
+          );
           if (childElement) return childElement;
         }
       }
@@ -55,10 +59,12 @@ const selectElementAtom = atom(
 
     return findElement(data);
   },
-  (get, set, updatedElment: EditorElement) => {
+  (get, set, updatedElment: EditorElementType) => {
     const data = get(editorElementsAtom);
 
-    const updateElement = (elements: EditorElement[]): EditorElement[] => {
+    const updateElement = (
+      elements: EditorElementType[]
+    ): EditorElementType[] => {
       return elements.map((element) => {
         if (element.id === updatedElment.id) {
           return updatedElment;
@@ -67,7 +73,7 @@ const selectElementAtom = atom(
         if (Array.isArray(element.content)) {
           return {
             ...element,
-            content: updateElement(element.content as EditorElement[]),
+            content: updateElement(element.content as EditorElementType[]),
           };
         }
         return element;
@@ -82,14 +88,16 @@ const selectElementAtom = atom(
 const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
   const elementData = get(editorElementsAtom);
 
-  const updateElement = (elements: EditorElement[]): EditorElement[] => {
+  const updateElement = (
+    elements: EditorElementType[]
+  ): EditorElementType[] => {
     return elements
       .filter((element) => element.id !== elementId)
       .map((element) => {
         if (Array.isArray(element.content)) {
           return {
             ...element,
-            content: updateElement(element.content as EditorElement[]),
+            content: updateElement(element.content as EditorElementType[]),
           };
         }
         return element;
@@ -102,11 +110,11 @@ const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
 
 const insertElementAfterSelectedElementByIdAtom = atom(
   null,
-  (get, set, elementId: string, newElement: EditorElement) => {
+  (get, set, elementId: string, newElement: EditorElementType) => {
     const editorElementData = get(editorElementsAtom);
 
-    function updateElement(content: EditorElement[]): EditorElement[] {
-      const updatedElements: EditorElement[] = [];
+    function updateElement(content: EditorElementType[]): EditorElementType[] {
+      const updatedElements: EditorElementType[] = [];
 
       for (let i = 0; i < content.length; i++) {
         const element = content[i];

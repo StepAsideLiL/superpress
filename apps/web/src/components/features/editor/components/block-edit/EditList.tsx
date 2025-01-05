@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import icon from "@/lib/icons";
-import { EditorElement, TagType } from "../../libs/types";
+import { EditorElementType, TagType } from "../../libs/types";
 
 const unorderedListStyle = [
   {
@@ -43,7 +43,7 @@ const orderedListStyle = [
   },
 ];
 
-export default function EditList({ element }: { element: EditorElement }) {
+export default function EditList({ element }: { element: EditorElementType }) {
   const [, setElement] = useAtom(editorStore.selectElementAtom);
 
   return (

@@ -15,10 +15,10 @@ export type TagType =
   | "li"
   | "div";
 
-export type EditorElement = {
+export type EditorElementType = {
   id: string;
   type: TagType;
-  content: string | EditorElement[];
+  content: string | EditorElementType[];
   style?: React.CSSProperties;
   className?: string;
 };
@@ -30,7 +30,7 @@ export type ComponentGroupsType = {
     lebel: string;
     icon: IconType;
     type: TagType;
-    content?: string | EditorElement[];
+    content?: string | EditorElementType[];
     className?: string;
     style?: React.CSSProperties;
     tags?: string[];
@@ -51,14 +51,14 @@ export type ElementType = {
     icon: IconType;
   }[];
   keyWords: string[];
-  defaultContent: EditorElement;
+  defaultContent: EditorElementType;
   sidebar: () => React.ReactNode;
   renderInEditor: ({
     children,
     element,
   }: {
     children: React.ReactNode;
-    element: EditorElement;
+    element: EditorElementType;
   }) => React.ReactNode;
   toolbar: () => React.ReactNode;
   addElement: ({ element }: { element: ElementType }) => React.ReactNode;

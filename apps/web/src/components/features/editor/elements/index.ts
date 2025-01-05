@@ -6,7 +6,7 @@ import {
   HeadingToolbar,
 } from "./Heading";
 import { nanoid } from "../libs/utils";
-import { ElementType, ComponentGroupType } from "../libs/types";
+import { ElementType, ElementGroupType } from "../libs/types";
 import {
   AddParagraphBtn,
   ParagraphEditorRender,
@@ -201,7 +201,7 @@ export const elements: ElementType[] = [
   },
 ];
 
-const groups: ComponentGroupType[] = ["Text"];
+const groups: ElementGroupType[] = ["Text"];
 
 export const elementBlocks = elements.filter((component) =>
   groups.includes(component.group)

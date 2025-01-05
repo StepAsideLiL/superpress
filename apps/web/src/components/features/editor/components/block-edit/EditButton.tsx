@@ -1,7 +1,11 @@
 import icon from "@/lib/icons";
-import { EditorElement } from "../../libs/types";
+import { EditorElementType } from "../../libs/types";
 
-export default function EditButton({ element }: { element: EditorElement }) {
+export default function EditButton({
+  element,
+}: {
+  element: EditorElementType;
+}) {
   console.log(element);
 
   return (

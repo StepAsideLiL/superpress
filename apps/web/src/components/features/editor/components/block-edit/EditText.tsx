@@ -5,7 +5,7 @@ import editorStore, { textTags } from "../../libs/store";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import icon from "@/lib/icons";
-import { EditorElement, TagType } from "../../libs/types";
+import { EditorElementType, TagType } from "../../libs/types";
 
 const stylePresets = [
   {
@@ -30,7 +30,7 @@ const stylePresets = [
   },
 ];
 
-export default function EditText({ element }: { element: EditorElement }) {
+export default function EditText({ element }: { element: EditorElementType }) {
   const [, setElement] = useAtom(editorStore.selectElementAtom);
 
   console.log(element);

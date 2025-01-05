@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { EditorElement } from "../../libs/types";
+import { EditorElementType } from "../../libs/types";
 import editorStore from "../../libs/store";
 import { useAtom } from "jotai";
 
@@ -8,7 +8,7 @@ export default function EditorRender({
   element,
 }: {
   children: React.ReactNode;
-  element: EditorElement;
+  element: EditorElementType;
 }) {
   const [selectedElementId, setSelectedElementId] = useAtom(
     editorStore.selectedElementIdForEditingAtom

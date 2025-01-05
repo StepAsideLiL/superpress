@@ -1,8 +1,8 @@
 import React from "react";
-import { EditorElement } from "./types";
+import { EditorElementType } from "./types";
 import EditableElement from "../components/EditableElement";
 
-export const renderHtml = (elements: EditorElement[]): React.ReactNode => {
+export const renderHtml = (elements: EditorElementType[]): React.ReactNode => {
   return elements.map((element) => {
     const { id, type, content, style, className } = element;
 
@@ -25,7 +25,7 @@ export const renderHtml = (elements: EditorElement[]): React.ReactNode => {
 };
 
 export const renderHtmlForEditor = (
-  elements: EditorElement[]
+  elements: EditorElementType[]
 ): React.ReactNode => {
   return elements.map((element) => {
     const { id, type, content, style, className } = element;

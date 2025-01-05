@@ -4,7 +4,7 @@ import "./style.css";
 import InsertComponentBtn from "./components/InsertComponentBtn";
 import editorStore from "./libs/store";
 import { useAtom } from "jotai";
-import { EditorElement } from "./libs/types";
+import { EditorElementType } from "./libs/types";
 import { createElement } from "react";
 import FloatingToolbar from "./components/editor-ui/FloatingToolbar";
 import { elementsByTag } from "./elements";
@@ -29,7 +29,7 @@ export default function EditorBody() {
   );
 }
 
-function RenderElements({ elements }: { elements: EditorElement[] }) {
+function RenderElements({ elements }: { elements: EditorElementType[] }) {
   return (
     <>
       {elements.map((element) => {
