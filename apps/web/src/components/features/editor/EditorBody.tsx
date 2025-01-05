@@ -7,7 +7,7 @@ import { useAtom } from "jotai";
 import { EditorElementType } from "./libs/types";
 import { createElement } from "react";
 import FloatingToolbar from "./components/editor-ui/FloatingToolbar";
-import { elementsByTag } from "./elements";
+import { elementConfigsByTag } from "./elements";
 
 export default function EditorBody() {
   const [content] = useAtom(editorStore.editorElementsAtom);
@@ -33,7 +33,7 @@ function RenderElements({ elements }: { elements: EditorElementType[] }) {
   return (
     <>
       {elements.map((element) => {
-        const Render = elementsByTag[element.type].renderInEditor;
+        const Render = elementConfigsByTag[element.type].renderInEditor;
 
         if (Array.isArray(element.content)) {
           return (

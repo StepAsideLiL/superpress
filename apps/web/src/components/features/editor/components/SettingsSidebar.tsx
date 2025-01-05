@@ -9,7 +9,7 @@ import icon from "@/lib/icons";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import UpdatePostTitle from "./UpdatePostTitle";
-import { elementsByTag } from "../elements";
+import { elementConfigsByTag } from "../elements";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(editorStore.openSettingsSidebarAtom);
@@ -102,7 +102,7 @@ function BlockContent() {
     );
   }
 
-  const EditSidebar = elementsByTag[element.type].sidebar;
+  const EditSidebar = elementConfigsByTag[element.type].sidebar;
 
   return <EditSidebar />;
 }

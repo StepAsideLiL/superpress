@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { elementsByTag } from "../../elements";
+import { elementConfigsByTag } from "../../elements";
 
 export default function FloatingToolbar() {
   const elementRef = useRef<HTMLElement | null>(null);
@@ -33,7 +33,7 @@ export default function FloatingToolbar() {
 
   if (!element) return null;
 
-  const Toolbar = elementsByTag[element.type].toolbar;
+  const Toolbar = elementConfigsByTag[element.type].toolbar;
 
   return (
     <div

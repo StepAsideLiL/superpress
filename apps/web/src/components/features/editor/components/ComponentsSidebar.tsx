@@ -5,7 +5,7 @@ import editorStore from "../libs/store";
 import { CloseComponentsSidebar } from "./editor-ui/btns";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
-import { elementBlocks, elementBlocksByGroup } from "../elements";
+import { elementConfigBlocks, elementConfigBlocksByGroup } from "../elements";
 
 export default function ComponentsSidebar() {
   const [open] = useAtom(editorStore.openComponentSidebarAtom);
@@ -30,18 +30,18 @@ export default function ComponentsSidebar() {
 
           {search.trim() === "" ? (
             <div className="space-y-4 px-4 py-2">
-              {elementBlocksByGroup.map((group) => {
+              {elementConfigBlocksByGroup.map((group) => {
                 return (
                   <div key={group.name} className="space-y-2">
                     <h2 className="text-sm font-medium">{group.name}</h2>
                     <div className="grid grid-cols-3 gap-2">
-                      {group.elements.map((element) => {
-                        const AddComponentButton = element.addElement;
+                      {group.elementsConfigs.map((elementConfig) => {
+                        const AddComponentButton = elementConfig.addElement;
 
                         return (
                           <AddComponentButton
-                            key={element.lebel}
-                            element={element}
+                            key={elementConfig.lebel}
+                            elementConfig={elementConfig}
                           />
                         );
                       })}
@@ -53,26 +53,26 @@ export default function ComponentsSidebar() {
           ) : (
             <div className="space-y-4 px-4 py-2">
               <div className="grid grid-cols-3 gap-2">
-                {elementBlocks
-                  .filter((element) =>
-                    element.keyWords?.some((keyword) =>
+                {elementConfigBlocks
+                  .filter((elementConfig) =>
+                    elementConfig.keyWords?.some((keyword) =>
                       keyword.includes(search.toLowerCase().trim())
                     )
                   )
-                  .map((element) => {
-                    const AddComponentButton = element.addElement;
+                  .map((elementConfig) => {
+                    const AddComponentButton = elementConfig.addElement;
 
                     return (
                       <AddComponentButton
-                        key={element.lebel}
-                        element={element}
+                        key={elementConfig.lebel}
+                        elementConfig={elementConfig}
                       />
                     );
                   })}
               </div>
 
-              {elementBlocks.filter((element) =>
-                element.keyWords?.some((keyWord) =>
+              {elementConfigBlocks.filter((elementConfig) =>
+                elementConfig.keyWords?.some((keyWord) =>
                   keyWord.includes(search.toLowerCase().trim())
                 )
               ).length === 0 && (

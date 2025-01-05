@@ -1,17 +1,21 @@
 import { useAtom } from "jotai";
 import editorStore from "../../libs/store";
 import { Button } from "@/components/ui/button";
-import { ElementType } from "../../libs/types";
+import { ElementConfigType } from "../../libs/types";
 import { nanoid } from "../../libs/utils";
 
-export default function AddBtn({ element }: { element: ElementType }) {
+export default function AddBtn({
+  elementConfig,
+}: {
+  elementConfig: ElementConfigType;
+}) {
   const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
   const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
   const [, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
 
   return (
     <Button
-      key={element.lebel}
+      key={elementConfig.lebel}
       variant={"ghost"}
       className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
       onClick={(event) => {
@@ -22,19 +26,19 @@ export default function AddBtn({ element }: { element: ElementType }) {
 
         addEditorElement({
           id: id,
-          type: element.defaultContent.type,
-          content: element.defaultContent.content
-            ? element.defaultContent.content
+          type: elementConfig.defaultContent.type,
+          content: elementConfig.defaultContent.content
+            ? elementConfig.defaultContent.content
             : "",
-          style: element.defaultContent.style,
-          className: element.defaultContent.className,
+          style: elementConfig.defaultContent.style,
+          className: elementConfig.defaultContent.className,
         });
 
         setElementID(id);
       }}
     >
-      <span>{element.title}</span>
-      <element.icon className="size-6" />
+      <span>{elementConfig.title}</span>
+      <elementConfig.icon className="size-6" />
     </Button>
   );
 }

@@ -6,7 +6,7 @@ import {
   HeadingToolbar,
 } from "./Heading";
 import { nanoid } from "../libs/utils";
-import { ElementType, ElementGroupType } from "../libs/types";
+import { ElementConfigGroupType, ElementConfigType } from "../libs/types";
 import {
   AddParagraphBtn,
   ParagraphEditorRender,
@@ -27,7 +27,7 @@ import {
   ListItemToolbar,
 } from "./ListItem";
 
-export const elements: ElementType[] = [
+export const elementConfigs: ElementConfigType[] = [
   {
     title: "Heading",
     description: "Heading texts with heading tag.",
@@ -201,26 +201,30 @@ export const elements: ElementType[] = [
   },
 ];
 
-const groups: ElementGroupType[] = ["Text"];
+const elementConfigGroupNames: ElementConfigGroupType[] = ["Text"];
 
-export const elementBlocks = elements.filter((component) =>
-  groups.includes(component.group)
+export const elementConfigBlocks = elementConfigs.filter((elementConfig) =>
+  elementConfigGroupNames.includes(elementConfig.group)
 );
 
-export const elementBlocksByGroup = groups.map((name) => {
-  return {
-    name,
-    elements: elementBlocks.filter((component) => component.group === name),
-  };
-});
+export const elementConfigBlocksByGroup = elementConfigGroupNames.map(
+  (name) => {
+    return {
+      name,
+      elementsConfigs: elementConfigBlocks.filter(
+        (elementConfig) => elementConfig.group === name
+      ),
+    };
+  }
+);
 
-export const elementsByTag = elements.reduce(
-  (acc, element) => {
-    element.tags.forEach((tag) => (acc[tag.type] = element));
+export const elementConfigsByTag = elementConfigs.reduce(
+  (acc, elementConfig) => {
+    elementConfig.tags.forEach((tag) => (acc[tag.type] = elementConfig));
 
     return acc;
   },
   {} as {
-    [key: string]: ElementType;
+    [key: string]: ElementConfigType;
   }
 );

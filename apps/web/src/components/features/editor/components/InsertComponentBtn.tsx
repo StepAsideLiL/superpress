@@ -11,7 +11,7 @@ import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import icon from "@/lib/icons";
-import { elementBlocks } from "../elements";
+import { elementConfigBlocks } from "../elements";
 
 export default function InsertComponentBtn() {
   const [search, setSearch] = useState("");
@@ -35,22 +35,25 @@ export default function InsertComponentBtn() {
         />
 
         <div className="grid grid-cols-3 gap-2">
-          {elementBlocks
-            .filter((element) =>
-              element.keyWords?.some((keyWord) =>
+          {elementConfigBlocks
+            .filter((elementConfig) =>
+              elementConfig.keyWords?.some((keyWord) =>
                 keyWord.includes(search.toLowerCase().trim())
               )
             )
-            .map((element) => {
-              const AddComponentButton = element.addElement;
+            .map((elementConfig) => {
+              const AddComponentButton = elementConfig.addElement;
               return (
-                <AddComponentButton key={element.lebel} element={element} />
+                <AddComponentButton
+                  key={elementConfig.lebel}
+                  elementConfig={elementConfig}
+                />
               );
             })}
         </div>
 
-        {elementBlocks.filter((element) =>
-          element.keyWords?.some((keyWord) =>
+        {elementConfigBlocks.filter((elementConfig) =>
+          elementConfig.keyWords?.some((keyWord) =>
             keyWord.includes(search.toLowerCase().trim())
           )
         ).length === 0 && (

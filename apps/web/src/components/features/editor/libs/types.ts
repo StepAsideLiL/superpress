@@ -37,13 +37,13 @@ export type ComponentGroupsType = {
   }[];
 };
 
-export type ElementGroupType = "Text" | "List";
+export type ElementConfigGroupType = "Text" | "List";
 
-export type ElementType = {
+export type ElementConfigType = {
   title: string;
   description: string;
   lebel: string;
-  group: ElementGroupType;
+  group: ElementConfigGroupType;
   icon: IconType;
   tags: {
     title: string;
@@ -61,5 +61,9 @@ export type ElementType = {
     element: EditorElementType;
   }) => React.ReactNode;
   toolbar: () => React.ReactNode;
-  addElement: ({ element }: { element: ElementType }) => React.ReactNode;
+  addElement: ({
+    elementConfig,
+  }: {
+    elementConfig: ElementConfigType;
+  }) => React.ReactNode;
 };
