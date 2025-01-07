@@ -52,7 +52,13 @@ export type ElementConfigType = {
   }[];
   keyWords: string[];
   defaultContent: EditorElementType;
-  sidebar: () => React.ReactNode;
+  sidebar: ({
+    elementConfig,
+    element,
+  }: {
+    elementConfig: ElementConfigType;
+    element: EditorElementType;
+  }) => React.ReactNode;
   renderInEditor: ({
     children,
     element,

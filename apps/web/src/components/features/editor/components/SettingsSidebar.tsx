@@ -102,7 +102,18 @@ function BlockContent() {
     );
   }
 
-  const EditSidebar = elementConfigsByTag[element.type].sidebar;
+  const elementConfig = elementConfigsByTag[element.type];
 
-  return <EditSidebar />;
+  const EditSidebar = elementConfig.sidebar;
+
+  return (
+    <div className="divide-y">
+      <div className="flex items-center gap-2 px-4 pb-2">
+        <elementConfig.icon />
+        <h1 className="text-lg">{elementConfig.title}</h1>
+      </div>
+
+      <EditSidebar elementConfig={elementConfig} element={element} />
+    </div>
+  );
 }
