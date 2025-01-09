@@ -193,6 +193,9 @@ const icon = {
   Logs: ({ size = 20, className }: { size?: number; className?: string }) => (
     <lucideIcon.LogsIcon size={size} className={cn(className)} />
   ),
+  Minus: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Minus size={size} className={cn(className)} />
+  ),
   Moon: ({ size = 20, className }: { size?: number; className?: string }) => (
     <radixIcon.MoonIcon className={cn(className)} height={size} width={size} />
   ),
