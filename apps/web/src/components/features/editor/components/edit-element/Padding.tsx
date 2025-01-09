@@ -12,8 +12,6 @@ export default function Padding({ element }: { element: EditorElementType }) {
     base: {},
   };
 
-  console.log(baseStyle);
-
   return (
     <div className="space-y-2 px-4 py-2">
       <div className="flex items-center justify-between">
