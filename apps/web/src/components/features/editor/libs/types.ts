@@ -19,7 +19,7 @@ export type EditorElementType = {
   id: string;
   type: TagType;
   content: string | EditorElementType[];
-  style?: React.CSSProperties;
+  style?: { [styleType in "base" | "hover"]?: React.CSSProperties };
   className?: string;
 };
 
