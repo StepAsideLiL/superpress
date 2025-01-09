@@ -33,7 +33,8 @@ export default function FloatingToolbar() {
 
   if (!element) return null;
 
-  const Toolbar = elementConfigsByTag[element.type].toolbar;
+  const elementConfig = elementConfigsByTag[element.type];
+  const Toolbar = elementConfig.toolbar;
 
   return (
     <div
@@ -42,9 +43,13 @@ export default function FloatingToolbar() {
       className="w-96 border border-primary bg-background px-2"
     >
       <div className="flex items-center justify-between">
-        <Toolbar />
+        <elementConfig.icon />
 
-        <Separator orientation="vertical" className="h-11" />
+        <Separator orientation="vertical" className="h-11 bg-primary" />
+
+        <Toolbar element={element} elementConfig={elementConfig} />
+
+        <Separator orientation="vertical" className="h-11 bg-primary" />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
