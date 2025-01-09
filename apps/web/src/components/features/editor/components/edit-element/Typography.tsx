@@ -172,7 +172,7 @@ export default function Typography({
 
       <div className="flex items-center gap-2">
         <Select
-          defaultValue="400"
+          defaultValue={element.style?.base?.fontWeight?.toString() || "400"}
           onValueChange={(value) => handleFontWeightChange(value)}
         >
           <SelectTrigger>
@@ -189,7 +189,7 @@ export default function Typography({
         </Select>
 
         <Select
-          defaultValue="14px"
+          defaultValue={element.style?.base?.fontSize?.toString() || "14px"}
           onValueChange={(value) => handleFontSizeChange(value)}
         >
           <SelectTrigger>
