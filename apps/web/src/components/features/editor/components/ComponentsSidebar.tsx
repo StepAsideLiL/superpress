@@ -36,6 +36,8 @@ export default function ComponentsSidebar() {
                     <h2 className="text-sm font-medium">{group.name}</h2>
                     <div className="grid grid-cols-3 gap-2">
                       {group.elementsConfigs.map((elementConfig) => {
+                        if (!elementConfig.addElement) return null;
+
                         const AddComponentButton = elementConfig.addElement;
 
                         return (
@@ -60,6 +62,8 @@ export default function ComponentsSidebar() {
                     )
                   )
                   .map((elementConfig) => {
+                    if (!elementConfig.addElement) return null;
+
                     const AddComponentButton = elementConfig.addElement;
 
                     return (

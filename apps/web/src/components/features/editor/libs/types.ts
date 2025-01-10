@@ -38,7 +38,7 @@ export type ElementConfigType = {
   }[];
   keyWords: string[];
   defaultContent: EditorElementType;
-  sidebar: ({
+  sidebar?: ({
     elementConfig,
     element,
   }: {
@@ -52,14 +52,14 @@ export type ElementConfigType = {
     children: React.ReactNode;
     element: EditorElementType;
   }) => React.ReactNode;
-  toolbar: ({
+  toolbar?: ({
     elementConfig,
     element,
   }: {
     elementConfig: ElementConfigType;
     element: EditorElementType;
   }) => React.ReactNode;
-  addElement: ({
+  addElement?: ({
     elementConfig,
   }: {
     elementConfig: ElementConfigType;

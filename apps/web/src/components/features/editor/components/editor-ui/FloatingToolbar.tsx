@@ -34,6 +34,9 @@ export default function FloatingToolbar() {
   if (!element) return null;
 
   const elementConfig = elementConfigsByTag[element.type];
+
+  if (!elementConfig.toolbar) return null;
+
   const Toolbar = elementConfig.toolbar;
 
   return (

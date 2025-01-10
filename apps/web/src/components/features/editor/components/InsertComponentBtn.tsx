@@ -42,7 +42,10 @@ export default function InsertComponentBtn() {
               )
             )
             .map((elementConfig) => {
+              if (!elementConfig.addElement) return;
+
               const AddComponentButton = elementConfig.addElement;
+
               return (
                 <AddComponentButton
                   key={elementConfig.lebel}

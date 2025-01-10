@@ -104,6 +104,8 @@ function BlockContent() {
 
   const elementConfig = elementConfigsByTag[element.type];
 
+  if (!elementConfig.sidebar) return null;
+
   const EditSidebar = elementConfig.sidebar;
 
   return (
