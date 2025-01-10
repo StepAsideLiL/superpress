@@ -23,20 +23,6 @@ export type EditorElementType = {
   className?: string;
 };
 
-export type ComponentGroupsType = {
-  name: string;
-  components: {
-    title: string;
-    lebel: string;
-    icon: IconType;
-    type: TagType;
-    content?: string | EditorElementType[];
-    className?: string;
-    style?: React.CSSProperties;
-    tags?: string[];
-  }[];
-};
-
 export type ElementConfigGroupType = "Text" | "List";
 
 export type ElementConfigType = {
@@ -66,7 +52,13 @@ export type ElementConfigType = {
     children: React.ReactNode;
     element: EditorElementType;
   }) => React.ReactNode;
-  toolbar: () => React.ReactNode;
+  toolbar: ({
+    elementConfig,
+    element,
+  }: {
+    elementConfig: ElementConfigType;
+    element: EditorElementType;
+  }) => React.ReactNode;
   addElement: ({
     elementConfig,
   }: {
