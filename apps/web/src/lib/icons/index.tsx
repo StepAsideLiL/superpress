@@ -265,6 +265,34 @@ const icon = {
   Text: ({ size = 20, className }: { size?: number; className?: string }) => (
     <radixIcon.TextIcon className={cn(className)} height={size} width={size} />
   ),
+  TextAlignCenter: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.AlignCenter size={size} className={cn(className)} />,
+  TextAlignLeft: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.AlignLeft size={size} className={cn(className)} />,
+  TextAlignJustify: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.AlignJustify size={size} className={cn(className)} />,
+  TextAlignRight: ({
+    size = 20,
+    className,
+  }: {
+    size?: number;
+    className?: string;
+  }) => <lucideIcon.AlignRight size={size} className={cn(className)} />,
   User: ({ size = 20, className }: { size?: number; className?: string }) => (
     <lucideIcon.User size={size} className={cn(className)} />
   ),
