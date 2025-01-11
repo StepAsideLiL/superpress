@@ -34,11 +34,23 @@ const addEditorElementAtom = atom(
   }
 );
 
-const selectedElementIdForEditingAtom = atom<string | null>(null);
+type EditorStateType = {
+  selectedElementId: string | null;
+  selectedElementContent: EditorElementType[] | string;
+  selectedText: string;
+  cursorPosition: { start: number; end: number };
+};
+
+const editorStateAtom = atom<EditorStateType>({
+  selectedElementId: null,
+  selectedElementContent: "",
+  selectedText: "",
+  cursorPosition: { start: 0, end: 0 },
+});
 const selectElementAtom = atom(
   (get) => {
     const data = get(editorElementsAtom);
-    const selectedId = get(selectedElementIdForEditingAtom);
+    const selectedId = get(editorStateAtom).selectedElementId;
 
     if (!selectedId) return null;
 
@@ -148,7 +160,7 @@ const editorStore = {
   toggleSettingsSidebarAtom,
   editorElementsAtom,
   addEditorElementAtom,
-  selectedElementIdForEditingAtom,
+  editorStateAtom,
   selectElementAtom,
   deleteElementByIdAtom,
   insertElementAfterSelectedElementByIdAtom,

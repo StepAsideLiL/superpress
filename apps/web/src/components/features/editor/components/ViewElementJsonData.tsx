@@ -20,9 +20,7 @@ import icon from "@/lib/icons";
 
 export default function ViewElementJsonData() {
   const [element] = useAtom(editorStore.editorElementsAtom);
-  const [selectedElementId] = useAtom(
-    editorStore.selectedElementIdForEditingAtom
-  );
+  const [editorState] = useAtom(editorStore.editorStateAtom);
 
   return (
     <div>
@@ -48,7 +46,7 @@ export default function ViewElementJsonData() {
           <DialogHeader>
             <DialogTitle>Element Data</DialogTitle>
           </DialogHeader>
-          <div>Selected Element Id: {selectedElementId}</div>
+          <div>Selected Element Id: {editorState.selectedElementId}</div>
           <pre>{JSON.stringify(element, null, 2)}</pre>
         </DialogContent>
       </Dialog>

@@ -13,21 +13,32 @@ import { elementConfigsByTag } from "../elements";
 
 export default function SettingsSidebar() {
   const [open] = useAtom(editorStore.openSettingsSidebarAtom);
-  const [elementId, setElementID] = useAtom(
-    editorStore.selectedElementIdForEditingAtom
-  );
+  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
   const [post] = useAtom(editorStore.postAtom);
 
   if (open) {
     return (
       <section className="w-[300px] overflow-auto border">
-        <Tabs defaultValue={"block"} value={elementId ? "block" : "post"}>
+        <Tabs
+          defaultValue={"block"}
+          value={editorState.selectedElementId ? "block" : "post"}
+        >
           <div className="flex items-center justify-between border-b border-muted">
             <TabsList>
-              <TabsTrigger value="post" onClick={() => setElementID(null)}>
+              <TabsTrigger
+                value="post"
+                onClick={() =>
+                  setEditorState({ ...editorState, selectedElementId: null })
+                }
+              >
                 Post
               </TabsTrigger>
-              <TabsTrigger value="block" onClick={() => setElementID("1")}>
+              <TabsTrigger
+                value="block"
+                onClick={() =>
+                  setEditorState({ ...editorState, selectedElementId: "1" })
+                }
+              >
                 Block
               </TabsTrigger>
             </TabsList>

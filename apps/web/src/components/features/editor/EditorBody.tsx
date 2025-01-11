@@ -11,12 +11,14 @@ import { elementConfigsByTag } from "./elements";
 
 export default function EditorBody() {
   const [content] = useAtom(editorStore.editorElementsAtom);
-  const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
+  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
 
   return (
     <section
       className="h-full flex-1 overflow-auto"
-      onClick={() => setElementID(null)}
+      onClick={() =>
+        setEditorState({ ...editorState, selectedElementId: null })
+      }
     >
       <div className="p-4">
         <RenderElements elements={content} />
