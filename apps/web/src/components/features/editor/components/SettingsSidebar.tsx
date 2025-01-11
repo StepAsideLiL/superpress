@@ -126,7 +126,7 @@ function BlockContent() {
         <h1 className="text-lg">{elementConfig.title}</h1>
       </div>
 
-      <EditSidebar elementConfig={elementConfig} element={element} />
+      <EditSidebar element={element} />
     </div>
   );
 }

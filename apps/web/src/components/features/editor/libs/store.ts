@@ -36,7 +36,7 @@ const addEditorElementAtom = atom(
 
 type EditorStateType = {
   selectedElementId: string | null;
-  selectedElementContent: EditorElementType[] | string;
+  selectedElementContent: string | (string | EditorElementType)[];
   selectedText: string;
   cursorPosition: { start: number; end: number };
 };
@@ -47,6 +47,7 @@ const editorStateAtom = atom<EditorStateType>({
   selectedText: "",
   cursorPosition: { start: 0, end: 0 },
 });
+
 const selectElementAtom = atom(
   (get) => {
     const data = get(editorElementsAtom);
@@ -120,35 +121,49 @@ const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
   set(editorElementsAtom, updatedElementData);
 });
 
-const insertElementAfterSelectedElementByIdAtom = atom(
+/**
+ * Inserts a new element after the selected element. If no selected element is found, it inserts the new element at the end of the root editor elements array.
+ */
+const insertElementAtom = atom(
   null,
-  (get, set, elementId: string, newElement: EditorElementType) => {
-    const editorElementData = get(editorElementsAtom);
+  (
+    get,
+    set,
+    newElement: EditorElementType,
+    selectedElementId?: string | null
+  ) => {
+    const initialEditorElements = get(editorElementsAtom);
 
-    function updateElement(content: EditorElementType[]): EditorElementType[] {
-      const updatedElements: EditorElementType[] = [];
+    if (!selectedElementId) {
+      set(editorElementsAtom, [...initialEditorElements, newElement]);
+      return;
+    }
+
+    function updateEditorElements(content: (string | EditorElementType)[]) {
+      const updatedEditorElements: EditorElementType[] = [];
 
       for (let i = 0; i < content.length; i++) {
         const element = content[i];
-        updatedElements.push(element);
-
-        if (element.id === elementId) {
-          updatedElements.push(newElement);
+        if (typeof element !== "string") {
+          updatedEditorElements.push(element);
         }
 
-        if (Array.isArray(element.content)) {
-          updatedElements[updatedElements.length - 1] = {
+        if (typeof element !== "string" && element.id === selectedElementId) {
+          updatedEditorElements.push(newElement);
+        }
+
+        if (typeof element !== "string" && Array.isArray(element.content)) {
+          updatedEditorElements[updatedEditorElements.length - 1] = {
             ...element,
-            content: updateElement(element.content),
+            content: updateEditorElements(element.content),
           };
         }
       }
-      return updatedElements;
+
+      return updatedEditorElements;
     }
 
-    const updatedElements = updateElement(editorElementData);
-
-    set(editorElementsAtom, updatedElements);
+    set(editorElementsAtom, updateEditorElements(initialEditorElements));
   }
 );
 
@@ -163,8 +178,8 @@ const editorStore = {
   editorStateAtom,
   selectElementAtom,
   deleteElementByIdAtom,
-  insertElementAfterSelectedElementByIdAtom,
   openInsertPopoverAtom,
+  insertElementAtom,
 };
 
 export default editorStore;

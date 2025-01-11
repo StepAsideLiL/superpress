@@ -7,27 +7,30 @@ import {
 } from "./Heading";
 import { nanoid } from "../libs/utils";
 import { ElementConfigGroupType, ElementConfigType } from "../libs/types";
-import {
-  AddParagraphBtn,
-  ParagraphEditorRender,
-  ParagraphSidebar,
-  ParagraphToolbar,
-} from "./Paragraph";
-import { AddListBtn, ListEditorRender, ListSidebar, ListToolbar } from "./List";
-import {
-  AddButtonBtn,
-  ButtonEditorRender,
-  ButtonSidebar,
-  ButtonToolbar,
-} from "./Button";
-import {
-  AddListItemBtn,
-  ListItemEditorRender,
-  ListItemSidebar,
-  ListItemToolbar,
-} from "./ListItem";
+import { TextEffectEditorRender } from "./TextEffect";
 
 export const elementConfigs: ElementConfigType[] = [
+  {
+    title: "Text Effect",
+    description: "Text Effects.",
+    lebel: "textEffect",
+    group: "Text Extra",
+    icon: icon.Button,
+    tags: [
+      {
+        title: "Strong",
+        type: "strong",
+        icon: icon.Bold,
+      },
+    ],
+    keyWords: [],
+    defaultContent: {
+      id: nanoid(),
+      type: "strong",
+      content: "",
+    },
+    renderInEditor: TextEffectEditorRender,
+  },
   {
     title: "Heading",
     description: "Heading texts with heading tag.",
@@ -43,7 +46,7 @@ export const elementConfigs: ElementConfigType[] = [
       {
         title: "Heading 2",
         type: "h2",
-        icon: icon.Heading3,
+        icon: icon.Heading2,
       },
       {
         title: "Heading 3",
@@ -71,133 +74,15 @@ export const elementConfigs: ElementConfigType[] = [
       id: nanoid(),
       type: "h1",
       content: "",
-      className: "text-default",
+      className: "",
       style: {
-        width: "768px",
+        base: {},
       },
     },
     renderInEditor: HeadingEditorRender,
     sidebar: HeadingSidebar,
     toolbar: HeadingToolbar,
     addElement: AddHeadingBtn,
-  },
-  {
-    title: "Paragraph",
-    description: "Sub title texts with p tag.",
-    lebel: "paragraph",
-    group: "Text",
-    icon: icon.Paragraph,
-    tags: [
-      {
-        title: "Paragraph",
-        type: "p",
-        icon: icon.Paragraph,
-      },
-    ],
-    keyWords: ["paragraph", "subtitle", "subheading", "p"],
-    defaultContent: {
-      id: nanoid(),
-      type: "p",
-      content: "",
-      className: "text-subtitle",
-      style: {
-        width: "768px",
-      },
-    },
-    renderInEditor: ParagraphEditorRender,
-    sidebar: ParagraphSidebar,
-    toolbar: ParagraphToolbar,
-    addElement: AddParagraphBtn,
-  },
-  {
-    title: "Button",
-    description: "Button to take action.",
-    lebel: "button",
-    group: "Text",
-    icon: icon.Button,
-    tags: [
-      {
-        title: "Button",
-        type: "button",
-        icon: icon.Button,
-      },
-    ],
-    keyWords: ["button", "link", "btn", "a", "href"],
-    defaultContent: {
-      id: nanoid(),
-      type: "button",
-      content: "",
-      className: "button",
-    },
-    renderInEditor: ButtonEditorRender,
-    sidebar: ButtonSidebar,
-    toolbar: ButtonToolbar,
-    addElement: AddButtonBtn,
-  },
-  {
-    title: "List",
-    description: "Ordered and unordered list.",
-    lebel: "list",
-    group: "Text",
-    icon: icon.List,
-    tags: [
-      {
-        title: "Ordered List",
-        type: "ol",
-        icon: icon.ListOrder,
-      },
-      {
-        title: "Unordered List",
-        type: "ul",
-        icon: icon.List,
-      },
-    ],
-    keyWords: ["list", "ordered", "unordered", "ol", "ul"],
-    defaultContent: {
-      id: nanoid(),
-      type: "ul",
-      content: [
-        {
-          id: nanoid(),
-          type: "li",
-          content: "",
-        },
-      ],
-      className: "list-ul-bullet",
-      style: {
-        width: "768px",
-        marginLeft: "auto",
-        marginRight: "auto",
-      },
-    },
-    renderInEditor: ListEditorRender,
-    sidebar: ListSidebar,
-    toolbar: ListToolbar,
-    addElement: AddListBtn,
-  },
-  {
-    title: "List Item",
-    description: "Ordered and unordered list item.",
-    lebel: "list-item",
-    group: "List",
-    icon: icon.ListItem,
-    tags: [
-      {
-        title: "List Item",
-        type: "li",
-        icon: icon.ListItem,
-      },
-    ],
-    keyWords: ["list item", "li"],
-    defaultContent: {
-      id: nanoid(),
-      type: "li",
-      content: "",
-    },
-    renderInEditor: ListItemEditorRender,
-    sidebar: ListItemSidebar,
-    toolbar: ListItemToolbar,
-    addElement: AddListItemBtn,
   },
 ];
 

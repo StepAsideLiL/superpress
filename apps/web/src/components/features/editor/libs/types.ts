@@ -13,17 +13,18 @@ export type TagType =
   | "ol"
   | "ul"
   | "li"
-  | "div";
+  | "div"
+  | "strong";
 
 export type EditorElementType = {
   id: string;
   type: TagType;
-  content: string | EditorElementType[];
+  content: string | (string | EditorElementType)[];
   style?: { [styleType in "base" | "hover"]?: React.CSSProperties };
   className?: string;
 };
 
-export type ElementConfigGroupType = "Text" | "List";
+export type ElementConfigGroupType = "Text" | "Text Extra" | "List";
 
 export type ElementConfigType = {
   title: string;
@@ -38,13 +39,7 @@ export type ElementConfigType = {
   }[];
   keyWords: string[];
   defaultContent: EditorElementType;
-  sidebar?: ({
-    elementConfig,
-    element,
-  }: {
-    elementConfig: ElementConfigType;
-    element: EditorElementType;
-  }) => React.ReactNode;
+  sidebar?: ({ element }: { element: EditorElementType }) => React.ReactNode;
   renderInEditor: ({
     children,
     element,

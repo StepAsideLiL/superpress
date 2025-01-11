@@ -9,8 +9,8 @@ export default function AddBtn({
 }: {
   elementConfig: ElementConfigType;
 }) {
-  const [, addEditorElement] = useAtom(editorStore.addEditorElementAtom);
-  const [, setElementID] = useAtom(editorStore.selectedElementIdForEditingAtom);
+  const [, addNewElementInRoot] = useAtom(editorStore.insertElementAtom);
+  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
   const [, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
 
   return (
@@ -24,17 +24,18 @@ export default function AddBtn({
 
         const id = nanoid();
 
-        addEditorElement({
+        addNewElementInRoot({
           id: id,
           type: elementConfig.defaultContent.type,
-          content: elementConfig.defaultContent.content
-            ? elementConfig.defaultContent.content
-            : "",
+          content: elementConfig.defaultContent.content,
           style: elementConfig.defaultContent.style,
-          className: elementConfig.defaultContent.className,
         });
 
-        setElementID(id);
+        setEditorState({
+          ...editorState,
+          selectedElementId: id,
+          selectedElementContent: elementConfig.defaultContent.content,
+        });
       }}
     >
       <span>{elementConfig.title}</span>

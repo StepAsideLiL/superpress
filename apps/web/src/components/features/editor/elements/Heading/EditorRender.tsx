@@ -13,65 +13,99 @@ export default function EditorRender({
   element: EditorElementType;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [selectedElementId, setSelectedElementId] = useAtom(
-    editorStore.selectedElementIdForEditingAtom
-  );
   const [, setElement] = useAtom(editorStore.selectElementAtom);
-  const [, insertElement] = useAtom(
-    editorStore.insertElementAfterSelectedElementByIdAtom
+  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
+  const [, insertElementAfterSelectedElement] = useAtom(
+    editorStore.insertElementAtom
   );
 
   useEffect(() => {
-    if (ref.current && element.id === selectedElementId) {
+    if (ref.current && element.id === editorState.selectedElementId) {
       ref.current.contentEditable = "true";
       ref.current.focus();
     }
-  }, [element.id, selectedElementId]);
+  }, [editorState.selectedElementId, element.id]);
+
+  function handleClick(event: React.MouseEvent) {
+    event.stopPropagation();
+    // setSelectedElementId(element.id);
+    setEditorState({
+      ...editorState,
+      selectedElementId: element.id,
+      selectedElementContent: element.content,
+    });
+    if (ref.current) {
+      ref.current.contentEditable = "true";
+      ref.current.focus();
+    }
+  }
+
+  const getCursorInfo = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0); // The current selection range
+    const startOffset = range.startOffset; // Caret start position
+    const endOffset = range.endOffset; // Caret end position
+    const selectedText = selection.toString(); // Selected text (if any)
+
+    setEditorState({
+      ...editorState,
+      selectedText: selectedText,
+      cursorPosition: { start: startOffset, end: endOffset },
+    });
+  };
 
   return (
     <div
       ref={ref}
       id={element.id}
       className={cn(
-        "mx-auto cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
-        selectedElementId === element.id
+        "mx-auto h-auto min-h-4 cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
+        editorState.selectedElementId === element.id
           ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
           : "border-background",
         element.className
       )}
-      onClick={(e) => {
-        e.stopPropagation();
-        setSelectedElementId(element.id);
-        if (ref.current) {
-          ref.current.contentEditable = "true";
-          ref.current.focus();
-        }
-      }}
+      style={element.style?.base}
+      onMouseUp={getCursorInfo}
+      onClick={(event: React.MouseEvent) => handleClick(event)}
       onBlur={(e) => {
-        setElement({ ...element, content: e.currentTarget.innerHTML });
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
+        if (e.target.innerHTML === "<br>") {
+          setElement({ ...element, content: "" });
+        } else {
+          setElement({ ...element, content: e.currentTarget.innerHTML });
         }
       }}
-      onKeyUp={(e) => {
-        if (e.key === "Enter") {
+      onKeyDown={(event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      }}
+      onKeyUp={(event: React.KeyboardEvent) => {
+        getCursorInfo();
+
+        if (event.key === "Enter") {
           const newElementid = nanoid();
 
-          insertElement(element.id, {
-            id: newElementid,
-            type: "p",
-            content: "",
-            className: "text-subtitle",
-            style: {
-              width: "768px",
-              marginLeft: "auto",
-              marginRight: "auto",
+          insertElementAfterSelectedElement(
+            {
+              id: newElementid,
+              type: "h1",
+              content: "",
+              className: "",
+              style: {
+                base: {},
+              },
             },
-          });
+            element.id
+          );
 
-          setSelectedElementId(newElementid);
+          setEditorState({
+            ...editorState,
+            selectedElementId: newElementid,
+            selectedElementContent: "",
+          });
           if (ref.current) {
             ref.current.contentEditable = "false";
           }

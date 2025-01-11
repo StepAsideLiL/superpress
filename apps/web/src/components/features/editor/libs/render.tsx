@@ -1,8 +1,14 @@
 import React from "react";
 import { EditorElementType } from "./types";
 
-export const renderHtml = (elements: EditorElementType[]): React.ReactNode => {
+export const renderHtml = (
+  elements: (string | EditorElementType)[]
+): React.ReactNode => {
   return elements.map((element) => {
+    if (typeof element === "string") {
+      return element;
+    }
+
     const { id, type, content, style, className } = element;
 
     // If content is a string, render it as text

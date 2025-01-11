@@ -31,10 +31,18 @@ export default function EditorBody() {
   );
 }
 
-function RenderElements({ elements }: { elements: EditorElementType[] }) {
+function RenderElements({
+  elements,
+}: {
+  elements: (string | EditorElementType)[];
+}) {
   return (
     <>
       {elements.map((element) => {
+        if (typeof element === "string") {
+          return element;
+        }
+
         const Render = elementConfigsByTag[element.type].renderInEditor;
 
         if (Array.isArray(element.content)) {
