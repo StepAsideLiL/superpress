@@ -11,6 +11,9 @@ export type IconType = ({
 }) => React.ReactElement;
 
 const icon = {
+  Bold: ({ size = 20, className }: { size?: number; className?: string }) => (
+    <lucideIcon.Bold size={size} className={cn(className)} />
+  ),
   BookOpen: ({
     size = 20,
     className,
