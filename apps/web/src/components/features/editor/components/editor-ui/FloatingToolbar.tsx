@@ -18,22 +18,22 @@ export default function FloatingToolbar() {
   const { refs, floatingStyles, update } = useFloating({
     placement: "top-start",
   });
-  const [element] = useAtom(editorStore.selectElementAtom);
+  const [seletedElement] = useAtom(editorStore.selectElementAtom);
   const [, deleteElementById] = useAtom(editorStore.deleteElementByIdAtom);
 
   useEffect(() => {
-    if (element) {
-      elementRef.current = document.getElementById(element.id) || null;
+    if (seletedElement) {
+      elementRef.current = document.getElementById(seletedElement.id) || null;
       refs.setReference(elementRef.current);
       update();
     } else {
       refs.setReference(null);
     }
-  }, [element, refs, update]);
+  }, [refs, seletedElement, update]);
 
-  if (!element) return null;
+  if (!seletedElement) return null;
 
-  const elementConfig = elementConfigsByTag[element.type];
+  const elementConfig = elementConfigsByTag[seletedElement.type];
 
   if (!elementConfig.toolbar) return null;
 
@@ -50,7 +50,7 @@ export default function FloatingToolbar() {
 
         <Separator orientation="vertical" className="h-11 bg-primary" />
 
-        <Toolbar element={element} elementConfig={elementConfig} />
+        <Toolbar element={seletedElement} elementConfig={elementConfig} />
 
         <Separator orientation="vertical" className="h-11 bg-primary" />
 
@@ -63,7 +63,7 @@ export default function FloatingToolbar() {
           <DropdownMenuContent align="start">
             <DropdownMenuItem
               className="hover:cursor-pointer"
-              onClick={() => deleteElementById(element.id)}
+              onClick={() => deleteElementById(seletedElement.id)}
             >
               Delete
             </DropdownMenuItem>

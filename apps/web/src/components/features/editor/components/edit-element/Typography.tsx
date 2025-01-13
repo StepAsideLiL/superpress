@@ -142,14 +142,14 @@ export default function Typography({
 }: {
   element: EditorElementType;
 }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
 
   function handleFontWeightChange(value: string) {
     const fontWeightStyle = fontWeightOptions.find(
       (option) => option.value === value
     )?.style;
 
-    setElement({
+    updateElement({
       ...element,
       style: { base: { ...element.style?.base, ...fontWeightStyle } },
     });
@@ -160,7 +160,7 @@ export default function Typography({
       (option) => option.value === value
     )?.style;
 
-    setElement({
+    updateElement({
       ...element,
       style: { base: { ...element.style?.base, ...fontSizeStyle } },
     });

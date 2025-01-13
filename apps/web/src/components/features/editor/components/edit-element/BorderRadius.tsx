@@ -11,7 +11,7 @@ export default function BorderRadius({
 }: {
   element: EditorElementType;
 }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const baseStyle = element.style?.base || {
     base: {},
   };
@@ -19,7 +19,7 @@ export default function BorderRadius({
   return (
     <div className="space-y-2 px-4 py-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-semibold">Border</h3>
+        <h3 className="text-xs font-semibold">Border Radius</h3>
 
         <div>
           {"borderRadius" in baseStyle ? (
@@ -30,7 +30,7 @@ export default function BorderRadius({
               disabled={!("borderRadius" in baseStyle)}
               onClick={() => {
                 const newBaseStyle = _.omit(baseStyle, "borderRadius");
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...newBaseStyle } },
                 });
@@ -45,7 +45,7 @@ export default function BorderRadius({
               className="size-6"
               disabled={"borderRadius" in baseStyle}
               onClick={() => {
-                setElement({
+                updateElement({
                   ...element,
                   style: {
                     base: { ...baseStyle, borderRadius: "20px" },
@@ -85,7 +85,7 @@ export default function BorderRadius({
           if (!Number.isInteger(Number(e.target.value))) {
             return;
           }
-          setElement({
+          updateElement({
             ...element,
             style: {
               base: { ...baseStyle, borderRadius: `${e.target.value}px` },

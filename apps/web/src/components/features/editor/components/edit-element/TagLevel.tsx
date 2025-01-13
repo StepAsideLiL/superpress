@@ -17,7 +17,7 @@ export default function TagLevel({
   element: EditorElementType;
   elementConfig: ElementConfigType;
 }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const tagConfig =
     elementConfig.tags.find((tag) => tag.type === element.type) ||
     elementConfig.tags[0];
@@ -37,7 +37,7 @@ export default function TagLevel({
             className="cursor-pointer"
             onClick={(event) => {
               event.stopPropagation();
-              setElement({
+              updateElement({
                 ...element,
                 type: tag.type,
               });

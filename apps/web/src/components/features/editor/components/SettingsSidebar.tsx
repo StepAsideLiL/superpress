@@ -101,9 +101,9 @@ export default function SettingsSidebar() {
 }
 
 function BlockContent() {
-  const [element] = useAtom(editorStore.selectElementAtom);
+  const [seletedElement] = useAtom(editorStore.selectElementAtom);
 
-  if (!element) {
+  if (!seletedElement) {
     return (
       <div className="py-5">
         <p className="text-center text-sm text-muted-foreground">
@@ -113,7 +113,7 @@ function BlockContent() {
     );
   }
 
-  const elementConfig = elementConfigsByTag[element.type];
+  const elementConfig = elementConfigsByTag[seletedElement.type];
 
   if (!elementConfig.sidebar) return null;
 
@@ -126,7 +126,7 @@ function BlockContent() {
         <h1 className="text-lg">{elementConfig.title}</h1>
       </div>
 
-      <EditSidebar element={element} />
+      <EditSidebar element={seletedElement} />
     </div>
   );
 }

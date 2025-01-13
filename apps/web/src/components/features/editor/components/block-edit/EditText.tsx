@@ -31,7 +31,7 @@ const stylePresets = [
 ];
 
 export default function EditText({ element }: { element: EditorElementType }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
 
   console.log(element);
 
@@ -66,7 +66,7 @@ export default function EditText({ element }: { element: EditorElementType }) {
                 "has-[[data-disabled]]:cursor-not-allowed"
               )}
               onClick={() => {
-                setElement({ ...element, type: tag as TagType });
+                updateElement({ ...element, type: tag as TagType });
               }}
             >
               <RadioGroupItem
@@ -100,7 +100,7 @@ export default function EditText({ element }: { element: EditorElementType }) {
                 "has-[[data-disabled]]:cursor-not-allowed"
               )}
               onClick={() => {
-                setElement({ ...element, className: style.className });
+                updateElement({ ...element, className: style.className });
               }}
             >
               <RadioGroupItem

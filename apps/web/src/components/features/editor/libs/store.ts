@@ -48,39 +48,45 @@ const editorStateAtom = atom<EditorStateType>({
   cursorPosition: { start: 0, end: 0 },
 });
 
-const selectElementAtom = atom(
-  (get) => {
-    const data = get(editorElementsAtom);
-    const selectedId = get(editorStateAtom).selectedElementId;
+/**
+ * Get seleted element.
+ */
+const selectElementAtom = atom((get) => {
+  const editorElements = get(editorElementsAtom);
+  const selectedId = get(editorStateAtom).selectedElementId;
 
-    if (!selectedId) return null;
+  if (!selectedId) return null;
 
-    const findElement = (
-      elements: EditorElementType[]
-    ): EditorElementType | null => {
-      for (const element of elements) {
-        if (element.id === selectedId) return element;
-        if (Array.isArray(element.content)) {
-          const childElement = findElement(
-            element.content as EditorElementType[]
-          );
-          if (childElement) return childElement;
-        }
+  const findElement = (
+    elements: EditorElementType[]
+  ): EditorElementType | null => {
+    for (const element of elements) {
+      if (element.id === selectedId) return element;
+      if (Array.isArray(element.content)) {
+        const childElement = findElement(
+          element.content as EditorElementType[]
+        );
+        if (childElement) return childElement;
       }
-      return null;
-    };
+    }
+    return null;
+  };
 
-    return findElement(data);
-  },
-  (get, set, updatedElment: EditorElementType) => {
-    const data = get(editorElementsAtom);
+  return findElement(editorElements);
+});
 
-    const updateElement = (
-      elements: EditorElementType[]
-    ): EditorElementType[] => {
+/**
+ * Updates the selected element.
+ */
+const updateSelectedElementAtom = atom(
+  null,
+  (get, set, updatedElement: EditorElementType) => {
+    const initialEditorElements = get(editorElementsAtom);
+
+    function updateElement(elements: EditorElementType[]): EditorElementType[] {
       return elements.map((element) => {
-        if (element.id === updatedElment.id) {
-          return updatedElment;
+        if (element.id === updatedElement.id) {
+          return updatedElement;
         }
 
         if (Array.isArray(element.content)) {
@@ -91,19 +97,19 @@ const selectElementAtom = atom(
         }
         return element;
       });
-    };
+    }
 
-    const updatedData = updateElement(data);
-    set(editorElementsAtom, updatedData);
+    set(editorElementsAtom, updateElement(initialEditorElements));
   }
 );
 
+/**
+ * Deletes an element by its id.
+ */
 const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
-  const elementData = get(editorElementsAtom);
+  const initialEditorElements = get(editorElementsAtom);
 
-  const updateElement = (
-    elements: EditorElementType[]
-  ): EditorElementType[] => {
+  function updateElement(elements: EditorElementType[]): EditorElementType[] {
     return elements
       .filter((element) => element.id !== elementId)
       .map((element) => {
@@ -115,10 +121,9 @@ const deleteElementByIdAtom = atom(null, (get, set, elementId) => {
         }
         return element;
       });
-  };
+  }
 
-  const updatedElementData = updateElement(elementData);
-  set(editorElementsAtom, updatedElementData);
+  set(editorElementsAtom, updateElement(initialEditorElements));
 });
 
 /**
@@ -180,6 +185,7 @@ const editorStore = {
   deleteElementByIdAtom,
   openInsertPopoverAtom,
   insertElementAtom,
+  updateSelectedElementAtom,
 };
 
 export default editorStore;

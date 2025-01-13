@@ -7,7 +7,7 @@ import _ from "lodash";
 import { Input } from "@/components/ui/input";
 
 export default function Border({ element }: { element: EditorElementType }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const baseStyle = element.style?.base || {
     base: {},
   };
@@ -26,7 +26,7 @@ export default function Border({ element }: { element: EditorElementType }) {
               disabled={!("border" in baseStyle)}
               onClick={() => {
                 const newBaseStyle = _.omit(baseStyle, "border");
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...newBaseStyle } },
                 });
@@ -41,7 +41,7 @@ export default function Border({ element }: { element: EditorElementType }) {
               className="size-6"
               disabled={"border" in baseStyle}
               onClick={() => {
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...baseStyle, border: "6px red solid" } },
                 });
@@ -79,7 +79,7 @@ export default function Border({ element }: { element: EditorElementType }) {
               if (!Number.isInteger(Number(e.target.value))) {
                 return;
               }
-              setElement({
+              updateElement({
                 ...element,
                 style: {
                   base: { ...baseStyle, border: `${e.target.value}px` },

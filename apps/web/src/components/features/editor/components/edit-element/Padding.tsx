@@ -7,7 +7,7 @@ import _ from "lodash";
 import { Input } from "@/components/ui/input";
 
 export default function Padding({ element }: { element: EditorElementType }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const baseStyle = element.style?.base || {
     base: {},
   };
@@ -26,7 +26,7 @@ export default function Padding({ element }: { element: EditorElementType }) {
               disabled={!("padding" in baseStyle)}
               onClick={() => {
                 const newBaseStyle = _.omit(baseStyle, "padding");
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...newBaseStyle } },
                 });
@@ -41,7 +41,7 @@ export default function Padding({ element }: { element: EditorElementType }) {
               className="size-6"
               disabled={"padding" in baseStyle}
               onClick={() => {
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...baseStyle, padding: "0px" } },
                 });
@@ -67,7 +67,7 @@ export default function Padding({ element }: { element: EditorElementType }) {
               if (!Number.isInteger(Number(e.target.value))) {
                 return;
               }
-              setElement({
+              updateElement({
                 ...element,
                 style: {
                   base: { ...baseStyle, padding: `${e.target.value}px` },

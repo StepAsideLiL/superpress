@@ -13,7 +13,7 @@ export default function EditorRender({
   element: EditorElementType;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
   const [, insertElementAfterSelectedElement] = useAtom(
     editorStore.insertElementAtom
@@ -72,9 +72,9 @@ export default function EditorRender({
       onClick={(event: React.MouseEvent) => handleClick(event)}
       onBlur={(e) => {
         if (e.target.innerHTML === "<br>") {
-          setElement({ ...element, content: "" });
+          updateElement({ ...element, content: "" });
         } else {
-          setElement({ ...element, content: e.currentTarget.innerHTML });
+          updateElement({ ...element, content: e.currentTarget.innerHTML });
         }
       }}
       onKeyDown={(event: React.KeyboardEvent) => {

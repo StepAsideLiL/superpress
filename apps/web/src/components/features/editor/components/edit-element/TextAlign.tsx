@@ -56,7 +56,7 @@ const textAlignOptions: TextAlignOptionType[] = [
 ];
 
 export default function TextAlign({ element }: { element: EditorElementType }) {
-  const [, setElement] = useAtom(editorStore.selectElementAtom);
+  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const defaultStyle =
     textAlignOptions.find(
       (option) => option.value === element.style?.base?.textAlign
@@ -80,14 +80,14 @@ export default function TextAlign({ element }: { element: EditorElementType }) {
 
               if (element.style?.base?.textAlign === option.value) {
                 const newStyle = _.omit(element.style?.base, ["textAlign"]);
-                setElement({
+                updateElement({
                   ...element,
                   style: { base: { ...newStyle } },
                 });
                 return;
               }
 
-              setElement({
+              updateElement({
                 ...element,
                 style: { base: { ...element?.style?.base, ...option.style } },
               });
