@@ -24,13 +24,20 @@ export type EditorElementType = {
   className?: string;
 };
 
-export type ElementConfigGroupType = "Text" | "Text Extra" | "List";
+export type EditorSelectedStateType = {
+  elementId: string | null;
+  elementContent: string | (string | EditorElementType)[];
+  cursorSelectedText: string;
+  cursorPosition: { start: number; end: number };
+};
+
+export type ComponentGroupType = "Text" | "Text Extra" | "List";
 
 export type ElementConfigType = {
   title: string;
   description: string;
   lebel: string;
-  group: ElementConfigGroupType;
+  group: ComponentGroupType;
   icon: IconType;
   tags: {
     title: string;

@@ -2,22 +2,23 @@
 
 import "./style.css";
 import InsertComponentBtn from "./components/InsertComponentBtn";
-import editorStore from "./libs/store";
-import { useAtom } from "jotai";
 import { EditorElementType } from "./libs/types";
 import { createElement } from "react";
 import FloatingToolbar from "./components/editor-ui/FloatingToolbar";
-import { elementConfigsByTag } from "./elements";
+import { editorStore } from "./libs/store";
 
 export default function EditorBody() {
-  const [content] = useAtom(editorStore.editorElementsAtom);
-  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
+  const content = editorStore.element.useElements();
+  const selectState = editorStore.selected.useSelected();
 
   return (
     <section
       className="h-full flex-1 overflow-auto"
       onClick={() =>
-        setEditorState({ ...editorState, selectedElementId: null })
+        editorStore.selected.setSelected({
+          ...selectState,
+          elementId: null,
+        })
       }
     >
       <div className="p-4">
@@ -43,7 +44,8 @@ function RenderElements({
           return element;
         }
 
-        const Render = elementConfigsByTag[element.type].renderInEditor;
+        const Render =
+          editorStore.configs.componentByTag[element.type].renderInEditor;
 
         if (Array.isArray(element.content)) {
           return (

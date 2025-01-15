@@ -7,11 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import icon, { IconType } from "@/lib/icons";
 import { CSSProperties } from "react";
 import _ from "lodash";
+import { editorStore } from "../../libs/store";
 
 type TextAlignOptionType = {
   title: string;
@@ -56,7 +55,6 @@ const textAlignOptions: TextAlignOptionType[] = [
 ];
 
 export default function TextAlign({ element }: { element: EditorElementType }) {
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const defaultStyle =
     textAlignOptions.find(
       (option) => option.value === element.style?.base?.textAlign
@@ -80,14 +78,14 @@ export default function TextAlign({ element }: { element: EditorElementType }) {
 
               if (element.style?.base?.textAlign === option.value) {
                 const newStyle = _.omit(element.style?.base, ["textAlign"]);
-                updateElement({
+                editorStore.elementActions.updateSelectedElement({
                   ...element,
                   style: { base: { ...newStyle } },
                 });
                 return;
               }
 
-              updateElement({
+              editorStore.elementActions.updateSelectedElement({
                 ...element,
                 style: { base: { ...element?.style?.base, ...option.style } },
               });

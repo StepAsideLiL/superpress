@@ -6,8 +6,7 @@ import {
 } from "@/components/ui/select";
 import { EditorElementType } from "../../libs/types";
 import { SelectValue } from "@radix-ui/react-select";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
+import { editorStore } from "../../libs/store";
 
 const fontWeightOptions = [
   { title: "Thin", value: "100", style: { fontWeight: "100" } },
@@ -142,14 +141,12 @@ export default function Typography({
 }: {
   element: EditorElementType;
 }) {
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
-
   function handleFontWeightChange(value: string) {
     const fontWeightStyle = fontWeightOptions.find(
       (option) => option.value === value
     )?.style;
 
-    updateElement({
+    editorStore.elementActions.updateSelectedElement({
       ...element,
       style: { base: { ...element.style?.base, ...fontWeightStyle } },
     });
@@ -160,7 +157,7 @@ export default function Typography({
       (option) => option.value === value
     )?.style;
 
-    updateElement({
+    editorStore.elementActions.updateSelectedElement({
       ...element,
       style: { base: { ...element.style?.base, ...fontSizeStyle } },
     });

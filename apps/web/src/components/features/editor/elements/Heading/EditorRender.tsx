@@ -1,9 +1,8 @@
 import { EditorElementType } from "../../libs/types";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import { nanoid } from "../../libs/utils";
+import { editorStore } from "../../libs/store";
 
 export default function EditorRender({
   children,
@@ -13,26 +12,21 @@ export default function EditorRender({
   element: EditorElementType;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
-  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
-  const [, insertElementAfterSelectedElement] = useAtom(
-    editorStore.insertElementAtom
-  );
+  const selectState = editorStore.selected.useSelected();
 
   useEffect(() => {
-    if (ref.current && element.id === editorState.selectedElementId) {
+    if (ref.current && element.id === selectState.elementId) {
       ref.current.contentEditable = "true";
       ref.current.focus();
     }
-  }, [editorState.selectedElementId, element.id]);
+  }, [element.id, selectState.elementId]);
 
   function handleClick(event: React.MouseEvent) {
     event.stopPropagation();
-    // setSelectedElementId(element.id);
-    setEditorState({
-      ...editorState,
-      selectedElementId: element.id,
-      selectedElementContent: element.content,
+    editorStore.selected.setSelected({
+      ...selectState,
+      elementId: element.id,
+      elementContent: element.content,
     });
     if (ref.current) {
       ref.current.contentEditable = "true";
@@ -49,9 +43,9 @@ export default function EditorRender({
     const endOffset = range.endOffset; // Caret end position
     const selectedText = selection.toString(); // Selected text (if any)
 
-    setEditorState({
-      ...editorState,
-      selectedText: selectedText,
+    editorStore.selected.setSelected({
+      ...selectState,
+      cursorSelectedText: selectedText,
       cursorPosition: { start: startOffset, end: endOffset },
     });
   };
@@ -62,7 +56,7 @@ export default function EditorRender({
       id={element.id}
       className={cn(
         "mx-auto h-auto min-h-4 cursor-pointer border focus-within:outline-none hover:border hover:border-muted",
-        editorState.selectedElementId === element.id
+        selectState.elementId === element.id
           ? "border-blue-500 focus-within:cursor-auto hover:border-blue-500"
           : "border-background",
         element.className
@@ -72,9 +66,15 @@ export default function EditorRender({
       onClick={(event: React.MouseEvent) => handleClick(event)}
       onBlur={(e) => {
         if (e.target.innerHTML === "<br>") {
-          updateElement({ ...element, content: "" });
+          editorStore.elementActions.updateSelectedElement({
+            ...element,
+            content: "",
+          });
         } else {
-          updateElement({ ...element, content: e.currentTarget.innerHTML });
+          editorStore.elementActions.updateSelectedElement({
+            ...element,
+            content: e.currentTarget.innerHTML,
+          });
         }
       }}
       onKeyDown={(event: React.KeyboardEvent) => {
@@ -88,7 +88,7 @@ export default function EditorRender({
         if (event.key === "Enter") {
           const newElementid = nanoid();
 
-          insertElementAfterSelectedElement(
+          editorStore.elementActions.insertElementAfter(
             {
               id: newElementid,
               type: "h1",
@@ -101,10 +101,10 @@ export default function EditorRender({
             element.id
           );
 
-          setEditorState({
-            ...editorState,
-            selectedElementId: newElementid,
-            selectedElementContent: "",
+          editorStore.selected.setSelected({
+            ...selectState,
+            elementId: newElementid,
+            elementContent: "",
           });
           if (ref.current) {
             ref.current.contentEditable = "false";

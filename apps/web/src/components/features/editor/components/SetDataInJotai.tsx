@@ -2,18 +2,14 @@
 
 import { PostForEditType } from "@/lib/types";
 import { useEffect } from "react";
-import editorStore from "../libs/store";
-import { useAtom } from "jotai";
+import { editorStore } from "../libs/store";
 
 export default function SetDataInJotai({ post }: { post: PostForEditType }) {
-  const [, setPost] = useAtom(editorStore.postAtom);
-  const [, setContent] = useAtom(editorStore.editorElementsAtom);
-
   useEffect(() => {
-    setPost(post);
+    editorStore.post.setPost(post);
 
-    setContent(JSON.parse(post.content));
-  }, [post, setContent, setPost]);
+    editorStore.element.setElements(JSON.parse(post.content));
+  }, [post]);
 
   return null;
 }

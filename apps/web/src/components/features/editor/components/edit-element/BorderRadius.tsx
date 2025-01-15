@@ -1,17 +1,15 @@
 import { EditorElementType } from "../../libs/types";
 import { Button } from "@/components/ui/button";
 import icon from "@/lib/icons";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import _ from "lodash";
 import { Input } from "@/components/ui/input";
+import { editorStore } from "../../libs/store";
 
 export default function BorderRadius({
   element,
 }: {
   element: EditorElementType;
 }) {
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const baseStyle = element.style?.base || {
     base: {},
   };
@@ -30,7 +28,7 @@ export default function BorderRadius({
               disabled={!("borderRadius" in baseStyle)}
               onClick={() => {
                 const newBaseStyle = _.omit(baseStyle, "borderRadius");
-                updateElement({
+                editorStore.elementActions.updateSelectedElement({
                   ...element,
                   style: { base: { ...newBaseStyle } },
                 });
@@ -45,7 +43,7 @@ export default function BorderRadius({
               className="size-6"
               disabled={"borderRadius" in baseStyle}
               onClick={() => {
-                updateElement({
+                editorStore.elementActions.updateSelectedElement({
                   ...element,
                   style: {
                     base: { ...baseStyle, borderRadius: "20px" },

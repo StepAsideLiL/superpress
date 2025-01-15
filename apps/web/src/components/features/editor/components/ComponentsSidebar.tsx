@@ -1,17 +1,14 @@
 "use client";
 
-import { useAtom } from "jotai";
-import editorStore from "../libs/store";
+import { editorStore } from "../libs/store";
 import { CloseComponentsSidebar } from "./editor-ui/btns";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
-import { elementConfigBlocks, elementConfigBlocksByGroup } from "../elements";
 
 export default function ComponentsSidebar() {
-  const [open] = useAtom(editorStore.openComponentSidebarAtom);
   const [search, setSearch] = useState("");
 
-  if (open) {
+  if (editorStore.componentSidebar.useIsOpen()) {
     return (
       <section className="w-[350px] overflow-auto border">
         <div className="space-y-2">
@@ -30,7 +27,7 @@ export default function ComponentsSidebar() {
 
           {search.trim() === "" ? (
             <div className="space-y-4 px-4 py-2">
-              {elementConfigBlocksByGroup.map((group) => {
+              {editorStore.configs.componentByGroup.map((group) => {
                 return (
                   <div key={group.name} className="space-y-2">
                     <h2 className="text-sm font-medium">{group.name}</h2>
@@ -55,7 +52,7 @@ export default function ComponentsSidebar() {
           ) : (
             <div className="space-y-4 px-4 py-2">
               <div className="grid grid-cols-3 gap-2">
-                {elementConfigBlocks
+                {editorStore.configs.componentGroup
                   .filter((elementConfig) =>
                     elementConfig.keyWords?.some((keyword) =>
                       keyword.includes(search.toLowerCase().trim())
@@ -75,7 +72,7 @@ export default function ComponentsSidebar() {
                   })}
               </div>
 
-              {elementConfigBlocks.filter((elementConfig) =>
+              {editorStore.configs.componentGroup.filter((elementConfig) =>
                 elementConfig.keyWords?.some((keyWord) =>
                   keyWord.includes(search.toLowerCase().trim())
                 )

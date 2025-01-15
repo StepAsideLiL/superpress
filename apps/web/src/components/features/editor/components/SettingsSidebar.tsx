@@ -1,7 +1,5 @@
 "use client";
 
-import editorStore from "../libs/store";
-import { useAtom } from "jotai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./editor-ui/Tabs";
 import { CloseSettingsSidebar } from "./editor-ui/btns";
 import * as df from "date-fns";
@@ -9,26 +7,28 @@ import icon from "@/lib/icons";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import UpdatePostTitle from "./UpdatePostTitle";
-import { elementConfigsByTag } from "../elements";
+import { editorStore } from "../libs/store";
 
 export default function SettingsSidebar() {
-  const [open] = useAtom(editorStore.openSettingsSidebarAtom);
-  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
-  const [post] = useAtom(editorStore.postAtom);
+  const post = editorStore.post.usePost();
+  const selectState = editorStore.selected.useSelected();
 
-  if (open) {
+  if (editorStore.settingSidebar.useIsOpen()) {
     return (
       <section className="w-[300px] overflow-auto border">
         <Tabs
           defaultValue={"block"}
-          value={editorState.selectedElementId ? "block" : "post"}
+          value={selectState.elementId ? "block" : "post"}
         >
           <div className="flex items-center justify-between border-b border-muted">
             <TabsList>
               <TabsTrigger
                 value="post"
                 onClick={() =>
-                  setEditorState({ ...editorState, selectedElementId: null })
+                  editorStore.selected.setSelected({
+                    ...selectState,
+                    elementId: null,
+                  })
                 }
               >
                 Post
@@ -36,7 +36,10 @@ export default function SettingsSidebar() {
               <TabsTrigger
                 value="block"
                 onClick={() =>
-                  setEditorState({ ...editorState, selectedElementId: "1" })
+                  editorStore.selected.setSelected({
+                    ...selectState,
+                    elementId: "1",
+                  })
                 }
               >
                 Block
@@ -101,7 +104,7 @@ export default function SettingsSidebar() {
 }
 
 function BlockContent() {
-  const [seletedElement] = useAtom(editorStore.selectElementAtom);
+  const seletedElement = editorStore.selected.useSelectedElement();
 
   if (!seletedElement) {
     return (
@@ -113,7 +116,7 @@ function BlockContent() {
     );
   }
 
-  const elementConfig = elementConfigsByTag[seletedElement.type];
+  const elementConfig = editorStore.configs.componentByTag[seletedElement.type];
 
   if (!elementConfig.sidebar) return null;
 

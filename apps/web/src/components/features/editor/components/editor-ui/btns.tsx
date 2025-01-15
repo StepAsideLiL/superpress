@@ -7,20 +7,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import { cn } from "@/lib/utils";
 import icon from "@/lib/icons";
+import { editorStore } from "../../libs/store";
 
 export function ToggleComponentsSidebar() {
-  const [open] = useAtom(editorStore.openComponentSidebarAtom);
-  const [, toggleSidebar] = useAtom(editorStore.toggleComponentSidebarAtom);
+  const open = editorStore.componentSidebar.useIsOpen();
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size={"icon"} onClick={() => toggleSidebar()}>
+          <Button
+            size={"icon"}
+            onClick={() => editorStore.componentSidebar.toggle()}
+          >
             <icon.Plus
               className={cn("rotate-0 transition-all", open && "rotate-45")}
             />
@@ -38,13 +39,14 @@ export function ToggleComponentsSidebar() {
 }
 
 export function ToggleSettingsSidebar() {
-  const [, toggleSidebar] = useAtom(editorStore.toggleSettingsSidebarAtom);
-
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size={"icon"} onClick={() => toggleSidebar()}>
+          <Button
+            size={"icon"}
+            onClick={() => editorStore.settingSidebar.toggle()}
+          >
             <icon.SidebarRight />
             <span className="sr-only">Settings sidebar</span>
           </Button>
@@ -58,14 +60,12 @@ export function ToggleSettingsSidebar() {
 }
 
 export function CloseComponentsSidebar() {
-  const [, toggleSidebar] = useAtom(editorStore.toggleComponentSidebarAtom);
-
   return (
     <Button
       variant={"ghost"}
       size={"icon"}
       className="mr-2 size-6"
-      onClick={() => toggleSidebar()}
+      onClick={() => editorStore.componentSidebar.toggle()}
     >
       <icon.X />
     </Button>
@@ -73,14 +73,12 @@ export function CloseComponentsSidebar() {
 }
 
 export function CloseSettingsSidebar() {
-  const [, toggleSidebar] = useAtom(editorStore.toggleSettingsSidebarAtom);
-
   return (
     <Button
       variant={"ghost"}
       size={"icon"}
       className="mr-2 size-6"
-      onClick={() => toggleSidebar()}
+      onClick={() => editorStore.settingSidebar.toggle()}
     >
       <icon.X />
     </Button>

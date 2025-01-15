@@ -1,7 +1,5 @@
 import { useFloating } from "@floating-ui/react";
-import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
-import editorStore from "../../libs/store";
 import icon from "@/lib/icons";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -11,15 +9,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { elementConfigsByTag } from "../../elements";
+import { editorStore } from "../../libs/store";
 
 export default function FloatingToolbar() {
   const elementRef = useRef<HTMLElement | null>(null);
   const { refs, floatingStyles, update } = useFloating({
     placement: "top-start",
   });
-  const [seletedElement] = useAtom(editorStore.selectElementAtom);
-  const [, deleteElementById] = useAtom(editorStore.deleteElementByIdAtom);
+  const seletedElement = editorStore.selected.useSelectedElement();
 
   useEffect(() => {
     if (seletedElement) {
@@ -33,7 +30,7 @@ export default function FloatingToolbar() {
 
   if (!seletedElement) return null;
 
-  const elementConfig = elementConfigsByTag[seletedElement.type];
+  const elementConfig = editorStore.configs.componentByTag[seletedElement.type];
 
   if (!elementConfig.toolbar) return null;
 
@@ -63,7 +60,9 @@ export default function FloatingToolbar() {
           <DropdownMenuContent align="start">
             <DropdownMenuItem
               className="hover:cursor-pointer"
-              onClick={() => deleteElementById(seletedElement.id)}
+              onClick={() =>
+                editorStore.elementActions.deleteElementById(seletedElement.id)
+              }
             >
               Delete
             </DropdownMenuItem>

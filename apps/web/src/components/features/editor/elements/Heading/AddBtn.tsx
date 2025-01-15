@@ -1,17 +1,14 @@
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import { Button } from "@/components/ui/button";
 import { nanoid } from "../../libs/utils";
 import { ElementConfigType } from "../../libs/types";
+import { editorStore } from "../../libs/store";
 
 export default function AddBtn({
   elementConfig,
 }: {
   elementConfig: ElementConfigType;
 }) {
-  const [, addNewElementInRoot] = useAtom(editorStore.insertElementAtom);
-  const [editorState, setEditorState] = useAtom(editorStore.editorStateAtom);
-  const [, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
+  const selectState = editorStore.selected.useSelected();
 
   return (
     <Button
@@ -20,21 +17,24 @@ export default function AddBtn({
       className="flex h-auto flex-col items-center justify-center gap-2 [&_svg]:size-5"
       onClick={(event) => {
         event.stopPropagation();
-        setOpen(false);
+        editorStore.insertComponentPopover.setIsOpen(false);
 
         const id = nanoid();
 
-        addNewElementInRoot({
-          id: id,
-          type: elementConfig.defaultContent.type,
-          content: elementConfig.defaultContent.content,
-          style: elementConfig.defaultContent.style,
-        });
+        editorStore.elementActions.insertElementAfter(
+          {
+            id: id,
+            type: elementConfig.defaultContent.type,
+            content: elementConfig.defaultContent.content,
+            style: elementConfig.defaultContent.style,
+          },
+          selectState.elementId
+        );
 
-        setEditorState({
-          ...editorState,
-          selectedElementId: id,
-          selectedElementContent: elementConfig.defaultContent.content,
+        editorStore.selected.setSelected({
+          ...selectState,
+          elementId: id,
+          elementContent: elementConfig.defaultContent.content,
         });
       }}
     >

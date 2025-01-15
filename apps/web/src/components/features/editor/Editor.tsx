@@ -1,4 +1,3 @@
-import { Provider as EditorProvider } from "jotai";
 import Image from "next/image";
 import {
   ToggleComponentsSidebar,
@@ -13,10 +12,11 @@ import ViewElementJsonData from "./components/ViewElementJsonData";
 import { PostForEditType } from "@/lib/types";
 import PostTitle from "./components/PostTitle";
 import SavePublishBtn from "./components/SavePublishBtn";
+import Provider from "./components/Provider";
 
 export default async function Editor({ post }: { post: PostForEditType }) {
   return (
-    <EditorProvider>
+    <Provider>
       <SetDataInJotai post={post} />
 
       <main className="flex h-screen max-h-screen flex-col overflow-hidden">
@@ -53,6 +53,6 @@ export default async function Editor({ post }: { post: PostForEditType }) {
           <SettingsSidebar />
         </section>
       </main>
-    </EditorProvider>
+    </Provider>
   );
 }

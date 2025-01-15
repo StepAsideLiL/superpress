@@ -6,22 +6,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import editorStore from "../libs/store";
-import { useAtom } from "jotai";
 import { SearchInput } from "./editor-ui/SearchInput";
 import { useState } from "react";
 import icon from "@/lib/icons";
-import { elementConfigBlocks } from "../elements";
+import { editorStore } from "../libs/store";
 
 export default function InsertComponentBtn() {
   const [search, setSearch] = useState("");
-  const [, setTrue] = useAtom(editorStore.openComponentSidebarAtom);
-  const [open, setOpen] = useAtom(editorStore.openInsertPopoverAtom);
 
   return (
-    <Popover open={open} onOpenChange={(open) => setOpen(open)}>
+    <Popover
+      open={editorStore.insertComponentPopover.useIsOpen()}
+      onOpenChange={(open) =>
+        editorStore.insertComponentPopover.setIsOpen(open)
+      }
+    >
       <PopoverTrigger asChild>
-        <Button size={"icon"} className="size-6">
+        <Button
+          size={"icon"}
+          className="size-6"
+          onClick={(event) => event.stopPropagation()}
+        >
           <icon.Plus />
         </Button>
       </PopoverTrigger>
@@ -35,7 +40,7 @@ export default function InsertComponentBtn() {
         />
 
         <div className="grid grid-cols-3 gap-2">
-          {elementConfigBlocks
+          {editorStore.configs.componentGroup
             .filter((elementConfig) =>
               elementConfig.keyWords?.some((keyWord) =>
                 keyWord.includes(search.toLowerCase().trim())
@@ -55,7 +60,7 @@ export default function InsertComponentBtn() {
             })}
         </div>
 
-        {elementConfigBlocks.filter((elementConfig) =>
+        {editorStore.configs.componentGroup.filter((elementConfig) =>
           elementConfig.keyWords?.some((keyWord) =>
             keyWord.includes(search.toLowerCase().trim())
           )
@@ -68,8 +73,8 @@ export default function InsertComponentBtn() {
         <Button
           className="w-full"
           onClick={() => {
-            setTrue(true);
-            setOpen(false);
+            editorStore.componentSidebar.setIsOpen(true);
+            editorStore.insertComponentPopover.setIsOpen(false);
           }}
         >
           Browse All

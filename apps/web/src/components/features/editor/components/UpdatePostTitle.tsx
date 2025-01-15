@@ -8,8 +8,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useAtom } from "jotai";
-import editorStore from "../libs/store";
 import slug from "slug";
 import {
   Form,
@@ -22,6 +20,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
+import { editorStore } from "../libs/store";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -30,7 +29,7 @@ const formSchema = z.object({
 });
 
 export default function UpdatePostTitle() {
-  const [post, setPost] = useAtom(editorStore.postAtom);
+  const post = editorStore.post.usePost();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,9 +44,9 @@ export default function UpdatePostTitle() {
     if (!post) return;
 
     if (pathname.includes("add-post")) {
-      setPost({ ...post, title: title, slug: slug(title) });
+      editorStore.post.setPost({ ...post, title: title, slug: slug(title) });
     } else {
-      setPost({ ...post, title: title });
+      editorStore.post.setPost({ ...post, title: title });
     }
   }
 

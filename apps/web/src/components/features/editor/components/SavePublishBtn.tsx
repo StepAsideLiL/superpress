@@ -9,16 +9,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
-import editorStore from "../libs/store";
-import { useAtom } from "jotai";
 import { Button } from "@/components/ui/button";
 import addNewPost from "@/lib/actions/add-new-post";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import savePostAfterEdit from "@/lib/actions/save-post-after-edit";
+import { editorStore } from "../libs/store";
 
 export default function SavePublishBtn() {
-  const [post] = useAtom(editorStore.postAtom);
+  const post = editorStore.post.usePost();
   const pathname = usePathname();
 
   if (!post) return null;
@@ -31,8 +30,8 @@ export default function SavePublishBtn() {
 }
 
 function PublishSheet() {
-  const [post] = useAtom(editorStore.postAtom);
-  const [element] = useAtom(editorStore.editorElementsAtom);
+  const post = editorStore.post.usePost();
+  const editorElement = editorStore.element.useElements();
 
   const router = useRouter();
 
@@ -67,7 +66,7 @@ function PublishSheet() {
                 slug: post.slug,
                 postType: post.postType,
                 postStatus: "publish",
-                content: JSON.stringify(element),
+                content: JSON.stringify(editorElement),
               })
             }
             disabled={isExecuting}
@@ -87,8 +86,8 @@ function PublishSheet() {
 }
 
 function SavePostBtn() {
-  const [post] = useAtom(editorStore.postAtom);
-  const [element] = useAtom(editorStore.editorElementsAtom);
+  const post = editorStore.post.usePost();
+  const editorElement = editorStore.element.useElements();
 
   const { executeAsync, isExecuting } = useAction(savePostAfterEdit, {
     onSuccess: () => {
@@ -111,7 +110,7 @@ function SavePostBtn() {
             postStatus: post.postStatus,
           },
           postId: post.id,
-          content: JSON.stringify(element),
+          content: JSON.stringify(editorElement),
         })
       }
       disabled={isExecuting || post.title === ""}

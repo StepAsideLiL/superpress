@@ -6,7 +6,7 @@ import {
   HeadingToolbar,
 } from "./Heading";
 import { nanoid } from "../libs/utils";
-import { ElementConfigGroupType, ElementConfigType } from "../libs/types";
+import { ComponentGroupType, ElementConfigType } from "../libs/types";
 import { TextEffectEditorRender } from "./TextEffect";
 
 export const elementConfigs: ElementConfigType[] = [
@@ -86,30 +86,4 @@ export const elementConfigs: ElementConfigType[] = [
   },
 ];
 
-const elementConfigGroupNames: ElementConfigGroupType[] = ["Text"];
-
-export const elementConfigBlocks = elementConfigs.filter((elementConfig) =>
-  elementConfigGroupNames.includes(elementConfig.group)
-);
-
-export const elementConfigBlocksByGroup = elementConfigGroupNames.map(
-  (name) => {
-    return {
-      name,
-      elementsConfigs: elementConfigBlocks.filter(
-        (elementConfig) => elementConfig.group === name
-      ),
-    };
-  }
-);
-
-export const elementConfigsByTag = elementConfigs.reduce(
-  (acc, elementConfig) => {
-    elementConfig.tags.forEach((tag) => (acc[tag.type] = elementConfig));
-
-    return acc;
-  },
-  {} as {
-    [key: string]: ElementConfigType;
-  }
-);
+export const componentGroupNames: ComponentGroupType[] = ["Text"];

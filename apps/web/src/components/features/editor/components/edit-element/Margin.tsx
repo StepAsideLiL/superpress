@@ -1,13 +1,11 @@
 import { EditorElementType } from "../../libs/types";
 import { Button } from "@/components/ui/button";
 import icon from "@/lib/icons";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
 import _ from "lodash";
 import { Input } from "@/components/ui/input";
+import { editorStore } from "../../libs/store";
 
 export default function Margin({ element }: { element: EditorElementType }) {
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const baseStyle = element.style?.base || {
     base: {},
   };
@@ -26,7 +24,7 @@ export default function Margin({ element }: { element: EditorElementType }) {
               disabled={!("margin" in baseStyle)}
               onClick={() => {
                 const newBaseStyle = _.omit(baseStyle, "margin");
-                updateElement({
+                editorStore.elementActions.updateSelectedElement({
                   ...element,
                   style: { base: { ...newBaseStyle } },
                 });
@@ -41,7 +39,7 @@ export default function Margin({ element }: { element: EditorElementType }) {
               className="size-6"
               disabled={"margin" in baseStyle}
               onClick={() => {
-                updateElement({
+                editorStore.elementActions.updateSelectedElement({
                   ...element,
                   style: { base: { ...baseStyle, margin: "0px" } },
                 });
@@ -67,7 +65,7 @@ export default function Margin({ element }: { element: EditorElementType }) {
               if (!Number.isInteger(Number(e.target.value))) {
                 return;
               }
-              updateElement({
+              editorStore.elementActions.updateSelectedElement({
                 ...element,
                 style: {
                   base: { ...baseStyle, margin: `${e.target.value}px` },

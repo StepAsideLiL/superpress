@@ -7,8 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useAtom } from "jotai";
-import editorStore from "../../libs/store";
+import { editorStore } from "../../libs/store";
 
 export default function TagLevel({
   element,
@@ -17,7 +16,6 @@ export default function TagLevel({
   element: EditorElementType;
   elementConfig: ElementConfigType;
 }) {
-  const [, updateElement] = useAtom(editorStore.updateSelectedElementAtom);
   const tagConfig =
     elementConfig.tags.find((tag) => tag.type === element.type) ||
     elementConfig.tags[0];
@@ -37,7 +35,7 @@ export default function TagLevel({
             className="cursor-pointer"
             onClick={(event) => {
               event.stopPropagation();
-              updateElement({
+              editorStore.elementActions.updateSelectedElement({
                 ...element,
                 type: tag.type,
               });
