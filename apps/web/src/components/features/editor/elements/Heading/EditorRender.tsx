@@ -23,11 +23,14 @@ export default function EditorRender({
 
   function handleClick(event: React.MouseEvent) {
     event.stopPropagation();
+
+    editorStore.settingSidebar.setIsOpen(true);
     editorStore.selected.setSelected({
       ...selectState,
       elementId: element.id,
       elementContent: element.content,
     });
+
     if (ref.current) {
       ref.current.contentEditable = "true";
       ref.current.focus();
